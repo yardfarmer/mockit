@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="gbk">
+    <title></title>
+    <script src="//cdn.bootcss.com/jquery/2.1.4/jquery.min.js"></script>
+</head>
+<body>
+<button class="container">send request json</button>
+<script>
+
+    $(".container").on("click", function() {
+        console.log("launched~!");
+
+        $.ajax({
+            dataType: "json",
+            url: "https://1688.com/aasdfj/adsfa.json",
+            success: function(data) {
+                console.log('https://1688.com/aasdfj/adsfa.json',data);
+            }
+        });
+    });
+
+</script>
+</body>
+</html>
