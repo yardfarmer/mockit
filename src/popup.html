@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html ng-app="CaptureApp" ng-csp>
+<head>
+    <meta charset="UTF-8">
+    <title>mockit</title>
+    <link rel="stylesheet" type="text/css" href="../vendor/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="../vendor/angularjs/angular-csp.css">
+    <!--<link rel="stylesheet" type="text/css" href="css/app.css">-->
+</head>
+<body>
+<div id="main" ng-controller="MainController">
+    <div class="toolbar">
+        <ul class="tools">
+            <li ng-repeat="key in notSorted(tools)" ng-init="tool = tools[key]">
+                <a href="#" ng-click="setActiveTool(tool.params.id)" ng-bind-html="$sce.trustAsHtml(tool.params.name)" ng-class="{active: activeTool.params.id == tool.params.id}"></a>
+            </li>
+            <li>
+                <a></a>
+            </li>
+            <li>
+                <a href="#" ng-click="clearItems()">
+                    <i class="fa fa-trash"></i>
+                    Clear
+                </a>
+            </li>
+            <li>
+                <a href="#" ng-click="exportImage()">
+                    <i class="fa fa-download"></i>
+                    Export
+                </a>
+            </li>
+        </ul>
+        <ul class="colors">
+            <li ng-repeat="color in colors">
+                <a href="#" ng-class="{active: activeColor == color}" ng-click="setActiveColor(color)" style="background: {{color}}"></a>
+            </li>
+        </ul>
+    </div>
+    <div class="grid">
+        <svg id="draw-canvas" capture-canvas class="{{activeTool.params.id}}"></svg>
+        <input type="text" ng-show="textLayer.isShow" ng-cloak name="text-layer" id="text-layer" style="color: {{activeColor}}; border-color: {{activeColor}}; top: {{textLayer.top - 26}}px; left: {{textLayer.left - 11}}px" ng-model="textlayerData" capture-text-layer capture-focus="textLayer.focus" ng-blur="textLayer.focus = false"/>
+    </div>
+</div>
+
+<script src="../vendor/angularjs/angular.min.js"></script>
+<script src="js/configs.js"></script>
+<script src="js/storage.js"></script>
+<script src="js/app.js"></script>
+<script src="popup.js"></script>
+</body>
+</html>

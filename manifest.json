@@ -11,14 +11,14 @@
   ],
   "background": {
     "scripts": [
-      "mock.js",
-      "background.js"
+      "src/mock.js",
+      "src/background.js"
     ]
   },
   "browser_action": {
     "default_icon": "assets/debuggerContinue.png",
     "default_title": "mocker",
-    "default_popup": "popup.html"
+    "default_popup": "src/popup.html"
   },
   "manifest_version": 2
 }

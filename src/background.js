@@ -13,12 +13,11 @@ var flag = true;
 
 
 chrome.runtime.onMessage.addListener(
-    function (request, sender, sendResponse) {
-        console.log(sender.tab ?
-        "from a content script:" + sender.tab.url :
-            "from the extension");
-        if (request.greeting == "hello")
-            sendResponse({farewell: "goodbye"});
+    function (request, sender, response) {
+        //console.log(sender.tab ?
+        //"from a content script:" + sender.tab.url :
+        //    "from the extension");
+        requestHandler(request, response);
     });
 
 
@@ -27,30 +26,73 @@ chrome.webRequest.onBeforeRequest.addListener(
     {
         urls: [
             "http://*/*",
-            "https://*/*",
+            "https://*/*"
         ]
     },
     ["blocking"]);
 
 
-function requestHandler(info) {
+var Handler = (function() {
+
+    function addRule() {
+
+    }
+
+    function editRule() {
+
+    }
+
+    function delRule() {
+
+    }
+
+    function json() {
+
+    }
+
+    function jsonp() {
+
+    }
+
+    return {
+        addRule: addRule,
+        editRule: editRule,
+        delRule: delRule,
+        json: json,
+        jsonp: jsonp
+    }
+}());
+
+function defaultHandler() {
+
+}
+
+function requestHandler(request, response) {
+
+
+    //switch (request.msgtype) {
+    //    case 'mock-json':
+    //        break;
+    //    case 'mock-jsonp':
+    //        break;
+    //    default:
+    //}
+    //
+    ////Mock.mock(request.rurl, request.template);
+    //sendResponse(
+    //    //Mock.mock(request.template)
+    //    {x:132}
+    //);
+    //
     if (!flag) {
         return;
     }
     flag = false;
-    console.log(info);
+    console.log(request);
 
-    var extType = getExtType(info.url);
+    //var extType = getExtType(request.url);
 
-    switch (extType) {
-        case 'json':
-            return jsonHandler(info);
-            break;
-        case 'jsonp':
-            return jsonpHandler(info);
-            break;
-        default:
-    }
+    return Handler[extType];
 }
 
 /**
