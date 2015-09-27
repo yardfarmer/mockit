@@ -17,22 +17,24 @@ chrome.runtime.onMessage.addListener(
         //console.log(sender.tab ?
         //"from a content script:" + sender.tab.url :
         //    "from the extension");
+        console.log(request, sender, response);
         requestHandler(request, response);
     });
 
+//
+//chrome.webRequest.onBeforeRequest.addListener(
+//    requestHandler,
+//    {
+//        urls: [
+//            "http://*/*",
+//            "https://*/*"
+//        ],
+//        tabId: 0
+//    },
+//    ["blocking"]);
 
-chrome.webRequest.onBeforeRequest.addListener(
-    requestHandler,
-    {
-        urls: [
-            "http://*/*",
-            "https://*/*"
-        ]
-    },
-    ["blocking"]);
 
-
-var Handler = (function() {
+var Handler = (function () {
 
     function addRule() {
 
@@ -69,14 +71,48 @@ function defaultHandler() {
 
 function requestHandler(request, response) {
 
+    console.log('getRequest', request);
 
-    //switch (request.msgtype) {
-    //    case 'mock-json':
-    //        break;
-    //    case 'mock-jsonp':
-    //        break;
-    //    default:
-    //}
+    switch (request.msgType) {
+        case 'ruleChanged':
+            // 1. find from Mock._mocked
+            // peak key of Mock._mocked
+
+            //c;
+            if (request.rule.rurl in Mock._mocked) {
+                var mock = Mock._mocked[request.rule.rurl];
+                mock.template = request.rule.template;
+            }
+            break;
+        case 'allStart':
+            // load from storage
+            // set
+            Mock._mocked = {};
+
+            chrome.webRequest.onBeforeRequest.addListener(
+                requestHandler,
+                {
+                    urls: [
+                        "http://*/*",
+                        "https://*/*"
+                    ]
+                },
+                ["blocking"]);
+
+
+            break;
+        case 'allStop':
+        {
+            // save to storage
+            // and
+            Mock._mocked = {};
+            chrome.webRequest.onBeforeRequest.removeListener(requestHandler);
+            break;
+        }
+
+
+        default:
+    }
     //
     ////Mock.mock(request.rurl, request.template);
     //sendResponse(
@@ -84,15 +120,8 @@ function requestHandler(request, response) {
     //    {x:132}
     //);
     //
-    if (!flag) {
-        return;
-    }
-    flag = false;
-    console.log(request);
-
     //var extType = getExtType(request.url);
-
-    return Handler[extType];
+    return {};
 }
 
 /**
