@@ -10,10 +10,7 @@
     "debugger"
   ],
   "background": {
-    "scripts": [
-      "src/mock.js",
-      "src/background.js"
-    ]
+    "page": "src/background.html"
   },
   "browser_action": {
     "default_icon": "assets/debuggerContinue.png",

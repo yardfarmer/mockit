@@ -2,7 +2,6 @@
  * Created by cyk on 15/9/15.
  */
 
-
 console.log(Mock);
 
 var iconpath;
@@ -187,8 +186,6 @@ function jsonpHandler(info) {
 
 
 function updateIcon() {
-
-
     if (current) {
         iconpath = 'assets/debuggerPause.png';
     } else {
@@ -197,7 +194,7 @@ function updateIcon() {
     current = !current;
 
     chrome.browserAction.setIcon({path: iconpath});
-}
 
-chrome.browserAction.onClicked.addListener(updateIcon);
-updateIcon();
+    chrome.browserAction.onClicked.addListener(updateIcon);
+    updateIcon();
+}
