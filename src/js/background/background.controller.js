@@ -10,7 +10,6 @@
 
     BackgroundController.$inject = ['$window', 'backgroundService'];
 
-    /* @ngInject */
     function BackgroundController($window, backgroundService) {
         backgroundService.init();
         $window.backgroundService = backgroundService;

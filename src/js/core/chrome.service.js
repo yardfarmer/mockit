@@ -2,8 +2,6 @@
  * Created by cyk on 15/10/1.
  */
 
-"use strict";
-
 (function () {
     'use strict';
 
@@ -43,6 +41,7 @@
         }
 
         function addRequestFilter(requestFilter) {
+            console.log('addMessageListener', requestFilter);
             $window.chrome.webRequest.onBeforeRequest.addListener(
                 requestFilter,
                 {
@@ -104,54 +103,54 @@
 })();
 
 
-console.log(Mock);
-
-var iconpath;
-var current = false;
-// string for a URL we temporarily want to *not* intercept
-var redirectionUrl;
-var flag = true;
-
-
-chrome.runtime.onMessage.addListener(
-    function (request, sender, response) {
-        //console.log(sender.tab ?
-        //"from a content script:" + sender.tab.url :
-        //    "from the extension");
-        console.log(request, sender, response);
-        requestHandler(request, response);
-    });
-
+//console.log(Mock);
 //
-//chrome.webRequest.onBeforeRequest.addListener(
-//    requestHandler,
-//    {
-//        urls: [
-//            "http://*/*",
-//            "https://*/*"
-//        ],
-//        tabId: 0
-//    },
-//    ["blocking"]);
-
-
-/**
- * 判断请求的文件类型
- */
-function getExtType(url) {
-    var requestUrl = url;
-    var urlArr = requestUrl.split('?');
-    //var param;
-
-    // 含有参数
-    //if(urlArr.length > 1) {
-    //    param = urlArr[1];
-    //}
-    var extRegExp = /\.([\w]+)$/g;
-    var extMatchs = extRegExp.exec(urlArr[0]);
-    if (extMatchs && extMatchs.length > 1) {
-        return extMatchs[1];
-    } else {
-        return '';
-    }
-}
+//var iconpath;
+//var current = false;
+//// string for a URL we temporarily want to *not* intercept
+//var redirectionUrl;
+//var flag = true;
+//
+//
+//chrome.runtime.onMessage.addListener(
+//    function (request, sender, response) {
+//        //console.log(sender.tab ?
+//        //"from a content script:" + sender.tab.url :
+//        //    "from the extension");
+//        console.log(request, sender, response);
+//        requestHandler(request, response);
+//    });
+//
+////
+////chrome.webRequest.onBeforeRequest.addListener(
+////    requestHandler,
+////    {
+////        urls: [
+////            "http://*/*",
+////            "https://*/*"
+////        ],
+////        tabId: 0
+////    },
+////    ["blocking"]);
+//
+//
+///**
+// * 判断请求的文件类型
+// */
+//function getExtType(url) {
+//    var requestUrl = url;
+//    var urlArr = requestUrl.split('?');
+//    //var param;
+//
+//    // 含有参数
+//    //if(urlArr.length > 1) {
+//    //    param = urlArr[1];
+//    //}
+//    var extRegExp = /\.([\w]+)$/g;
+//    var extMatchs = extRegExp.exec(urlArr[0]);
+//    if (extMatchs && extMatchs.length > 1) {
+//        return extMatchs[1];
+//    } else {
+//        return '';
+//    }
+//}

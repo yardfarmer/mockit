@@ -9,49 +9,79 @@
         .module('app.background')
         .factory('backgroundService', backgroundService);
 
-    backgroundService.$inject = ['configService', 'storageService', 'chromeService', 'asyncService'];
+    backgroundService.$inject = ['chromeService', 'storageService', 'mockService'];
 
-    function backgroundService(configService, storageService, chromeService, asyncService) {
+    function backgroundService(chromeService, storageService, mockService) {
         var service = {
             init: init
         },
         handlers = {
             getAllRules: getAllRules,
-            addNewRule: addNewRule,
+            addRule: addRule,
             modifyRule: modifyRule,
             deleteRule: deleteRule,
             startMocking: startMocking,
             stopMocking: stopMocking,
-            getMockingData: getMockingData
+            getMockingData: getMockingData,
+
         };
 
         return service;
+
+        var MockHandler = function() {
+
+            function isRuleExist(rurl) {
+                return Object.keys(Mock._mocked).some(function(urlRegExp) {
+                    return rurl.match(urlRegExp);
+                })
+            }
+
+            function getMockValue(rurl) {
+                for(var urlRegExp in Mock._mocked) {
+                    if(rurl.match(new RegExp(urlRegExp))) {
+                        return Mock.mock(Mock._mocked[urlRegExp].template);
+                    }
+                }
+                return "";
+            }
+
+            function get(template) {
+                return Mock.mock(template);
+            }
+
+            return {
+                get: getMockValue
+            }
+        }();
 
         /**
          *
          */
         function init () {
-            console.log('init background.js');
             chromeService.addMessageListener(handlers);
         }
 
-        function getAllRules() {
-            return Mock._mocked[request.rule.rurl];
+        function getAllRules(request) {
+            return getMockedRules[request.rule.rurl];
         }
 
-        function addNewRule() {
-
+        function addRule(data) {
+            Mock.mock(data.rurl, data.row.template);
         }
 
         function modifyRule(data) {
-            if (request.rule.rurl in Mock._mocked) {
-                var mock = Mock._mocked[request.rule.rurl];
-                mock.template = request.rule.template;
+            if (data.rurl in Mock._mocked) {
+                var mock = Mock._mocked[data.rurl];
+                mock.template = data.row.template;
+            } else {
+              addRule(data);
             }
+            //mockService.set(data);
+            console.log('now _mocked is', data);
         }
 
-        function deleteRule() {
-
+        function deleteRule(data) {
+            console.log("deleteRule", data);
         }
 
         function startMocking () {
@@ -59,37 +89,45 @@
         }
 
         function stopMocking () {
-            // RequestFilter
             chromeService.removeRequestFilter(_requestHandler)
         }
 
         function getMockingData (data) {
-            return rpfService.getRecordingData();
         }
 
         function _requestHandler (request, response) {
-            function requestHandler(request, response) {
-                //request.msgType
-                console.log('getRequest', request);
-                //Mock.mock(request.rurl, request.template);
-                response(Mock.mock(request.template));
+            console.log('get Request ....', request.type, request.tabId, request.requestId, request);
+
+            /**
+             * TODO: 如下
+             *
+             * => input rule is string , not object
+             *
+             * [script, image, main_frame(http://tao.1688.com/), stylesheet, ]
+             * => image, stylesheet
+             * => tabId: 441, (仅 mock 此页 tab)
+             *
+             * => 优化输入区域, 更方便编辑规则
+             * =>
+             */
+
+            for(var urlRegExp in Mock._mocked) {
+                if(request.url.match(new RegExp(urlRegExp))) {
+                    return jsonWrapper(Mock.mock(Mock._mocked[urlRegExp].template));
+                }
             }
+
+            /**
+             * 异步是不可以的, 规则匹配,
+             * 当前所请求的 url 是否与已设定的 mock 规则匹配
+             */
         }
 
-
-        function jsonHandler(info) {
-
+        function jsonWrapper(data) {
+            //return true;
             var result = {};
-
-            var data = Mock.mock({
-                'list|1-10': [{
-                    'id|+1': 1
-                }]
-            });
-
             result.redirectUrl =
                 "data:text/plain;charset=utf-8;base64," + window.btoa(JSON.stringify(data));
-
             return result;
 
         }
@@ -116,5 +154,8 @@
             return result;
         }
 
+        function getMockedRules() {
+            return Mock._mocked;
+        }
     }
 })();

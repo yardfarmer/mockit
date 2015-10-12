@@ -7,7 +7,7 @@
     "webRequestBlocking",
     "<all_urls>",
     "tabs",
-    "debugger"
+    "storage"
   ],
   "background": {
     "page": "src/background.html"
