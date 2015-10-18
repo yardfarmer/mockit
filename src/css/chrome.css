@@ -324,7 +324,7 @@ input,select {
     font-weight: 200;
     width: 100%;
     height: 24px;
-    line-height: 30px;
+    line-height: 24px;
     margin: 0
 }
 
@@ -2952,7 +2952,7 @@ a.remote-cache,a.remote-cache:HOVER,a.remote-cache:VISITED,a.remote-cache:ACTIVE
     text-decoration: underline
 }
 
-.h-r .note,.h-l .note,.h-b .note {
+.h-r .note,.history .note,.h-b .note {
     padding: 5px 10px;
     font-size: 13px
 }
@@ -3186,7 +3186,7 @@ a.remote-cache,a.remote-cache:HOVER,a.remote-cache:VISITED,a.remote-cache:ACTIVE
     bottom: 0
 }
 
-#projects .records,.h-r .records,.h-l .records {
+#projects .records,.h-r .records,.history .records {
     position: absolute;
     top: 47px;
     overflow-x: hidden;
@@ -3194,44 +3194,44 @@ a.remote-cache,a.remote-cache:HOVER,a.remote-cache:VISITED,a.remote-cache:ACTIVE
     border-bottom: 1px solid #cacaca
 }
 
-#projects .records .item,.h-r .records .item,.h-l .records .item {
+#projects .records .item,.h-r .records .item,.history .records .item {
     font-size: 13px;
     padding: 0 0 4px 0
 }
 
-#projects .records .item .checkbox,.h-r .records .item .checkbox,.h-l .records .item .checkbox {
+#projects .records .item .checkbox,.h-r .records .item .checkbox,.history .records .item .checkbox {
     float: left
 }
 
-#projects .records .selected,.h-r .records .selected,.h-l .records .selected {
+#projects .records .selected,.h-r .records .selected,.history .records .selected {
     background-color: #ffa
 }
 
-#projects .records table,.h-r .records table,.h-l .records table {
+#projects .records table,.h-r .records table,.history .records table {
     width: 100%;
     table-layout: fixed
 }
 
-#projects .records table tr,.h-r .records table tr,.h-l .records table tr {
+#projects .records table tr,.h-r .records table tr,.history .records table tr {
     line-height: 16px
 }
 
-#projects .records table tr.selected td,.h-r .records table tr.selected td,.h-l .records table tr.selected td {
+#projects .records table tr.selected td,.h-r .records table tr.selected td,.history .records table tr.selected td {
     background-color: #888
 }
 
-#projects .records table td,.h-r .records table td,.h-l .records table td {
+#projects .records table td,.h-r .records table td,.history .records table td {
     padding: 2px 10px 3px 2px;
     white-space: nowrap
 }
 
-#projects .records table td .checkbox,.h-r .records table td .checkbox,.h-l .records table td .checkbox {
+#projects .records table td .checkbox,.h-r .records table td .checkbox,.history .records table td .checkbox {
     left: 3px;
     top: 3px;
     position: relative
 }
 
-#projects .records table td .category,.h-r .records table td .category,.h-l .records table td .category {
+#projects .records table td .category,.h-r .records table td .category,.history .records table td .category {
     font-size: 12px;
     padding: 5px 0 0 0;
     color: #333;
@@ -3242,33 +3242,33 @@ a.remote-cache,a.remote-cache:HOVER,a.remote-cache:VISITED,a.remote-cache:ACTIVE
     overflow: hidden
 }
 
-#projects .records table td.datetime,.h-r .records table td.datetime,.h-l .records table td.datetime {
+#projects .records table td.datetime,.h-r .records table td.datetime,.history .records table td.datetime {
     color: #222;
     font-size: 10px;
     width: 100px
 }
 
-#projects .records table td.time,.h-r .records table td.time,.h-l .records table td.time {
+#projects .records table td.time,.h-r .records table td.time,.history .records table td.time {
     color: #222;
     font-size: 10px;
     width: 50px;
     text-align: right
 }
 
-#projects .records table td .host,.h-r .records table td .host,.h-l .records table td .host {
+#projects .records table td .host,.h-r .records table td .host,.history .records table td .host {
     text-overflow: ellipsis;
     overflow: hidden;
     font-size: 11px;
     color: #444
 }
 
-#projects .records table td .count,.h-r .records table td .count,.h-l .records table td .count {
+#projects .records table td .count,.h-r .records table td .count,.history .records table td .count {
     float: right;
     color: #888;
     font-size: 10px
 }
 
-#projects .records table td .path,.h-r .records table td .path,.h-l .records table td .path {
+#projects .records table td .path,.h-r .records table td .path,.history .records table td .path {
     text-overflow: ellipsis;
     font-size: 13px;
     display: block;
@@ -3280,15 +3280,15 @@ a.remote-cache,a.remote-cache:HOVER,a.remote-cache:VISITED,a.remote-cache:ACTIVE
     font-weight: 800
 }
 
-#projects .records table td .path:hover,.h-r .records table td .path:hover,.h-l .records table td .path:hover {
+#projects .records table td .path:hover,.h-r .records table td .path:hover,.history .records table td .path:hover {
     background: #eaeaea
 }
 
-#projects .records table td .path i,.h-r .records table td .path i,.h-l .records table td .path i {
+#projects .records table td .path i,.h-r .records table td .path i,.history .records table td .path i {
     font-size: 12px
 }
 
-#projects .records table td .path i.icon-exclamation,.h-r .records table td .path i.icon-exclamation,.h-l .records table td .path i.icon-exclamation {
+#projects .records table td .path i.icon-exclamation,.h-r .records table td .path i.icon-exclamation,.history .records table td .path i.icon-exclamation {
     width: 10px;
     display: inline-block;
     color: #800;
@@ -3296,7 +3296,7 @@ a.remote-cache,a.remote-cache:HOVER,a.remote-cache:VISITED,a.remote-cache:ACTIVE
     position: relative
 }
 
-#projects .records table td .path i.icon-info,.h-r .records table td .path i.icon-info,.h-l .records table td .path i.icon-info {
+#projects .records table td .path i.icon-info,.h-r .records table td .path i.icon-info,.history .records table td .path i.icon-info {
     width: 10px;
     display: inline-block;
     color: #840;
@@ -3304,19 +3304,19 @@ a.remote-cache,a.remote-cache:HOVER,a.remote-cache:VISITED,a.remote-cache:ACTIVE
     position: relative
 }
 
-#projects .records table td .path i.icon-ok,.h-r .records table td .path i.icon-ok,.h-l .records table td .path i.icon-ok {
+#projects .records table td .path i.icon-ok,.h-r .records table td .path i.icon-ok,.history .records table td .path i.icon-ok {
     width: 11px;
     display: inline-block;
     color: #080
 }
 
-#projects .records table td.from-cache,.h-r .records table td.from-cache,.h-l .records table td.from-cache {
+#projects .records table td.from-cache,.h-r .records table td.from-cache,.history .records table td.from-cache {
     width: 30px !important;
     font-size: 10px;
     color: #444
 }
 
-#projects .records table td .status,.h-r .records table td .status,.h-l .records table td .status {
+#projects .records table td .status,.h-r .records table td .status,.history .records table td .status {
     padding: 0 0 0 23px;
     text-overflow: ellipsis;
     overflow: hidden;
@@ -3324,7 +3324,7 @@ a.remote-cache,a.remote-cache:HOVER,a.remote-cache:VISITED,a.remote-cache:ACTIVE
     line-height: 14px
 }
 
-#projects .records table td .edate,.h-r .records table td .edate,.h-l .records table td .edate {
+#projects .records table td .edate,.h-r .records table td .edate,.history .records table td .edate {
     float: right;
     text-align: right;
     font-size: 10px;
@@ -3332,11 +3332,11 @@ a.remote-cache,a.remote-cache:HOVER,a.remote-cache:VISITED,a.remote-cache:ACTIVE
     font-style: italic
 }
 
-#projects .records table.history,.h-r .records table.history,.h-l .records table.history {
+#projects .records table.history,.h-r .records table.history,.history .records table.history {
     margin: 2px 0 30px 0
 }
 
-#projects .buttons,.h-r .buttons,.h-l .buttons {
+#projects .buttons,.h-r .buttons,.history .buttons {
     text-align: left;
     position: absolute;
     left: 0;
@@ -3344,20 +3344,20 @@ a.remote-cache,a.remote-cache:HOVER,a.remote-cache:VISITED,a.remote-cache:ACTIVE
     margin: 7px 10px 7px 0
 }
 
-#projects .buttons .filter,.h-r .buttons .filter,.h-l .buttons .filter {
+#projects .buttons .filter,.h-r .buttons .filter,.history .buttons .filter {
     width: 97%;
     margin: 0 0 6px 0
 }
 
-#projects .buttons .right,.h-r .buttons .right,.h-l .buttons .right {
+#projects .buttons .right,.h-r .buttons .right,.history .buttons .right {
     float: right
 }
 
-#projects .buttons .right a,.h-r .buttons .right a,.h-l .buttons .right a {
+#projects .buttons .right a,.h-r .buttons .right a,.history .buttons .right a {
     color: #666
 }
 
-#projects .buttons a,.h-r .buttons a,.h-l .buttons a {
+#projects .buttons a,.h-r .buttons a,.history .buttons a {
     color: #666
 }
 
@@ -3467,22 +3467,22 @@ a.remote-cache,a.remote-cache:HOVER,a.remote-cache:VISITED,a.remote-cache:ACTIVE
     margin: 2px 0 7px 0
 }
 
-.chromeapp .h-l .records {
+.chromeapp .history .records {
     bottom: 95px;
     padding-left: 10px
 }
 
-.chromeapp .h-l .buttons {
+.chromeapp .history .buttons {
     bottom: 20px;
     padding-left: 6px
 }
 
-.webapp .h-l .records {
+.webapp .history .records {
     bottom: 230px;
     padding-left: 10px
 }
 
-.webapp .h-l .buttons {
+.webapp .history .buttons {
     bottom: 155px;
     padding-left: 6px
 }

@@ -7,10 +7,12 @@
     angular
         .module('app.popup')
         .controller('MainController', MainController)
-        .controller('SecondController', SecondCtrl);
+        .controller('PanelController', PanelController)
+        .controller('NavbarController', NavbarController);
 
     MainController.$inject = ['$scope', '$sce', 'chromeService', 'storageService'];
-    SecondCtrl.$inject = ['$scope', '$http'];
+    PanelController.$inject = ['$scope', '$http'];
+    NavbarController.$inject = ['$scope', '$http'];
 
     function MainController($scope, $sce, chromeService, storageService) {
         $scope.rules = {};
@@ -94,7 +96,7 @@
         }
     }
 
-    function SecondCtrl($scope, $http) {
+    function PanelController($scope, $http) {
         $scope.gridOptions = {
             enableRowSelection: true,
             expandableRowTemplate: 'expandableRowTemplate.html',
@@ -107,5 +109,35 @@
             {name: 'age'},
             {name: 'address.city'}
         ];
+
+        $scope.rule = "var a = 1;";
+
+        $scope.editorOptions = {
+            mode: {name: "javascript", json: true}
+        };
+
+        $scope.setMockRule = function() {
+            var rule = $scope.rule;
+
+
+            console.log(rule);
+            var js;
+             window.js = js= JSON.parse(JSON.stringify(rule));
+
+            console.log(js.arr);
+        }
     }
+
+    function NavbarController($scope, $http) {
+        $scope.currentSidePanel = "";
+    }
+
+    //var editor = CodeMirror.fromTextArea(document.getElementById("rule-editor"), {
+    //    lineNumbers: true,
+    //    mode: {name: "javascript", json: true},
+    //    smartIndent: true,
+    //    tabSize:4
+    //});
+
+
 })();

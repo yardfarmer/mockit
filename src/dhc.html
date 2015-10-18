@@ -6,45 +6,30 @@
     <title>mockit</title>
     <link rel="stylesheet" type="text/css" href="css/chrome.css" media="screen">
     <link rel="stylesheet" href="../bower_components/bootstrap/dist/css/bootstrap.min.css">
-    <link rel="stylesheet" href="../bower_components/font-awesome/css/font-awesome.css">
-    <script src="../bower_components/jquery/dist//jquery.min.js"></script>
-    <script src="../bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="css/font-awesome.css">
+    <link href="../bower_components/codemirror/lib/codemirror.css">
+    <script src="../bower_components/jquery/dist/jquery.min.js"></script>
+    <script src="../bower_components/angularjs/angular.min.js"></script>
+    <script  src="../bower_components/codemirror/lib/codemirror.js"></script>
+    <script  src="../bower_components/angular-ui-codemirror/ui-codemirror.js"></script>
+    <script type="text/javascript" src="../bower_components/codemirror/mode/javascript/javascript.js"></script>
     <!--bootstap -->
 </head>
 
 <body class="main chromeapp" id="console">
-    <div id="notification" class="notification-area" style="display: none;"></div>
-    <input type="file" id="filePicker" style="display: none">
-<!--<script type="text/javascript" src="../bower_components/codemirror/lib/codemirror.js"></script>-->
-<!--<link rel="stylesheet" href="../bower_components/codemirror/lib/codemirror.css"/>-->
-<!--<script type="text/javascript" src="../bower_components/codemirror/mode/javascript/javascript.js"></script>-->
-<!--<script type="text/javascript" src="js/codemirror/mode/xml/xml.js"></script>-->
-<!--<script type="text/javascript" src="js/codemirror/mode/css/css.js"></script>-->
-<!--
-<script type="text/javascript" src="js/codemirror/mode/http/http.js"></script>
--->
-<!--<script type="text/javascript" src="js/codemirror/mode/htmlmixed/htmlmixed.js"></script>-->
-<!--<script type="text/javascript" src="js/sha.js"></script>-->
-<!--<script type="text/javascript" src="js/crypto/md5.js"></script>-->
-<!--<script type="text/javascript" src="js/jsonpath.js"></script>-->
-<!--<script type="text/javascript" src="js/markdown.js"></script>-->
-<!--<script type="text/javascript" src="devhttpclient/js/bootstrap.min.js"></script>-->
-<!--<script type="text/javascript" src="devhttpclient/devhttpclient.nocache.js"></script>-->
+<div id="notification" class="notification-area" style="display: none;"></div>
+<input type="file" id="filePicker" style="display: none">
 
-<div>
-    <!--navbar-->
-    <div class="navbar header navbar-fixed-top" id="gwt-uid-12">
+<div ng-controller="MainController">
+    <!-- header -->
+    <div class="header navbar" id="gwt-uid-12">
         <div class="navbar-inner">
             <div class="container">
-                <a class="brand active" title="DHC Chrome by Restlet">
-                </a><a target="_blank" href="http://restlet.com/products/dhc">
-                <span style="white-space:nowrap;">DHC</span> <span class="version">0.8.3</span> </a>
+                <a class="brand active" title="mockit"></a>
+                <a target="_blank" href="http://restlet.com/products/dhc">
+                    <span>mockit</span> <span class="version">beta</span>
+                </a>
                 <ul class="nav pull-right">
-                    <li aria-hidden="true" style="display: none;">
-                        <a href="#void"><i></i>
-                            <div><img class="avatar" height="18px" src="" width="18px"><span>an anonymous</span></div>
-                        </a>
-                    </li>
                     <li><a href="#void"><i class="icon-gear"></i> Settings </a></li>
                     <li><a href="#void"><i class="icon-question-sign"></i> Help </a></li>
                     <li><a href="#void"><i class="icon-info-sign"></i> About </a></li>
@@ -53,21 +38,24 @@
         </div>
     </div>
 
-    <div class="ui-lay-m">
+    <div ng-controller="PanelController" class="ui-lay-m">
         <!--left panel-->
-        <div class="ui-lay-l ui-context" style="width: 370px;">
+        <div ng-controller="NavbarController" class="ui-lay-l ui-context" style="width: 370px;">
             <section class="pane" id="left-side">
-                <div class="pane-head"><a href="#void" class="btn hide-pane" title="Minimize"><i
-                        class="icon-long-arrow-left"></i></a>
+
+                <div class="pane-head">
+                    <a href="#void" class="btn hide-pane" title="Minimize">
+                        <i class="icon-long-arrow-left"></i></a>
                     <ul class="nav nav-pills selector">
-                        <li title="History"><a href="#void"><i class="icon-list"></i></a></li>
-                        <li title="Repository" class=""><a href="#void"><i class="icon-archive"></i></a></li>
-                        <li title="Contexts" class="active"><a href="#void"><i class="icon-th-large"></i></a>
-                        </li>
+                        <li title="History" ng-click="currentSidePanel = 'history'"  ng-class="{active: currentSidePanel== 'history'}"><a href="#void"><i class="icon-list"></i></a></li>
+                        <li title="Repository" ng-click="currentSidePanel = 'catalog'" ng-class="{active: currentSidePanel== 'catalog'}"><a href="#void"><i class="icon-archive"></i></a></li>
+                        <li title="Contexts" ng-click="currentSidePanel = 'context'" ng-class="{active: currentSidePanel== 'context'}"><a href="#void"><i class="icon-th-large"></i></a></li>
                     </ul>
                 </div>
-                <div class="content">
-                    <div class="h-l" aria-hidden="true" style="display: none;">
+
+                <div class="content" ng-switch="currentSidePanel">
+                    <!--list-panel-->
+                    <div class="history" ng-switch-default>
                         <div>
                             <p class="note">History is empty</p>
                         </div>
@@ -94,25 +82,27 @@
                                                   title="Clear All History Content"><i class="icon-trash"></i></a></div>
                         </div>
                     </div>
-                    <section class="catalog" aria-hidden="true" style="display: none;">
+
+                    <!--catalog panel list-->
+                    <div class="catalog"  ng-switch-when="catalog">
                         <div class="content">
                             <div class="items">
                                 <div>
                                     <ul class="tree">
                                         <li class="level0 drive">
                                             <div>
-                                                <div class="btn-group ctrls" aria-hidden="true" style="display: none;">
+                                                <div class="btn-group ctrls"  style="display: none;">
                                                     <a href="#void" class="btn btn-link dropdown-toggle btn-mini"
                                                        data-toggle="dropdown"><i
                                                             class="icon-chevron-sign-down icon-large"></i> </a>
                                                     <ul class="dropdown-menu pull-right">
-                                                        <li aria-hidden="true" style="display: none;"><a href="#void"><i
+                                                        <li  style="display: none;"><a href="#void"><i
                                                                 class="icon-edit"></i> Edit </a>
                                                         </li>
-                                                        <li aria-hidden="true" style="display: none;"><a href="#void"><i
+                                                        <li  style="display: none;"><a href="#void"><i
                                                                 class="icon-copy"></i> Clone
                                                         </a></li>
-                                                        <li aria-hidden="true" style="display: none;"><a href="#void"><i
+                                                        <li  style="display: none;"><a href="#void"><i
                                                                 class="icon-share-alt"></i>
                                                             Share </a></li>
                                                         <li><a href="#void"><i class="icon-download-alt"></i>
@@ -121,7 +111,7 @@
                                                             Import </a></li>
                                                         <li><a href="#void"><i class="icon-trash"></i> Erase
                                                         </a></li>
-                                                        <li aria-hidden="true" style="display: none;"><a href="#void"><i
+                                                        <li  style="display: none;"><a href="#void"><i
                                                                 class="icon-remove"></i> Remove
                                                         </a></li>
                                                     </ul>
@@ -134,42 +124,42 @@
                                             <ul style="display: block;">
                                                 <li class="level1 empty">
                                                     <div>
-                                                        <div class="btn-group ctrls" aria-hidden="true"
+                                                        <div class="btn-group ctrls"
                                                              style="display: none;"><a href="#void"
                                                                                        class="btn btn-link dropdown-toggle btn-mini"
                                                                                        data-toggle="dropdown"><i
                                                                 class="icon-chevron-sign-down icon-large"></i>
                                                         </a>
                                                             <ul class="dropdown-menu pull-right">
-                                                                <li aria-hidden="true" style="display: none;"><a
+                                                                <li  style="display: none;"><a
                                                                         href="#void"><i class="icon-edit"></i>
                                                                     Edit </a></li>
-                                                                <li aria-hidden="true" style="display: none;"><a
+                                                                <li  style="display: none;"><a
                                                                         href="#void"><i class="icon-copy"></i>
                                                                     Clone </a></li>
-                                                                <li aria-hidden="true" style="display: none;"><a
+                                                                <li  style="display: none;"><a
                                                                         href="#void"><i class="icon-share-alt"></i>
                                                                     Share </a>
                                                                 </li>
-                                                                <li aria-hidden="true" style="display: none;"><a
+                                                                <li  style="display: none;"><a
                                                                         href="#void"><i class="icon-download-alt"></i>
                                                                     Export
                                                                 </a></li>
-                                                                <li aria-hidden="true" style="display: none;"><a
+                                                                <li  style="display: none;"><a
                                                                         href="#void"><i class="icon-briefcase"></i>
                                                                     Import </a>
                                                                 </li>
-                                                                <li aria-hidden="true" style="display: none;"><a
+                                                                <li  style="display: none;"><a
                                                                         href="#void"><i class="icon-trash"></i>
                                                                     Erase </a></li>
-                                                                <li aria-hidden="true" style="display: none;"><a
+                                                                <li  style="display: none;"><a
                                                                         href="#void"><i class="icon-remove"></i>
                                                                     Remove </a></li>
                                                             </ul>
                                                         </div>
                                                         <a href="#void" class="btn btn-link name" id="gwt-uid-270"
                                                            data-original-title="undefined" title=""><i></i><i
-                                                                class="node-icon" aria-hidden="true"
+                                                                class="node-icon"
                                                                 style="display: none;"></i><span
                                                                 class="gwt-InlineHTML node-text">No saved data</span></a>
                                                     </div>
@@ -196,8 +186,10 @@
                                 <div class="right"></div>
                             </div>
                         </div>
-                    </section>
-                    <div class="context">
+                    </div>
+
+                    <!--contexts panel-->
+                    <div class="context"  ng-switch-when="context">
                         <ul class="nav nav-pills ctx-header">
                             <li class="name" title="Global Context">
                                 <p class="navbar-text">Global:</p>
@@ -235,7 +227,7 @@
                     </div>
                 </div>
             </section>
-            <div class="h-splitter" aria-hidden="true" style="display: none;">
+            <div class="h-splitter"  style="display: none;">
                 <a href="#void" class="btn open btn-mini" title="Show Pane"><i></i></a>
             </div>
         </div>
@@ -262,18 +254,18 @@
                                     <td class="ctrls">
                                         <div class="btn-group">
                                             <a href="#void" class="btn btn-info btn-small"><i
-                                                class="icon-download-alt"></i> Save </a>
+                                                    class="icon-download-alt"></i> Save </a>
                                             <a href="#void" class="btn btn-info btn-small"><i
-                                                class="icon-file-text"></i> 2 Code </a>
+                                                    class="icon-file-text"></i> 2 Code </a>
                                             <a href="#void" class="btn btn-danger btn-small"><i
-                                                class="icon-trash"></i> Reset </a></div>
+                                                    class="icon-trash"></i> Reset </a></div>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td class="uc-nav" colspan="1" style="display: none;">
                                         <span style="display: none;">Service:
                                             <a href="#void" class="btn btn-link btn-mini" id="gwt-uid-43"
-                                            data-original-title="" title=""><i></i> </a>
+                                               data-original-title="" title=""><i></i> </a>
                                         </span>
                                         <span style="display: none;">Project:
                                             <a href="#void" class="btn btn-link btn-mini" id="gwt-uid-44" data-original-title="" title=""><i></i>
@@ -289,18 +281,24 @@
                     </section>
 
                     <!--rule edit-->
-                    <section class="pane" id="request">
-                        <div class="pane-head"><span>Request</span></div>
+                    <section class="pane">
+                        <div class="pane-head"><span>Mock 规则</span></div>
                         <div class="content">
-                            <div class="service" id="request"><span class="row"> <span class="cell protocol"> <select
-                                    class="input-small">
-                                <option value="http">HTTP</option>
-                                <option value="https">HTTPS</option>
-                            </select> </span> <span class="cell"> :// </span> <span class="cell-url">
-                                <input type="text" class="gwt-TextBox url" placeholder="type an URI" id="gwt-uid-45"> </span>
-                                <span class="cell">
-                                    <a href="#void" class="btn btn-send btn-success">
-                                        <i class="icon-send"></i> Send </a></span> </span>
+                            <div class="service">
+                                <span class="row">
+                                    <span class="cell protocol">
+                                        <select class="input-small">
+                                            <option value="http">HTTP</option>
+                                            <option value="https">HTTPS</option>
+                                        </select>
+                                    </span>
+                                    <span class="cell"> :// </span> <span class="cell-url">
+                                    <input type="text" class="gwt-TextBox url" placeholder="type an URI" id="gwt-uid-45"> </span>
+                                    <span class="cell">
+                                        <a ng-click="setMockRule()" href="#void" class="btn btn-send btn-success">
+                                            <i class="icon-send"></i> Send </a>
+                                    </span>
+                                </span>
                                 <span class="row url-edit" style="display: none;">
                                     <span class="cell f">
                                         <a class="n" href="#" target="_blank">SCHEME</a>
@@ -313,8 +311,8 @@
                                                   title="length: 252 chars, 270 bytes"
                                                   style="display: inline;">length: 252 chars, 270 bytes
                                             </span>
-                                <a class="n" href="http://tools.ietf.org/html/rfc7230#section-2.7" target="_blank">host
-                                    [ ":" port ] [ abs_path [ "?" query ]]</a></div>
+                                            <a class="n" href="http://tools.ietf.org/html/rfc7230#section-2.7" target="_blank">host
+                                                [ ":" port ] [ abs_path [ "?" query ]]</a></div>
 <div>
     <div class="query-form">
         <div class="query-form-label">QUERY PARAMETERS</div>
@@ -443,106 +441,24 @@
                                                       title="Sort Query Parameters"><i
                     class="icon-sort-alpha-asc"></i></a></div>
             <label class="checkbox" for="gwt-uid-50"
-                   title="Enable/Disable Query Parameters Encoding/Decoding" aria-hidden="true"
+                   title="Enable/Disable Query Parameters Encoding/Decoding"
                    style="display: none;">
                 <input type="checkbox" value="on" id="gwt-uid-50" tabindex="0"
                        checked=""><span>encode/decode</span></label>
         </div>
     </div>
 </div>
-</span> <span class="cell f"></span> <span class="cell f"> <a class="n"
-                                                              href="http://tools.ietf.org/html/rfc7231#section-4"
-                                                              target="_blank">METHOD</a> </span> <span
-                                    class="cell"></span> </span>
+</span> <span class="cell f"></span>
+                                    <span class="cell f">
+                                        <a class="n" href="http://tools.ietf.org/html/rfc7231#section-4" target="_blank">METHOD</a> </span> <span
+                                        class="cell"></span> </span>
                             </div>
                             <div class="request">
-                                <div class="headers">
-                                    <ul class="nav nav-pills type">
-                                        <li class="dropdown right"><a href="#void" class="dropdown-toggle"
-                                                                      data-toggle="dropdown"><i></i> form <span
-                                                class="caret"></span></a>
-                                            <ul class="dropdown-menu">
-                                                <li><a href="#void"><i></i> form </a></li>
-                                                <li><a href="#void"><i></i> raw </a></li>
-                                            </ul>
-                                        </li>
-                                    </ul>
-                                    <div class="sub-label"><a href="http://tools.ietf.org/html/rfc7230#section-3.2"
-                                                              target="_blank">Headers</a></div>
-                                    <div class="cleafix"></div>
-                                    <div class="h-container">
-                                        <div>
-                                            <div>
-                                                <div>
-                                                    <div style="position: relative;">
-                                                        <label class="checkbox header-e" for="gwt-uid-266"
-                                                               title="Enable/Disable" style="display: inline;">
-                                                            <input type="checkbox" value="on" id="gwt-uid-266"
-                                                                   tabindex="0"><span></span></label>
-
-                                                        <div style="display: inline;"><span
-                                                                class="gwt-InlineHTML header-name header-name-ro"
-                                                                aria-hidden="true" style="display: none;"><a
-                                                                href="http://tools.ietf.org/html/rfc7231#section-3.1.1.5"
-                                                                target="_blank" class="header-link"><span
-                                                                title="Content-Type">Content-Type</span></a>
-</span>
-                                                            <input type="text" class="gwt-TextBox header-name disabled"
-                                                                   id="gwt-uid-267" placeholder="name" disabled="">
-                                                        </div>
-                                                        <span class="gwt-InlineLabel">:</span>
-
-                                                        <div style="display: inline;">
-                                                            <input type="text" class="gwt-TextBox header-value disabled"
-                                                                   id="gwt-uid-268" placeholder="value" disabled="">
-                                                        </div>
-                                                        <a href="#void" class="btn btn-small btn-link" title="Remove"><i
-                                                                class="icon-remove"></i></a><a href="#void"
-                                                                                               class="btn btn-link"
-                                                                                               title="Edit"
-                                                                                               aria-hidden="true"
-                                                                                               style="display: none;"><i
-                                                            class="icon-pencil"></i></a><a href="#void"
-                                                                                           class="btn btn-link"
-                                                                                           title="Show Warnings"
-                                                                                           aria-hidden="true"
-                                                                                           style="display: none;"><i
-                                                            class="icon-warning-sign"></i></a></div>
-                                                </div>
-                                                <div class="btn-group buttons-r"><a href="#void"
-                                                                                    class="btn btn-small btn-link"
-                                                                                    title="Remove All Headers"><i
-                                                        class="icon-trash"></i></a></div>
-                                                <div class="btn-group buttons"><a href="#void"
-                                                                                  class="btn btn-link btn-small"
-                                                                                  title="Add New Header"><i
-                                                        class="icon-plus-sign"></i></a><a href="#void"
-                                                                                          class="btn btn-small btn-link disabled"
-                                                                                          title="Sort Headers"
-                                                                                          aria-hidden="true"
-                                                                                          style="display: none;"><i
-                                                        class="icon-sort-alpha-asc"></i></a></div>
-                                                <div class="btn-group set-auth-link"><a href="#void"
-                                                                                        class="btn btn-link"><i
-                                                        class="icon-key"></i> set an authorization </a></div>
-                                                <label class="checkbox set-host" for="gwt-uid-61"
-                                                       title="Show Chrome/XHR Default Headers" aria-hidden="true"
-                                                       style="display: none;">
-                                                    <input type="checkbox" value="on" id="gwt-uid-61"
-                                                           tabindex="0"><span>show defaults</span></label>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
                                 <div class="body">
-
-                                    <div class="sub-label"><a href="http://tools.ietf.org/html/rfc7230#section-3.3"
-                                                              target="_blank">Body</a></div>
+                                    <div class="sub-label">Mock Rule</div>
                                     <div class="cleafix"></div>
-
-                                    <div class="b-container">
-
-                                    </div>
+                                    <ui-codemirror ng-model="rule" ui-codemirror-opts="editorOptions"></ui-codemirror>
+                                    <!-- /# -->
                                 </div>
                             </div>
                         </div>
@@ -550,11 +466,11 @@
 
                     <!--mock response result-->
                     <section class="pane" id="response">
-                        <div class="pane-head"><span>Response</span>
+                        <div class="pane-head"><span>Mock 结果</span>
 
-                            <div style="float:right"><a href="#void" class="btn btn-link btn-mini" aria-hidden="true"
+                            <div style="float:right"><a href="#void" class="btn btn-link btn-mini"
                                                         style="display: none;"><i class="icon-lock"></i> SSL
-                                Certificates </a><a href="#void" class="btn btn-link btn-mini" aria-hidden="true"
+                                Certificates </a><a href="#void" class="btn btn-link btn-mini"
                                                     style="display: none;"><i></i>
                                 raw communication </a></div>
                         </div>
@@ -571,7 +487,7 @@
                                         OK</a></div>
                                 </div>
                                 <div class="h-container">
-                                    <div class="raw-response-view" aria-hidden="true" style="display: none;"></div>
+                                    <div class="raw-response-view"  style="display: none;"></div>
                                     <div class="headers">
                                         <ul class="nav nav-pills type">
                                             <li class="dropdown right"><a href="#void" class="dropdown-toggle"
@@ -616,7 +532,7 @@
                                                 </tbody>
                                             </table>
 
-                                            <ul class="nav nav-pills sent-headers-type" aria-hidden="true"
+                                            <ul class="nav nav-pills sent-headers-type"
                                                 style="display: none;">
                                                 <li class="dropdown right"><a href="#void" class="dropdown-toggle"
                                                                               data-toggle="dropdown"><i></i>
@@ -657,8 +573,6 @@
     </div>
 </div>
 
-<script src="../bower_components/jquery/dist/jquery.min.js"></script>
-<script src="../bower_components/angularjs/angular.min.js"></script>
 <script src="../bower_components/angular-ui-grid/ui-grid.min.js"></script>
 <script src="../bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
 <script src="js/mock.js"></script>
@@ -668,5 +582,6 @@
 <script src="js/core/storage.service.js"></script>
 <script src="js/popup/popup.module.js"></script>
 <script src="js/popup/popup.controller.js"></script>
+
 </body>
 </html>

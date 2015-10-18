@@ -70,6 +70,21 @@ app.controller('MainCtrl', ['$scope', function ($scope) {
     };
 }]);
 
+
+//app.controller('navbarController',['$scope', '$http', '$log', function ($scope, $http, $log) {
+//    $scope.navList = [];
+//    //$http.get('https://cdn.rawgit.com/angular-ui/ui-grid.info/gh-pages/data/500_complex.json')
+//    //    .success(function(data) {
+//    //        for(var i = 0; i < data.length; i++){
+//    //            data[i].subGridOptions = {
+//    //                columnDefs: [ {name:"Id", field:"id"},{name:"Name", field:"name"} ],
+//    //                data: data[i].friends
+//    //            }
+//    //        }
+//    //        $scope.gridOptions.data = data;
+//    //    });
+//}]);
+
 app.controller('SecondCtrl', ['$scope', '$http', '$log', function ($scope, $http, $log) {
     $scope.gridOptions = {
         enableRowSelection: true,
