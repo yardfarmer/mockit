@@ -11,62 +11,37 @@
         .controller('NavbarController', NavbarController);
 
     MainController.$inject = ['$scope', '$sce', 'chromeService', 'storageService'];
-    PanelController.$inject = ['$scope', '$http'];
     NavbarController.$inject = ['$scope', '$http'];
+    PanelController.$inject = ['$scope', 'chromeService', 'storageService'];
 
     function MainController($scope, $sce, chromeService, storageService) {
-        $scope.rules = {};
-        $scope.rules.enableCellEditOnFocus = true;
-        $scope.rules.onRegisterApi = function (gridApi) {
-            $scope.gridApi = gridApi;
-            gridApi.edit.on.afterCellEdit($scope, function (newRow, someOther, newData, oldData) {
-                chromeService.sendMessage('modifyRule', {rurl: newRow.rurl, row: newRow}, function cb() {
-                    saveRules();
-                });
-            });
-        };
+        $scope.ruleList = [];
 
-        $scope.rules.columnDefs = [
-            {name: 'rurl', enableCellEditOnFocus: true, displayName: '/abc/?.?'},
-            {name: 'type', enableCellEdit: true},
-            {name: 'template', displayName: 'mock 规则', enableCellEdit: true},
-            {name: 'runstate', displayName: '运行', enableCellEdit: true}
-        ];
-        $scope.rules.data = [
-            {
-                "rurl": "abc.json",
-                "type": "json",
-                "template": {'a|5':1},
-                "runstate": true
-            }
-        ];
+        //$scope.addData = function () {
+        //    var n = $scope.rules.data.length + 1;
+        //    $scope.rules.data.push({
+        //        "rurl": ".json",
+        //        "type": "json",
+        //        "template": {
+        //            'list|1-10': [{
+        //                'id|+1': 1,
+        //                'email': '@EMAIL'
+        //            }]
+        //        },
+        //        "work": "male"
+        //    });
+        //    //chromeService.sendMessage('addRule', {rurl: }, function cb() {
+        //    //    saveRules();
+        //    //});
+        //};
 
-        $scope.addData = function () {
-            var n = $scope.rules.data.length + 1;
-            $scope.rules.data.push({
-                "rurl": ".json",
-                "type": "json",
-                "template": {
-                    'list|1-10': [{
-                        'id|+1': 1,
-                        'email': '@EMAIL'
-                    }]
-                },
-                "work": "male"
-            });
-            //$scope.rules.gridApi.core.notifyDataChange('ALL');
-            //chromeService.sendMessage('addRule', {rurl: }, function cb() {
-            //    saveRules();
-            //});
-        };
-
-        $scope.removeFirstRow = function () {
-            //if($scope.gridOpts.data.length > 0){
-            $scope.rules.data.splice(0, 1);
-            chromeService.sendMessage('deleteRule', {rurl: '', type: 'akd'},  function cb() {
-                saveRules();
-            });
-        };
+        //$scope.removeFirstRow = function () {
+        //    //if($scope.gridOpts.data.length > 0){
+        //    $scope.rules.data.splice(0, 1);
+        //    chromeService.sendMessage('deleteRule', {rurl: '', type: 'akd'},  function cb() {
+        //        saveRules();
+        //    });
+        //};
 
         $scope.startAll = function() {
             //backgroundService.startMocking();
@@ -80,56 +55,69 @@
         init();
 
         function init() {
-            readRules();
+            //readRules();
+            chromeService.sendMessage('startMocking');
         }
 
         function saveRules() {
             storageService.saveData({
-                rules: $scope.rules.data
+                ruleList: $scope.ruleList
             });
         }
 
         function readRules() {
             storageService.getData('rules', function(data) {
-                $scope.rules.data = data.rules;
+                $scope.ruleList = data.ruleList;
             });
         }
     }
 
-    function PanelController($scope, $http) {
-        $scope.gridOptions = {
-            enableRowSelection: true,
-            expandableRowTemplate: 'expandableRowTemplate.html',
-            expandableRowHeight: 150
-        };
+    function NavbarController($scope, $http) {
+        $scope.currentSidePanel = "";
+    }
 
-        $scope.gridOptions.columnDefs = [
-            {name: 'id', pinnedLeft: true},
-            {name: 'name'},
-            {name: 'age'},
-            {name: 'address.city'}
-        ];
+    function PanelController($scope, chromeService, storageService) {
 
-        $scope.rule = "var a = 1;";
+        $scope.mockRurl = 'offer.json';
+        $scope.mockType = 'json';
+        $scope.mockTemplate = '{"x":1}';
+        $scope.mockRuleName = '';
+        $scope.mockRuleValidate = true;
+        //$scope.ruleList = [];
 
         $scope.editorOptions = {
             mode: {name: "javascript", json: true}
         };
 
         $scope.setMockRule = function() {
-            var rule = $scope.rule;
+            var rule = $scope.mockTemplate;
+            var ruleObj;
+            try{
+                ruleObj = angular.fromJson(rule);
+                $scope.mockRuleValidate = true;
+            }catch(e) {
+                // show json error
+                console.log('json error');
+                $scope.mockRuleValidate = false;
+            }
 
+            var ruleUnit = {
+                "name": $scope.mockRuleName,
+                "rurl": $scope.mockRurl,
+                "type": $scope.mockType,
+                "template": ruleObj,
+                "work": true
+            };
 
-            console.log(rule);
-            var js;
-             window.js = js= JSON.parse(JSON.stringify(rule));
-
-            console.log(js.arr);
+            $scope.ruleList.unshift(ruleUnit);
+            chromeService.sendMessage('addRule', ruleUnit, function cb() {
+                //console.log($scope.ruleList);
+            });
         }
-    }
 
-    function NavbarController($scope, $http) {
-        $scope.currentSidePanel = "";
+        $scope.setState = function() {
+
+        }
     }
 
     //var editor = CodeMirror.fromTextArea(document.getElementById("rule-editor"), {

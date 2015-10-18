@@ -66,18 +66,19 @@
         }
 
         function addRule(data) {
-            Mock.mock(data.rurl, data.row.template);
+            Mock.mock(data.rurl, data.template);
+            Mock._mocked[data.rurl].type = data.type;
         }
 
         function modifyRule(data) {
-            if (data.rurl in Mock._mocked) {
-                var mock = Mock._mocked[data.rurl];
-                mock.template = data.row.template;
-            } else {
-              addRule(data);
-            }
-            //mockService.set(data);
-            console.log('now _mocked is', data);
+            //if (data.rurl in Mock._mocked) {
+            //    var mock = Mock._mocked[data.rurl];
+            //    mock.template = data.row.template;
+            //} else {
+            //  addRule(data);
+            //}
+            ////mockService.set(data);
+            //console.log('now _mocked is', data);
         }
 
         function deleteRule(data) {
@@ -111,9 +112,16 @@
              * =>
              */
 
+            var wrapper = {
+                json: jsonWrapper,
+                jsonp: jsonpWrapper
+            };
+
             for(var urlRegExp in Mock._mocked) {
                 if(request.url.match(new RegExp(urlRegExp))) {
-                    return jsonWrapper(Mock.mock(Mock._mocked[urlRegExp].template));
+                    var rule = Mock._mocked[urlRegExp];
+                    return wrapper[rule.type](Mock.mock(rule.template), request.url);
+                    //return jsonWrapper(Mock.mock(rule.template));
                 }
             }
 
@@ -129,7 +137,18 @@
             result.redirectUrl =
                 "data:text/plain;charset=utf-8;base64," + window.btoa(JSON.stringify(data));
             return result;
+        }
 
+        function jsonpWrapper(data, requestUrl) {
+            //jQuery172073799591162242_1445188246695({})
+            var jsonpId = getJsonpId(requestUrl);
+            var result = {};
+            var jsonpResponse = jsonpId+'('+JSON.stringify(data)+')';
+            console.log(jsonpResponse);
+
+            result.redirectUrl =
+                "data:text/plain;charset=utf-8;base64," + window.btoa(jsonpResponse);
+            return result;
         }
 
         function jsonpHandler(info) {
@@ -156,6 +175,26 @@
 
         function getMockedRules() {
             return Mock._mocked;
+        }
+
+        function getJsonpId(reqUrl, callbackLabel) {
+            callbackLabel = callbackLabel || "callback";
+            var key, value, jsonpid = "";
+            var urlArr = reqUrl.split("?");
+            var urlParams;
+            if (urlArr.length > 1) {
+                urlParams = urlArr[1];
+            }
+
+            urlParams.split("&").forEach(function(param) {
+                var pair = param.split("=");
+                key = pair[0];
+                value = pair[1];
+                if(key === callbackLabel) {
+                    jsonpid = value;
+                }
+            });
+            return jsonpid;
         }
     }
 })();

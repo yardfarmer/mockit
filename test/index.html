@@ -6,17 +6,27 @@
     <script src="//cdn.bootcss.com/jquery/2.1.4/jquery.min.js"></script>
 </head>
 <body>
-<button class="container">send request json</button>
+<button id="btn-json">send json request</button>
+
+<button id="btn-jsonp">send jsonp request </button>
 <script>
 
-    $(".container").on("click", function() {
-        console.log("launched~!");
-
+    $("#btn-json").on("click", function() {
         $.ajax({
             dataType: "json",
-            url: "https://1688.com/aasdfj/adsfa.json",
+            url: "https://1688.com/path/to/offer.json",
             success: function(data) {
                 console.log('https://1688.com/aasdfj/adsfa.json',data);
+            }
+        });
+    });
+
+    $("#btn-jsonp").on("click", function() {
+        $.ajax({
+            dataType: "jsonp",
+            url: "https://fashion.com/path/to/account.jsonp",
+            success: function(data) {
+                console.log('https://fashion.com/path/to/account.jsonp',data);
             }
         });
     });

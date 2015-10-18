@@ -13,7 +13,6 @@
     <script  src="../bower_components/codemirror/lib/codemirror.js"></script>
     <script  src="../bower_components/angular-ui-codemirror/ui-codemirror.js"></script>
     <script type="text/javascript" src="../bower_components/codemirror/mode/javascript/javascript.js"></script>
-    <!--bootstap -->
 </head>
 
 <body class="main chromeapp" id="console">
@@ -21,22 +20,22 @@
 <input type="file" id="filePicker" style="display: none">
 
 <div ng-controller="MainController">
-    <!-- header -->
-    <div class="header navbar" id="gwt-uid-12">
-        <div class="navbar-inner">
-            <div class="container">
-                <a class="brand active" title="mockit"></a>
-                <a target="_blank" href="http://restlet.com/products/dhc">
-                    <span>mockit</span> <span class="version">beta</span>
-                </a>
-                <ul class="nav pull-right">
-                    <li><a href="#void"><i class="icon-gear"></i> Settings </a></li>
-                    <li><a href="#void"><i class="icon-question-sign"></i> Help </a></li>
-                    <li><a href="#void"><i class="icon-info-sign"></i> About </a></li>
-                </ul>
+    <!-- Fixed navbar -->
+    <nav class="navbar navbar-default navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="#">MocKit</a>
             </div>
+            <div id="navbar" class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="../navbar/">Default</a></li>
+                    <li><a href="../navbar-static-top/">Static top</a></li>
+                </ul>
+            </div><!--/.nav-collapse -->
         </div>
-    </div>
+    </nav>
 
     <div ng-controller="PanelController" class="ui-lay-m">
         <!--left panel-->
@@ -56,17 +55,33 @@
                 <div class="content" ng-switch="currentSidePanel">
                     <!--list-panel-->
                     <div class="history" ng-switch-default>
-                        <div>
-                            <p class="note">History is empty</p>
+                        <div ng-if="ruleList.length==0">
+                            <p class="note" >History is empty</p>
                         </div>
-
                         <div class="records" style="overflow: auto; position: absolute; zoom: 1;">
                             <div style="position: relative; zoom: 1;">
                                 <table class="history">
-                                    <colgroup>
-                                        <col>
-                                    </colgroup>
-                                    <tbody></tbody>
+                                    <tbody>
+                                    <tr ng-repeat="r in ruleList">
+                                        <td>
+                                            <div class="category">{{r.name}}</div>
+                                            <div class="item">
+                                                <div>
+                                                    <div>
+                                                    <label class="checkbox">
+                                                        <input type="checkbox">
+                                                        <span></span>
+                                                    </label>
+                                                    <a href="#void" class="btn path btn-link">
+                                                        <i></i> {{r.rurl}}
+                                                    </a>
+                                                    </div>
+                                                    <div class="status response-ok">{{r.type}}</div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    </tbody>
                                 </table>
                             </div>
                         </div>
@@ -249,12 +264,12 @@
                                 <tbody>
                                 <tr>
                                     <td class="request-name control-group">
-                                        <input type="text" class="gwt-TextBox" placeholder="name">
+                                        <input ng-model="mockRuleName" type="text" class="gwt-TextBox" placeholder="规则名称">
                                     </td>
                                     <td class="ctrls">
-                                        <div class="btn-group">
-                                            <a href="#void" class="btn btn-info btn-small"><i
-                                                    class="icon-download-alt"></i> Save </a>
+                                        <div class="btn-group btn-group-sm">
+                                            <a href="#void" class="btn btn-info btn-sm">
+                                                <i class="icon-download-alt"></i> Save </a>
                                             <a href="#void" class="btn btn-info btn-small"><i
                                                     class="icon-file-text"></i> 2 Code </a>
                                             <a href="#void" class="btn btn-danger btn-small"><i
@@ -262,12 +277,12 @@
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td class="uc-nav" colspan="1" style="display: none;">
-                                        <span style="display: none;">Service:
+                                    <td class="uc-nav" colspan="1">
+                                        <span>Service: <span style="color:green;">Working</span>
                                             <a href="#void" class="btn btn-link btn-mini" id="gwt-uid-43"
                                                data-original-title="" title=""><i></i> </a>
                                         </span>
-                                        <span style="display: none;">Project:
+                                        <span>Project:
                                             <a href="#void" class="btn btn-link btn-mini" id="gwt-uid-44" data-original-title="" title=""><i></i>
                                             </a>
                                         </span>
@@ -281,183 +296,35 @@
                     </section>
 
                     <!--rule edit-->
-                    <section class="pane">
+                    <section id="request" class="pane">
                         <div class="pane-head"><span>Mock 规则</span></div>
                         <div class="content">
                             <div class="service">
                                 <span class="row">
+                                    <span class="cell-url">
+                                        <input ng-model="mockRurl" type="text" class="gwt-TextBox url" placeholder="请填写url匹配规则, 支持正则 如 offer.json /\.abc.jsonp">
+                                    </span>
                                     <span class="cell protocol">
-                                        <select class="input-small">
-                                            <option value="http">HTTP</option>
-                                            <option value="https">HTTPS</option>
+                                        <select class="input-small" ng-model="mockType">
+                                            <option value="json">JSON</option>
+                                            <option value="jsonp">JSONP</option>
                                         </select>
                                     </span>
-                                    <span class="cell"> :// </span> <span class="cell-url">
-                                    <input type="text" class="gwt-TextBox url" placeholder="type an URI" id="gwt-uid-45"> </span>
                                     <span class="cell">
                                         <a ng-click="setMockRule()" href="#void" class="btn btn-send btn-success">
-                                            <i class="icon-send"></i> Send </a>
+                                            <i class="icon-download-alt"></i> 保存 </a>
+                                        <!--icon-send-->
                                     </span>
                                 </span>
-                                <span class="row url-edit" style="display: none;">
-                                    <span class="cell f">
-                                        <a class="n" href="#" target="_blank">SCHEME</a>
-                                    </span>
-                                    <span class="cell f">
-                                        <span class="n"></span> </span>
-                                        <span class="cell-url f">
-                                        <div>
-                                            <span class="uri-length"
-                                                  title="length: 252 chars, 270 bytes"
-                                                  style="display: inline;">length: 252 chars, 270 bytes
-                                            </span>
-                                            <a class="n" href="http://tools.ietf.org/html/rfc7230#section-2.7" target="_blank">host
-                                                [ ":" port ] [ abs_path [ "?" query ]]</a></div>
-<div>
-    <div class="query-form">
-        <div class="query-form-label">QUERY PARAMETERS</div>
-        <table>
-            <colgroup>
-                <col>
-            </colgroup>
-            <tbody>
-            <tr>
-                <td>
-                    <label class="checkbox" for="gwt-uid-260" title="Enable/Disable">
-                        <input type="checkbox" value="on" id="gwt-uid-260" tabindex="0"
-                               checked=""><span></span></label>
-                </td>
-                <td>
-                    <input type="text" class="gwt-TextBox input-small query-param-name"
-                           placeholder="name">
-                </td>
-                <td>=</td>
-                <td>
-                    <input type="text" class="gwt-TextBox input-medium query-param-value"
-                           placeholder="value">
-                </td>
-                <td><a href="#void" class="btn btn-link btn-small" title="Remove"><i
-                        class="icon-remove"></i></a></td>
-            </tr>
-            <tr>
-                <td>
-                    <label class="checkbox" for="gwt-uid-261" title="Enable/Disable">
-                        <input type="checkbox" value="on" id="gwt-uid-261" tabindex="0"
-                               checked=""><span></span></label>
-                </td>
-                <td>
-                    <input type="text" class="gwt-TextBox input-small query-param-name"
-                           placeholder="name">
-                </td>
-                <td>=</td>
-                <td>
-                    <input type="text" class="gwt-TextBox input-medium query-param-value"
-                           placeholder="value">
-                </td>
-                <td><a href="#void" class="btn btn-link btn-small" title="Remove"><i
-                        class="icon-remove"></i></a></td>
-            </tr>
-            <tr>
-                <td>
-                    <label class="checkbox" for="gwt-uid-262" title="Enable/Disable">
-                        <input type="checkbox" value="on" id="gwt-uid-262" tabindex="0"
-                               checked=""><span></span></label>
-                </td>
-                <td>
-                    <input type="text" class="gwt-TextBox input-small query-param-name"
-                           placeholder="name">
-                </td>
-                <td>=</td>
-                <td>
-                    <input type="text" class="gwt-TextBox input-medium query-param-value"
-                           placeholder="value">
-                </td>
-                <td><a href="#void" class="btn btn-link btn-small" title="Remove"><i
-                        class="icon-remove"></i></a></td>
-            </tr>
-            <tr>
-                <td>
-                    <label class="checkbox" for="gwt-uid-263" title="Enable/Disable">
-                        <input type="checkbox" value="on" id="gwt-uid-263" tabindex="0"
-                               checked=""><span></span></label>
-                </td>
-                <td>
-                    <input type="text" class="gwt-TextBox input-small query-param-name"
-                           placeholder="name">
-                </td>
-                <td>=</td>
-                <td>
-                    <input type="text" class="gwt-TextBox input-medium query-param-value"
-                           placeholder="value">
-                </td>
-                <td><a href="#void" class="btn btn-link btn-small" title="Remove"><i
-                        class="icon-remove"></i></a></td>
-            </tr>
-            <tr>
-                <td>
-                    <label class="checkbox" for="gwt-uid-264" title="Enable/Disable">
-                        <input type="checkbox" value="on" id="gwt-uid-264" tabindex="0"
-                               checked=""><span></span></label>
-                </td>
-                <td>
-                    <input type="text" class="gwt-TextBox input-small query-param-name"
-                           placeholder="name">
-                </td>
-                <td>=</td>
-                <td>
-                    <input type="text" class="gwt-TextBox input-medium query-param-value"
-                           placeholder="value">
-                </td>
-                <td><a href="#void" class="btn btn-link btn-small" title="Remove"><i
-                        class="icon-remove"></i></a></td>
-            </tr>
-            <tr>
-                <td>
-                    <label class="checkbox" for="gwt-uid-265" title="Enable/Disable">
-                        <input type="checkbox" value="on" id="gwt-uid-265" tabindex="0"
-                               checked=""><span></span></label>
-                </td>
-                <td>
-                    <input type="text" class="gwt-TextBox input-small query-param-name"
-                           placeholder="name">
-                </td>
-                <td>=</td>
-                <td>
-                    <input type="text" class="gwt-TextBox input-medium query-param-value"
-                           placeholder="value">
-                </td>
-                <td><a href="#void" class="btn btn-link btn-small" title="Remove"><i
-                        class="icon-remove"></i></a></td>
-            </tr>
-            </tbody>
-        </table>
-        <div class="query-form-buttons">
-            <div class="btn-group buttons-r"><a href="#void" class="btn btn-link btn-small"
-                                                title="Remove All Query Parameters"><i
-                    class="icon-trash"></i></a></div>
-            <div class="btn-group buttons"><a href="#void" class="btn btn-link btn-small"
-                                              title="Add New Query Parameter"><i
-                    class="icon-plus-sign"></i></a><a href="#void" class="btn btn-link btn-small"
-                                                      title="Sort Query Parameters"><i
-                    class="icon-sort-alpha-asc"></i></a></div>
-            <label class="checkbox" for="gwt-uid-50"
-                   title="Enable/Disable Query Parameters Encoding/Decoding"
-                   style="display: none;">
-                <input type="checkbox" value="on" id="gwt-uid-50" tabindex="0"
-                       checked=""><span>encode/decode</span></label>
-        </div>
-    </div>
-</div>
-</span> <span class="cell f"></span>
-                                    <span class="cell f">
-                                        <a class="n" href="http://tools.ietf.org/html/rfc7231#section-4" target="_blank">METHOD</a> </span> <span
-                                        class="cell"></span> </span>
                             </div>
                             <div class="request">
                                 <div class="body">
                                     <div class="sub-label">Mock Rule</div>
+                                    <div class="rule-error">
+                                        <span ng-if="!mockRuleValidate" class="label label-danger">规则错误, 请确保为json结构</span>
+                                    </div>
                                     <div class="cleafix"></div>
-                                    <ui-codemirror ng-model="rule" ui-codemirror-opts="editorOptions"></ui-codemirror>
+                                    <ui-codemirror ng-model="mockTemplate" ui-codemirror-opts="editorOptions"></ui-codemirror>
                                     <!-- /# -->
                                 </div>
                             </div>

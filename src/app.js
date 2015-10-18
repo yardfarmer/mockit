@@ -9,23 +9,23 @@
 var app = angular.module('app', ['ui.grid', 'ui.grid.expandable', 'ui.grid.selection', 'ui.grid.pinning', 'ui.grid.edit', 'ui.grid.cellNav']);
 
 app.controller('MainCtrl', ['$scope', function ($scope) {
-    $scope.rules = {};
-    $scope.rules.enableCellEditOnFocus = true;
-    $scope.rules.onRegisterApi = function (gridApi) {
+    $scope.ruleList = {};
+    $scope.ruleList.enableCellEditOnFocus = true;
+    $scope.ruleList.onRegisterApi = function (gridApi) {
         $scope.gridApi = gridApi;
         gridApi.edit.on.afterCellEdit($scope, function (newRow, someOther, newData, oldData) {
             MsgController.send(MsgController.RULE_CHANGED, newRow);
         });
     };
 
-    $scope.rules.columnDefs = [
+    $scope.ruleList.columnDefs = [
         {name: 'index', enableCellEdit: false},
         {name: 'rule', enableCellEditOnFocus: true, displayName: '/abc/?.?'},
         {name: 'type', enableCellEdit: true},
         {name: 'config', displayName: 'mock 规则', enableCellEdit: true},
         {name: 'work', displayName: '运行', enableCellEdit: true}
     ];
-    $scope.rules.data = [
+    $scope.ruleList.data = [
         {
             "index": "1",
             "rurl": "/abc.json/",
@@ -43,8 +43,8 @@ app.controller('MainCtrl', ['$scope', function ($scope) {
     ];
 
     $scope.addData = function () {
-        var n = $scope.rules.data.length + 1;
-        $scope.rules.data.push({
+        var n = $scope.ruleList.data.length + 1;
+        $scope.ruleList.data.push({
             "index": "New " + n,
             "rurl": "Person " + n,
             "type": "abc",
@@ -52,12 +52,12 @@ app.controller('MainCtrl', ['$scope', function ($scope) {
             "work": "male"
         });
 
-        $scope.rules.gridApi.core.notifyDataChange('ALL');
+        $scope.ruleList.gridApi.core.notifyDataChange('ALL');
     };
 
     $scope.removeFirstRow = function () {
         //if($scope.gridOpts.data.length > 0){
-        $scope.rules.data.splice(0, 1);
+        $scope.ruleList.data.splice(0, 1);
         //}
     };
 

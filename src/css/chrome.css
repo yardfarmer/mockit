@@ -320,8 +320,6 @@ input,select {
 }
 
 .documentation .request-name input {
-    font-size: 20px;
-    font-weight: 200;
     width: 100%;
     height: 24px;
     line-height: 24px;
@@ -351,7 +349,7 @@ input,select {
 }
 
 .documentation .ctrls {
-    width: 1px;
+    width: 220px;
     padding: 0 0 0 18px
 }
 
@@ -2004,7 +2002,7 @@ a .cc-json-string {
 }
 
 .pane-head2 {
-    font-size: 12px;
+    line-height: 29px;
     margin: 0 0 7px 0;
     color: #2a2a2a;
     font-weight: 200;
@@ -3274,7 +3272,7 @@ a.remote-cache,a.remote-cache:HOVER,a.remote-cache:VISITED,a.remote-cache:ACTIVE
     display: block;
     overflow: hidden;
     padding: 2px;
-    margin: 0 0 0 20px;
+    margin: 0 0 0 10px;
     line-height: 20px;
     text-align: left;
     font-weight: 800
@@ -3317,7 +3315,7 @@ a.remote-cache,a.remote-cache:HOVER,a.remote-cache:VISITED,a.remote-cache:ACTIVE
 }
 
 #projects .records table td .status,.h-r .records table td .status,.history .records table td .status {
-    padding: 0 0 0 23px;
+    padding: 0 0 0 13px;
     text-overflow: ellipsis;
     overflow: hidden;
     font-size: 12px;
@@ -3469,7 +3467,7 @@ a.remote-cache,a.remote-cache:HOVER,a.remote-cache:VISITED,a.remote-cache:ACTIVE
 
 .chromeapp .history .records {
     bottom: 95px;
-    padding-left: 10px
+    padding-left: 30px
 }
 
 .chromeapp .history .buttons {
