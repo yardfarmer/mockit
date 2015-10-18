@@ -1,0 +1,672 @@
+<!DOCTYPE html>
+<html ng-app="app.popup">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1, minimum-scale=1, width=device-width">
+    <title>mockit</title>
+    <link rel="stylesheet" type="text/css" href="css/chrome.css" media="screen">
+    <link rel="stylesheet" href="../bower_components/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../bower_components/font-awesome/css/font-awesome.css">
+    <script src="../bower_components/jquery/dist//jquery.min.js"></script>
+    <script src="../bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+    <!--bootstap -->
+</head>
+
+<body class="main chromeapp" id="console">
+    <div id="notification" class="notification-area" style="display: none;"></div>
+    <input type="file" id="filePicker" style="display: none">
+<!--<script type="text/javascript" src="../bower_components/codemirror/lib/codemirror.js"></script>-->
+<!--<link rel="stylesheet" href="../bower_components/codemirror/lib/codemirror.css"/>-->
+<!--<script type="text/javascript" src="../bower_components/codemirror/mode/javascript/javascript.js"></script>-->
+<!--<script type="text/javascript" src="js/codemirror/mode/xml/xml.js"></script>-->
+<!--<script type="text/javascript" src="js/codemirror/mode/css/css.js"></script>-->
+<!--
+<script type="text/javascript" src="js/codemirror/mode/http/http.js"></script>
+-->
+<!--<script type="text/javascript" src="js/codemirror/mode/htmlmixed/htmlmixed.js"></script>-->
+<!--<script type="text/javascript" src="js/sha.js"></script>-->
+<!--<script type="text/javascript" src="js/crypto/md5.js"></script>-->
+<!--<script type="text/javascript" src="js/jsonpath.js"></script>-->
+<!--<script type="text/javascript" src="js/markdown.js"></script>-->
+<!--<script type="text/javascript" src="devhttpclient/js/bootstrap.min.js"></script>-->
+<!--<script type="text/javascript" src="devhttpclient/devhttpclient.nocache.js"></script>-->
+
+<div>
+    <!--navbar-->
+    <div class="navbar header navbar-fixed-top" id="gwt-uid-12">
+        <div class="navbar-inner">
+            <div class="container">
+                <a class="brand active" title="DHC Chrome by Restlet">
+                </a><a target="_blank" href="http://restlet.com/products/dhc">
+                <span style="white-space:nowrap;">DHC</span> <span class="version">0.8.3</span> </a>
+                <ul class="nav pull-right">
+                    <li aria-hidden="true" style="display: none;">
+                        <a href="#void"><i></i>
+                            <div><img class="avatar" height="18px" src="" width="18px"><span>an anonymous</span></div>
+                        </a>
+                    </li>
+                    <li><a href="#void"><i class="icon-gear"></i> Settings </a></li>
+                    <li><a href="#void"><i class="icon-question-sign"></i> Help </a></li>
+                    <li><a href="#void"><i class="icon-info-sign"></i> About </a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="ui-lay-m">
+        <!--left panel-->
+        <div class="ui-lay-l ui-context" style="width: 370px;">
+            <section class="pane" id="left-side">
+                <div class="pane-head"><a href="#void" class="btn hide-pane" title="Minimize"><i
+                        class="icon-long-arrow-left"></i></a>
+                    <ul class="nav nav-pills selector">
+                        <li title="History"><a href="#void"><i class="icon-list"></i></a></li>
+                        <li title="Repository" class=""><a href="#void"><i class="icon-archive"></i></a></li>
+                        <li title="Contexts" class="active"><a href="#void"><i class="icon-th-large"></i></a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="content">
+                    <div class="h-l" aria-hidden="true" style="display: none;">
+                        <div>
+                            <p class="note">History is empty</p>
+                        </div>
+
+                        <div class="records" style="overflow: auto; position: absolute; zoom: 1;">
+                            <div style="position: relative; zoom: 1;">
+                                <table class="history">
+                                    <colgroup>
+                                        <col>
+                                    </colgroup>
+                                    <tbody></tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="buttons">
+                            <input type="text" class="gwt-TextBox filter disabled" disabled="" placeholder="Filter">
+
+                            <div class="btn-group"><a href="#void" class="btn disabled btn-link btn-small"
+                                                      title="Deselect All"><i class="icon-check-empty"></i>
+                                Deselect </a><a href="#void" class="btn btn-danger-link disabled btn-link btn-small"
+                                                title="Remove Selected History Records"><i class="icon-minus"></i>
+                                Remove </a></div>
+                            <div class="right"><a href="#void" class="btn btn-link btn-small"
+                                                  title="Clear All History Content"><i class="icon-trash"></i></a></div>
+                        </div>
+                    </div>
+                    <section class="catalog" aria-hidden="true" style="display: none;">
+                        <div class="content">
+                            <div class="items">
+                                <div>
+                                    <ul class="tree">
+                                        <li class="level0 drive">
+                                            <div>
+                                                <div class="btn-group ctrls" aria-hidden="true" style="display: none;">
+                                                    <a href="#void" class="btn btn-link dropdown-toggle btn-mini"
+                                                       data-toggle="dropdown"><i
+                                                            class="icon-chevron-sign-down icon-large"></i> </a>
+                                                    <ul class="dropdown-menu pull-right">
+                                                        <li aria-hidden="true" style="display: none;"><a href="#void"><i
+                                                                class="icon-edit"></i> Edit </a>
+                                                        </li>
+                                                        <li aria-hidden="true" style="display: none;"><a href="#void"><i
+                                                                class="icon-copy"></i> Clone
+                                                        </a></li>
+                                                        <li aria-hidden="true" style="display: none;"><a href="#void"><i
+                                                                class="icon-share-alt"></i>
+                                                            Share </a></li>
+                                                        <li><a href="#void"><i class="icon-download-alt"></i>
+                                                            Export </a></li>
+                                                        <li><a href="#void"><i class="icon-briefcase"></i>
+                                                            Import </a></li>
+                                                        <li><a href="#void"><i class="icon-trash"></i> Erase
+                                                        </a></li>
+                                                        <li aria-hidden="true" style="display: none;"><a href="#void"><i
+                                                                class="icon-remove"></i> Remove
+                                                        </a></li>
+                                                    </ul>
+                                                </div>
+                                                <a href="#void" class="btn btn-link name" id="gwt-uid-269"
+                                                   data-original-title="undefined" title=""><i
+                                                        class="icon-caret-down"></i><i class="node-icon"></i><span
+                                                        class="gwt-InlineHTML node-text">My Drive</span></a>
+                                            </div>
+                                            <ul style="display: block;">
+                                                <li class="level1 empty">
+                                                    <div>
+                                                        <div class="btn-group ctrls" aria-hidden="true"
+                                                             style="display: none;"><a href="#void"
+                                                                                       class="btn btn-link dropdown-toggle btn-mini"
+                                                                                       data-toggle="dropdown"><i
+                                                                class="icon-chevron-sign-down icon-large"></i>
+                                                        </a>
+                                                            <ul class="dropdown-menu pull-right">
+                                                                <li aria-hidden="true" style="display: none;"><a
+                                                                        href="#void"><i class="icon-edit"></i>
+                                                                    Edit </a></li>
+                                                                <li aria-hidden="true" style="display: none;"><a
+                                                                        href="#void"><i class="icon-copy"></i>
+                                                                    Clone </a></li>
+                                                                <li aria-hidden="true" style="display: none;"><a
+                                                                        href="#void"><i class="icon-share-alt"></i>
+                                                                    Share </a>
+                                                                </li>
+                                                                <li aria-hidden="true" style="display: none;"><a
+                                                                        href="#void"><i class="icon-download-alt"></i>
+                                                                    Export
+                                                                </a></li>
+                                                                <li aria-hidden="true" style="display: none;"><a
+                                                                        href="#void"><i class="icon-briefcase"></i>
+                                                                    Import </a>
+                                                                </li>
+                                                                <li aria-hidden="true" style="display: none;"><a
+                                                                        href="#void"><i class="icon-trash"></i>
+                                                                    Erase </a></li>
+                                                                <li aria-hidden="true" style="display: none;"><a
+                                                                        href="#void"><i class="icon-remove"></i>
+                                                                    Remove </a></li>
+                                                            </ul>
+                                                        </div>
+                                                        <a href="#void" class="btn btn-link name" id="gwt-uid-270"
+                                                           data-original-title="undefined" title=""><i></i><i
+                                                                class="node-icon" aria-hidden="true"
+                                                                style="display: none;"></i><span
+                                                                class="gwt-InlineHTML node-text">No saved data</span></a>
+                                                    </div>
+                                                </li>
+                                            </ul>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div>
+                                    <ul class="tree"></ul>
+                                </div>
+                            </div>
+                            <div class="buttons">
+                                <div class="btn-group"><a href="#void" class="btn btn-link btn-small"
+                                                          title="Collapse All"><i class="icon-minus-sign-alt"></i></a><a
+                                        href="#void" class="btn btn-link btn-small" title="Open All"><i
+                                        class="icon-plus-sign-alt"></i></a><a href="#void"
+                                                                              class="btn btn-link btn-small"
+                                                                              title="Export Data"><i
+                                        class="icon-download-alt"></i> Export </a><a href="#void"
+                                                                                     class="btn btn-link btn-small"
+                                                                                     title="Import Data"><i
+                                        class="icon-upload-alt"></i> Import </a></div>
+                                <div class="right"></div>
+                            </div>
+                        </div>
+                    </section>
+                    <div class="context">
+                        <ul class="nav nav-pills ctx-header">
+                            <li class="name" title="Global Context">
+                                <p class="navbar-text">Global:</p>
+                            </li>
+                            <li class="dropdown"><a href="#void" class="dropdown-toggle" data-toggle="dropdown"><i></i>
+                                aa <span class="caret"></span></a>
+                                <ul class="dropdown-menu">
+                                    <li><a href="#void"><i></i> aa </a></li>
+                                    <li><a href="#void"><i></i> asdfasdf </a></li>
+                                    <li class="add-new-context"><a href="#void"><i></i> Add New Context </a>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+                        <div style="display: none;">
+                            <p class="note">Empty, there is no active context.</p>
+                        </div>
+                        <div class="slot-wrapper">
+                            <div class="slot">
+                                <div class="context-table"></div>
+                            </div>
+                        </div>
+                        <div class="btn-group buttons-r"><a href="#void" class="btn btn-link btn-small"
+                                                            title="Delete Context"><i class="icon-trash"></i></a></div>
+                        <div class="btn-group buttons"><a href="#void" class="btn btn-link" title="Add New Variable"><i
+                                class="icon-plus-sign"></i></a><a href="#void" class="btn btn-link btn-small disabled"
+                                                                  title="Sort Variables"><i
+                                class="icon-sort-alpha-asc"></i></a><a href="#void" class="btn btn-link btn-small"
+                                                                       title="Rename"><i class="icon-edit"></i></a><a
+                                href="#void" class="btn btn-link btn-small" title="Clone"><i
+                                class="icon-copy"></i></a><a href="#void" class="btn btn-link btn-small"
+                                                             title="Export Data"><i class="icon-download-alt"></i></a><a
+                                href="#void" class="btn btn-link btn-small" title="Import Data"><i
+                                class="icon-upload-alt"></i></a></div>
+                    </div>
+                </div>
+            </section>
+            <div class="h-splitter" aria-hidden="true" style="display: none;">
+                <a href="#void" class="btn open btn-mini" title="Show Pane"><i></i></a>
+            </div>
+        </div>
+
+        <!--divider line-->
+        <div class="h-divider h-div-left" style="left: 365px;">
+            <div class="line"></div>
+        </div>
+
+        <!--content-->
+        <div class="ui-lay-c" style="margin-left: 372px; bottom: 79px; margin-right: 12px;">
+            <div class="ui-lay-cc">
+                <div>
+                    <!--title, save, delete-->
+                    <section class="pane documentation">
+                        <div class="pane-head2"><span>Use Case</span></div>
+                        <div class="content">
+                            <table width="100%">
+                                <tbody>
+                                <tr>
+                                    <td class="request-name control-group">
+                                        <input type="text" class="gwt-TextBox" placeholder="name">
+                                    </td>
+                                    <td class="ctrls">
+                                        <div class="btn-group">
+                                            <a href="#void" class="btn btn-info btn-small"><i
+                                                class="icon-download-alt"></i> Save </a>
+                                            <a href="#void" class="btn btn-info btn-small"><i
+                                                class="icon-file-text"></i> 2 Code </a>
+                                            <a href="#void" class="btn btn-danger btn-small"><i
+                                                class="icon-trash"></i> Reset </a></div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="uc-nav" colspan="1" style="display: none;">
+                                        <span style="display: none;">Service:
+                                            <a href="#void" class="btn btn-link btn-mini" id="gwt-uid-43"
+                                            data-original-title="" title=""><i></i> </a>
+                                        </span>
+                                        <span style="display: none;">Project:
+                                            <a href="#void" class="btn btn-link btn-mini" id="gwt-uid-44" data-original-title="" title=""><i></i>
+                                            </a>
+                                        </span>
+                                    </td>
+                                    <td></td>
+                                </tr>
+                                </tbody>
+                            </table>
+                            <div></div>
+                        </div>
+                    </section>
+
+                    <!--rule edit-->
+                    <section class="pane" id="request">
+                        <div class="pane-head"><span>Request</span></div>
+                        <div class="content">
+                            <div class="service" id="request"><span class="row"> <span class="cell protocol"> <select
+                                    class="input-small">
+                                <option value="http">HTTP</option>
+                                <option value="https">HTTPS</option>
+                            </select> </span> <span class="cell"> :// </span> <span class="cell-url">
+                                <input type="text" class="gwt-TextBox url" placeholder="type an URI" id="gwt-uid-45"> </span>
+                                <span class="cell">
+                                    <a href="#void" class="btn btn-send btn-success">
+                                        <i class="icon-send"></i> Send </a></span> </span>
+                                <span class="row url-edit" style="display: none;">
+                                    <span class="cell f">
+                                        <a class="n" href="#" target="_blank">SCHEME</a>
+                                    </span>
+                                    <span class="cell f">
+                                        <span class="n"></span> </span>
+                                        <span class="cell-url f">
+                                        <div>
+                                            <span class="uri-length"
+                                                  title="length: 252 chars, 270 bytes"
+                                                  style="display: inline;">length: 252 chars, 270 bytes
+                                            </span>
+                                <a class="n" href="http://tools.ietf.org/html/rfc7230#section-2.7" target="_blank">host
+                                    [ ":" port ] [ abs_path [ "?" query ]]</a></div>
+<div>
+    <div class="query-form">
+        <div class="query-form-label">QUERY PARAMETERS</div>
+        <table>
+            <colgroup>
+                <col>
+            </colgroup>
+            <tbody>
+            <tr>
+                <td>
+                    <label class="checkbox" for="gwt-uid-260" title="Enable/Disable">
+                        <input type="checkbox" value="on" id="gwt-uid-260" tabindex="0"
+                               checked=""><span></span></label>
+                </td>
+                <td>
+                    <input type="text" class="gwt-TextBox input-small query-param-name"
+                           placeholder="name">
+                </td>
+                <td>=</td>
+                <td>
+                    <input type="text" class="gwt-TextBox input-medium query-param-value"
+                           placeholder="value">
+                </td>
+                <td><a href="#void" class="btn btn-link btn-small" title="Remove"><i
+                        class="icon-remove"></i></a></td>
+            </tr>
+            <tr>
+                <td>
+                    <label class="checkbox" for="gwt-uid-261" title="Enable/Disable">
+                        <input type="checkbox" value="on" id="gwt-uid-261" tabindex="0"
+                               checked=""><span></span></label>
+                </td>
+                <td>
+                    <input type="text" class="gwt-TextBox input-small query-param-name"
+                           placeholder="name">
+                </td>
+                <td>=</td>
+                <td>
+                    <input type="text" class="gwt-TextBox input-medium query-param-value"
+                           placeholder="value">
+                </td>
+                <td><a href="#void" class="btn btn-link btn-small" title="Remove"><i
+                        class="icon-remove"></i></a></td>
+            </tr>
+            <tr>
+                <td>
+                    <label class="checkbox" for="gwt-uid-262" title="Enable/Disable">
+                        <input type="checkbox" value="on" id="gwt-uid-262" tabindex="0"
+                               checked=""><span></span></label>
+                </td>
+                <td>
+                    <input type="text" class="gwt-TextBox input-small query-param-name"
+                           placeholder="name">
+                </td>
+                <td>=</td>
+                <td>
+                    <input type="text" class="gwt-TextBox input-medium query-param-value"
+                           placeholder="value">
+                </td>
+                <td><a href="#void" class="btn btn-link btn-small" title="Remove"><i
+                        class="icon-remove"></i></a></td>
+            </tr>
+            <tr>
+                <td>
+                    <label class="checkbox" for="gwt-uid-263" title="Enable/Disable">
+                        <input type="checkbox" value="on" id="gwt-uid-263" tabindex="0"
+                               checked=""><span></span></label>
+                </td>
+                <td>
+                    <input type="text" class="gwt-TextBox input-small query-param-name"
+                           placeholder="name">
+                </td>
+                <td>=</td>
+                <td>
+                    <input type="text" class="gwt-TextBox input-medium query-param-value"
+                           placeholder="value">
+                </td>
+                <td><a href="#void" class="btn btn-link btn-small" title="Remove"><i
+                        class="icon-remove"></i></a></td>
+            </tr>
+            <tr>
+                <td>
+                    <label class="checkbox" for="gwt-uid-264" title="Enable/Disable">
+                        <input type="checkbox" value="on" id="gwt-uid-264" tabindex="0"
+                               checked=""><span></span></label>
+                </td>
+                <td>
+                    <input type="text" class="gwt-TextBox input-small query-param-name"
+                           placeholder="name">
+                </td>
+                <td>=</td>
+                <td>
+                    <input type="text" class="gwt-TextBox input-medium query-param-value"
+                           placeholder="value">
+                </td>
+                <td><a href="#void" class="btn btn-link btn-small" title="Remove"><i
+                        class="icon-remove"></i></a></td>
+            </tr>
+            <tr>
+                <td>
+                    <label class="checkbox" for="gwt-uid-265" title="Enable/Disable">
+                        <input type="checkbox" value="on" id="gwt-uid-265" tabindex="0"
+                               checked=""><span></span></label>
+                </td>
+                <td>
+                    <input type="text" class="gwt-TextBox input-small query-param-name"
+                           placeholder="name">
+                </td>
+                <td>=</td>
+                <td>
+                    <input type="text" class="gwt-TextBox input-medium query-param-value"
+                           placeholder="value">
+                </td>
+                <td><a href="#void" class="btn btn-link btn-small" title="Remove"><i
+                        class="icon-remove"></i></a></td>
+            </tr>
+            </tbody>
+        </table>
+        <div class="query-form-buttons">
+            <div class="btn-group buttons-r"><a href="#void" class="btn btn-link btn-small"
+                                                title="Remove All Query Parameters"><i
+                    class="icon-trash"></i></a></div>
+            <div class="btn-group buttons"><a href="#void" class="btn btn-link btn-small"
+                                              title="Add New Query Parameter"><i
+                    class="icon-plus-sign"></i></a><a href="#void" class="btn btn-link btn-small"
+                                                      title="Sort Query Parameters"><i
+                    class="icon-sort-alpha-asc"></i></a></div>
+            <label class="checkbox" for="gwt-uid-50"
+                   title="Enable/Disable Query Parameters Encoding/Decoding" aria-hidden="true"
+                   style="display: none;">
+                <input type="checkbox" value="on" id="gwt-uid-50" tabindex="0"
+                       checked=""><span>encode/decode</span></label>
+        </div>
+    </div>
+</div>
+</span> <span class="cell f"></span> <span class="cell f"> <a class="n"
+                                                              href="http://tools.ietf.org/html/rfc7231#section-4"
+                                                              target="_blank">METHOD</a> </span> <span
+                                    class="cell"></span> </span>
+                            </div>
+                            <div class="request">
+                                <div class="headers">
+                                    <ul class="nav nav-pills type">
+                                        <li class="dropdown right"><a href="#void" class="dropdown-toggle"
+                                                                      data-toggle="dropdown"><i></i> form <span
+                                                class="caret"></span></a>
+                                            <ul class="dropdown-menu">
+                                                <li><a href="#void"><i></i> form </a></li>
+                                                <li><a href="#void"><i></i> raw </a></li>
+                                            </ul>
+                                        </li>
+                                    </ul>
+                                    <div class="sub-label"><a href="http://tools.ietf.org/html/rfc7230#section-3.2"
+                                                              target="_blank">Headers</a></div>
+                                    <div class="cleafix"></div>
+                                    <div class="h-container">
+                                        <div>
+                                            <div>
+                                                <div>
+                                                    <div style="position: relative;">
+                                                        <label class="checkbox header-e" for="gwt-uid-266"
+                                                               title="Enable/Disable" style="display: inline;">
+                                                            <input type="checkbox" value="on" id="gwt-uid-266"
+                                                                   tabindex="0"><span></span></label>
+
+                                                        <div style="display: inline;"><span
+                                                                class="gwt-InlineHTML header-name header-name-ro"
+                                                                aria-hidden="true" style="display: none;"><a
+                                                                href="http://tools.ietf.org/html/rfc7231#section-3.1.1.5"
+                                                                target="_blank" class="header-link"><span
+                                                                title="Content-Type">Content-Type</span></a>
+</span>
+                                                            <input type="text" class="gwt-TextBox header-name disabled"
+                                                                   id="gwt-uid-267" placeholder="name" disabled="">
+                                                        </div>
+                                                        <span class="gwt-InlineLabel">:</span>
+
+                                                        <div style="display: inline;">
+                                                            <input type="text" class="gwt-TextBox header-value disabled"
+                                                                   id="gwt-uid-268" placeholder="value" disabled="">
+                                                        </div>
+                                                        <a href="#void" class="btn btn-small btn-link" title="Remove"><i
+                                                                class="icon-remove"></i></a><a href="#void"
+                                                                                               class="btn btn-link"
+                                                                                               title="Edit"
+                                                                                               aria-hidden="true"
+                                                                                               style="display: none;"><i
+                                                            class="icon-pencil"></i></a><a href="#void"
+                                                                                           class="btn btn-link"
+                                                                                           title="Show Warnings"
+                                                                                           aria-hidden="true"
+                                                                                           style="display: none;"><i
+                                                            class="icon-warning-sign"></i></a></div>
+                                                </div>
+                                                <div class="btn-group buttons-r"><a href="#void"
+                                                                                    class="btn btn-small btn-link"
+                                                                                    title="Remove All Headers"><i
+                                                        class="icon-trash"></i></a></div>
+                                                <div class="btn-group buttons"><a href="#void"
+                                                                                  class="btn btn-link btn-small"
+                                                                                  title="Add New Header"><i
+                                                        class="icon-plus-sign"></i></a><a href="#void"
+                                                                                          class="btn btn-small btn-link disabled"
+                                                                                          title="Sort Headers"
+                                                                                          aria-hidden="true"
+                                                                                          style="display: none;"><i
+                                                        class="icon-sort-alpha-asc"></i></a></div>
+                                                <div class="btn-group set-auth-link"><a href="#void"
+                                                                                        class="btn btn-link"><i
+                                                        class="icon-key"></i> set an authorization </a></div>
+                                                <label class="checkbox set-host" for="gwt-uid-61"
+                                                       title="Show Chrome/XHR Default Headers" aria-hidden="true"
+                                                       style="display: none;">
+                                                    <input type="checkbox" value="on" id="gwt-uid-61"
+                                                           tabindex="0"><span>show defaults</span></label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="body">
+
+                                    <div class="sub-label"><a href="http://tools.ietf.org/html/rfc7230#section-3.3"
+                                                              target="_blank">Body</a></div>
+                                    <div class="cleafix"></div>
+
+                                    <div class="b-container">
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!--mock response result-->
+                    <section class="pane" id="response">
+                        <div class="pane-head"><span>Response</span>
+
+                            <div style="float:right"><a href="#void" class="btn btn-link btn-mini" aria-hidden="true"
+                                                        style="display: none;"><i class="icon-lock"></i> SSL
+                                Certificates </a><a href="#void" class="btn btn-link btn-mini" aria-hidden="true"
+                                                    style="display: none;"><i></i>
+                                raw communication </a></div>
+                        </div>
+                        <div class="content">
+                            <div style="display: none;">
+                                <p class="note">Not available, a request has not been sent yet.</p>
+                            </div>
+                            <div style="display: block;">
+                                <div><span class="el-time"><span
+                                        title="elapsed time 106ms">elapsed time 106ms</span></span>
+
+                                    <div class="status response-ok"><a
+                                            href="http://tools.ietf.org/html/rfc7231#section-6.3.1" target="_blank">200
+                                        OK</a></div>
+                                </div>
+                                <div class="h-container">
+                                    <div class="raw-response-view" aria-hidden="true" style="display: none;"></div>
+                                    <div class="headers">
+                                        <ul class="nav nav-pills type">
+                                            <li class="dropdown right"><a href="#void" class="dropdown-toggle"
+                                                                          data-toggle="dropdown"><i></i> form
+                                                <span class="caret"></span></a>
+                                                <ul class="dropdown-menu">
+                                                    <li><a href="#void"><i></i> form </a></li>
+                                                    <li><a href="#void"><i></i> raw </a></li>
+                                                </ul>
+                                            </li>
+                                        </ul>
+                                        <div class="sub-label"><a href="http://tools.ietf.org/html/rfc7230#section-3.2"
+                                                                  target="_blank">Headers</a></div>
+                                        <div class="cleafix"></div>
+                                        <div class="h-container">
+                                            <table class="form-headers">
+                                                <colgroup>
+                                                    <col>
+                                                </colgroup>
+                                                <tbody>
+                                                <tr>
+                                                    <td><a href="http://tools.ietf.org/html/rfc7230#section-6.1"
+                                                           target="_blank" class="header-link"><span title="Connection">Connection:</span></a>
+                                                    </td>
+                                                    <td></td>
+                                                    <td><span class="gwt-InlineHTML"
+                                                              title="keep-alive">keep-alive</span>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <a href="http://tools.ietf.org/html/rfc7231#section-3.1.2.2"
+                                                           target="_blank" class="header-link"><span
+                                                                title="Content-Encoding">Content-Encoding:</span></a>
+                                                    </td>
+                                                    <td></td>
+                                                    <td><span class="gwt-InlineHTML" title="gzip">gzip</span>
+                                                    </td>
+                                                </tr>
+
+
+                                                </tbody>
+                                            </table>
+
+                                            <ul class="nav nav-pills sent-headers-type" aria-hidden="true"
+                                                style="display: none;">
+                                                <li class="dropdown right"><a href="#void" class="dropdown-toggle"
+                                                                              data-toggle="dropdown"><i></i>
+                                                    form <span class="caret"></span></a>
+                                                    <ul class="dropdown-menu">
+                                                        <li><a href="#void"><i></i> form </a></li>
+                                                        <li><a href="#void"><i></i> raw </a></li>
+                                                    </ul>
+                                                </li>
+                                            </ul>
+                                            <a href="#void" class="btn sent-headers btn-link" id="gwt-uid-83"
+                                               data-target="#toggle1" data-toggle="collapse"><i
+                                                    class="icon-caret-right"></i> complete request headers </a>
+
+                                        </div>
+                                    </div>
+                                    <div class="body" style="">
+
+                                        <div class="sub-label"><a href="http://tools.ietf.org/html/rfc7230#section-3.3"
+                                                                  target="_blank">Body</a></div>
+                                        <div class="cleafix"></div>
+                                        <div class="text" id="responseBody">
+                                            response body
+                                        </div>
+                                        <div class="cleafix"></div>
+                                        <div class="response-body-info"
+                                             style="bottom: 99px; right: 42px; position: fixed; padding: 3px; z-index: 10; border-radius: 7px; background-color: rgb(250, 250, 250);">
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="../bower_components/jquery/dist/jquery.min.js"></script>
+<script src="../bower_components/angularjs/angular.min.js"></script>
+<script src="../bower_components/angular-ui-grid/ui-grid.min.js"></script>
+<script src="../bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+<script src="js/mock.js"></script>
+<script src="js/core/core.module.js"></script>
+<script src="js/core/core.service.js"></script>
+<script src="js/core/chrome.service.js"></script>
+<script src="js/core/storage.service.js"></script>
+<script src="js/popup/popup.module.js"></script>
+<script src="js/popup/popup.controller.js"></script>
+</body>
+</html>
