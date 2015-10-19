@@ -15,6 +15,10 @@
         var service = {
             init: init
         },
+        _tabs = {
+            source: null,
+            tab: null
+        },
         handlers = {
             getAllRules: getAllRules,
             addRule: addRule,
@@ -22,8 +26,7 @@
             deleteRule: deleteRule,
             startMocking: startMocking,
             stopMocking: stopMocking,
-            getMockingData: getMockingData,
-
+            getMockingData: getMockingData
         };
 
         return service;
@@ -59,6 +62,45 @@
          */
         function init () {
             chromeService.addMessageListener(handlers);
+            chromeService.addBrowserActionListener(initAppTab);
+        }
+
+        function initAppTab() {
+            chromeService.queryTab({active: true, currentWindow: true}, function (tab) {
+                console.log('source tab > ', tab);
+
+                // do nothing when clicking ZCapture button on ZCapture App tab
+                if (tab[0].id === _tabs.app) {
+                    return;
+                }
+                _tabs.source = tab[0].id;
+                console.log('source_url', tab[0].url);
+
+                var newTabIndex = tab[0].index + 1;
+
+                if (_tabs.app) {
+                    chromeService.getTab(_tabs.app, function (tab) {
+                        if (tab) {
+                            chromeService.updateTab(tab.id, {selected: true});
+                        } else {
+                            _setTab(newTabIndex);
+                        }
+                    });
+
+                    return true;
+                }
+                _setTab(newTabIndex);
+            });
+
+            function _setTab(index) {
+                chromeService.createTab({
+                    index: index,
+                    url: 'src/dhc.html'
+                }, function (tab) {
+                    console.log('app tab > ', tab.id);
+                    _tabs.app = tab.id;
+                });
+            }
         }
 
         function getAllRules(request) {

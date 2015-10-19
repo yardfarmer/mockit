@@ -3,11 +3,12 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="initial-scale=1, minimum-scale=1, width=device-width">
-    <title>mockit</title>
+    <title>response mockit</title>
     <link rel="stylesheet" type="text/css" href="css/chrome.css" media="screen">
     <link rel="stylesheet" href="../bower_components/bootstrap/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="css/font-awesome.css">
     <link href="../bower_components/codemirror/lib/codemirror.css">
+    <link href="../bower_components/codemirror/theme/monokai.css">
     <script src="../bower_components/jquery/dist/jquery.min.js"></script>
     <script src="../bower_components/angularjs/angular.min.js"></script>
     <script  src="../bower_components/codemirror/lib/codemirror.js"></script>
@@ -24,7 +25,7 @@
     <nav class="navbar navbar-default navbar-fixed-top">
         <div class="container">
             <div class="navbar-header">
-                <a class="navbar-brand" href="#">MocKit</a>
+                <a class="navbar-brand" href="#">Response MocKit</a>
             </div>
             <div id="navbar" class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
@@ -269,11 +270,10 @@
                                     <td class="ctrls">
                                         <div class="btn-group btn-group-sm">
                                             <a href="#void" class="btn btn-info btn-sm">
-                                                <i class="icon-download-alt"></i> Save </a>
-                                            <a href="#void" class="btn btn-info btn-small"><i
-                                                    class="icon-file-text"></i> 2 Code </a>
-                                            <a href="#void" class="btn btn-danger btn-small"><i
-                                                    class="icon-trash"></i> Reset </a></div>
+                                                <i class="icon-download-alt"></i> 保存 </a>
+                                            <a href="#void" class="btn btn-danger btn-small">
+                                                <i class="icon-trash"></i> 删除 </a>
+                                        </div>
                                     </td>
                                 </tr>
                                 <tr>
@@ -312,7 +312,7 @@
                                     </span>
                                     <span class="cell">
                                         <a ng-click="setMockRule()" href="#void" class="btn btn-send btn-success">
-                                            <i class="icon-download-alt"></i> 保存 </a>
+                                            <i class="icon-download-alt"></i>开始拦截</a>
                                         <!--icon-send-->
                                     </span>
                                 </span>
@@ -324,9 +324,19 @@
                                         <span ng-if="!mockRuleValidate" class="label label-danger">规则错误, 请确保为json结构</span>
                                     </div>
                                     <div class="cleafix"></div>
-                                    <ui-codemirror ng-model="mockTemplate" ui-codemirror-opts="editorOptions"></ui-codemirror>
-                                    <!-- /# -->
+
+                                    <div class="editor mock-editor">
+                                        <textarea  ui-codemirror ng-model="mockTemplate" ui-codemirror-opts="editorOptions" cols="30" rows="6"></textarea>
+                                    </div>
+
+                                    <!--<a ng-click="setMockRule()" href="#void" class="btn btn-send btn-info">-->
+                                        <!--<i class="icon-download-alt"></i>预览 Mock 数据</a>-->
+
+                                    <div class="editor mock-preview">
+                                        <textarea  ui-codemirror ng-model="mockPreview" ui-codemirror-opts="previewOptions" cols="30" rows="6"></textarea>
+                                    </div>
                                 </div>
+
                             </div>
                         </div>
                     </section>
@@ -342,96 +352,7 @@
                                 raw communication </a></div>
                         </div>
                         <div class="content">
-                            <div style="display: none;">
-                                <p class="note">Not available, a request has not been sent yet.</p>
-                            </div>
-                            <div style="display: block;">
-                                <div><span class="el-time"><span
-                                        title="elapsed time 106ms">elapsed time 106ms</span></span>
-
-                                    <div class="status response-ok"><a
-                                            href="http://tools.ietf.org/html/rfc7231#section-6.3.1" target="_blank">200
-                                        OK</a></div>
-                                </div>
-                                <div class="h-container">
-                                    <div class="raw-response-view"  style="display: none;"></div>
-                                    <div class="headers">
-                                        <ul class="nav nav-pills type">
-                                            <li class="dropdown right"><a href="#void" class="dropdown-toggle"
-                                                                          data-toggle="dropdown"><i></i> form
-                                                <span class="caret"></span></a>
-                                                <ul class="dropdown-menu">
-                                                    <li><a href="#void"><i></i> form </a></li>
-                                                    <li><a href="#void"><i></i> raw </a></li>
-                                                </ul>
-                                            </li>
-                                        </ul>
-                                        <div class="sub-label"><a href="http://tools.ietf.org/html/rfc7230#section-3.2"
-                                                                  target="_blank">Headers</a></div>
-                                        <div class="cleafix"></div>
-                                        <div class="h-container">
-                                            <table class="form-headers">
-                                                <colgroup>
-                                                    <col>
-                                                </colgroup>
-                                                <tbody>
-                                                <tr>
-                                                    <td><a href="http://tools.ietf.org/html/rfc7230#section-6.1"
-                                                           target="_blank" class="header-link"><span title="Connection">Connection:</span></a>
-                                                    </td>
-                                                    <td></td>
-                                                    <td><span class="gwt-InlineHTML"
-                                                              title="keep-alive">keep-alive</span>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>
-                                                        <a href="http://tools.ietf.org/html/rfc7231#section-3.1.2.2"
-                                                           target="_blank" class="header-link"><span
-                                                                title="Content-Encoding">Content-Encoding:</span></a>
-                                                    </td>
-                                                    <td></td>
-                                                    <td><span class="gwt-InlineHTML" title="gzip">gzip</span>
-                                                    </td>
-                                                </tr>
-
-
-                                                </tbody>
-                                            </table>
-
-                                            <ul class="nav nav-pills sent-headers-type"
-                                                style="display: none;">
-                                                <li class="dropdown right"><a href="#void" class="dropdown-toggle"
-                                                                              data-toggle="dropdown"><i></i>
-                                                    form <span class="caret"></span></a>
-                                                    <ul class="dropdown-menu">
-                                                        <li><a href="#void"><i></i> form </a></li>
-                                                        <li><a href="#void"><i></i> raw </a></li>
-                                                    </ul>
-                                                </li>
-                                            </ul>
-                                            <a href="#void" class="btn sent-headers btn-link" id="gwt-uid-83"
-                                               data-target="#toggle1" data-toggle="collapse"><i
-                                                    class="icon-caret-right"></i> complete request headers </a>
-
-                                        </div>
-                                    </div>
-                                    <div class="body" style="">
-
-                                        <div class="sub-label"><a href="http://tools.ietf.org/html/rfc7230#section-3.3"
-                                                                  target="_blank">Body</a></div>
-                                        <div class="cleafix"></div>
-                                        <div class="text" id="responseBody">
-                                            response body
-                                        </div>
-                                        <div class="cleafix"></div>
-                                        <div class="response-body-info"
-                                             style="bottom: 99px; right: 42px; position: fixed; padding: 3px; z-index: 10; border-radius: 7px; background-color: rgb(250, 250, 250);">
-
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                            <!--todo: filter history-->
                         </div>
                     </section>
                 </div>

@@ -1,5 +1,4 @@
 @import '../css/codemirror.css';
-/*@import url(/fonts/SourceSansPro.css);*/
 .tooltip {
     text-transform: none !important;
     opacity: 1 !important;
@@ -2430,7 +2429,7 @@ a .cc-json-string {
 #request .request .body {
     display: table-cell;
     padding: 0 0 0 5px;
-    max-width: 0
+    max-width: 0;
 }
 
 #request .request .body .b-container {
@@ -4350,4 +4349,16 @@ a.remote-cache,a.remote-cache:HOVER,a.remote-cache:VISITED,a.remote-cache:ACTIVE
 
 .http-log .insert {
     text-style: italic
+}
+
+
+.request .CodeMirror {
+    height: 300px;
+    max-width: 350px;
+}
+
+.request .editor {
+    float: left;
+    min-width: 300px;
+    margin-right: 50px;
 }

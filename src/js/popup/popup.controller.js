@@ -83,9 +83,13 @@
         $scope.mockTemplate = '{"x":1}';
         $scope.mockRuleName = '';
         $scope.mockRuleValidate = true;
+
+        $scope.mockPreview =  '{"x":1}';
         //$scope.ruleList = [];
 
         $scope.editorOptions = {
+            theme:'.cm-s-monokai',
+            smartIndent: true,
             mode: {name: "javascript", json: true}
         };
 
@@ -113,7 +117,7 @@
             chromeService.sendMessage('addRule', ruleUnit, function cb() {
                 //console.log($scope.ruleList);
             });
-        }
+        };
 
         $scope.setState = function() {
 

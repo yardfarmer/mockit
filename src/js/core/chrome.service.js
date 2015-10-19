@@ -18,9 +18,14 @@
             addMessageListener: addMessageListener,
             addRequestFilter: addRequestFilter,
             removeRequestFilter: removeRequestFilter,
+            addBrowserActionListener: addBrowserActionListener,
             onMessage: onMessage,
             sendMessage: sendMessage,
             sendRequest: sendRequest,
+            createTab: createTab,
+            updateTab: updateTab,
+            getTab: getTab,
+            queryTab: queryTab,
             updateIcon: updateIcon
         };
         return service;
@@ -51,6 +56,10 @@
                     ]
                 },
                 ["blocking"]);
+        }
+
+        function addBrowserActionListener(handler) {
+            $window.chrome.browserAction.onClicked.addListener(handler);
         }
 
         function removeRequestFilter(requestFilter) {
@@ -94,63 +103,24 @@
                 iconpath = 'assets/debuggerContinue.png';
             }
             current = !current;
+            //$window.chrome.browserAction.setIcon({path: iconpath});
+            //$window.chrome.browserAction.onClicked.addListener(updateIcon);
+        }
 
-            chrome.browserAction.setIcon({path: iconpath});
+        function createTab(params, callback) {
+            $window.chrome.tabs.create(params, callback);
+        }
 
-            chrome.browserAction.onClicked.addListener(updateIcon);
+        function updateTab(id, data) {
+            $window.chrome.tabs.update(id, data);
+        }
+
+        function getTab(id, callback) {
+            $window.chrome.tabs.get(id, callback);
+        }
+
+        function queryTab(params, callback) {
+            $window.chrome.tabs.query(params, callback);
         }
     }
 })();
-
-
-//console.log(Mock);
-//
-//var iconpath;
-//var current = false;
-//// string for a URL we temporarily want to *not* intercept
-//var redirectionUrl;
-//var flag = true;
-//
-//
-//chrome.runtime.onMessage.addListener(
-//    function (request, sender, response) {
-//        //console.log(sender.tab ?
-//        //"from a content script:" + sender.tab.url :
-//        //    "from the extension");
-//        console.log(request, sender, response);
-//        requestHandler(request, response);
-//    });
-//
-////
-////chrome.webRequest.onBeforeRequest.addListener(
-////    requestHandler,
-////    {
-////        urls: [
-////            "http://*/*",
-////            "https://*/*"
-////        ],
-////        tabId: 0
-////    },
-////    ["blocking"]);
-//
-//
-///**
-// * 判断请求的文件类型
-// */
-//function getExtType(url) {
-//    var requestUrl = url;
-//    var urlArr = requestUrl.split('?');
-//    //var param;
-//
-//    // 含有参数
-//    //if(urlArr.length > 1) {
-//    //    param = urlArr[1];
-//    //}
-//    var extRegExp = /\.([\w]+)$/g;
-//    var extMatchs = extRegExp.exec(urlArr[0]);
-//    if (extMatchs && extMatchs.length > 1) {
-//        return extMatchs[1];
-//    } else {
-//        return '';
-//    }
-//}
