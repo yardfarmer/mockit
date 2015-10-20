@@ -7,13 +7,12 @@
     <link rel="stylesheet" type="text/css" href="css/chrome.css" media="screen">
     <link rel="stylesheet" href="../bower_components/bootstrap/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="css/font-awesome.css">
-    <link href="../bower_components/codemirror/lib/codemirror.css">
-    <link href="../bower_components/codemirror/theme/monokai.css">
+    <link rel="stylesheet" href="../bower_components/codemirror/lib/codemirror.css">
+    <link rel="stylesheet" href="../bower_components/codemirror/theme/mdn-like.css">
     <script src="../bower_components/jquery/dist/jquery.min.js"></script>
     <script src="../bower_components/angularjs/angular.min.js"></script>
     <script  src="../bower_components/codemirror/lib/codemirror.js"></script>
     <script  src="../bower_components/angular-ui-codemirror/ui-codemirror.js"></script>
-    <script type="text/javascript" src="../bower_components/codemirror/mode/javascript/javascript.js"></script>
 </head>
 
 <body class="main chromeapp" id="console">
@@ -282,10 +281,6 @@
                                             <a href="#void" class="btn btn-link btn-mini" id="gwt-uid-43"
                                                data-original-title="" title=""><i></i> </a>
                                         </span>
-                                        <span>Project:
-                                            <a href="#void" class="btn btn-link btn-mini" id="gwt-uid-44" data-original-title="" title=""><i></i>
-                                            </a>
-                                        </span>
                                     </td>
                                     <td></td>
                                 </tr>
@@ -340,24 +335,47 @@
                             </div>
                         </div>
                     </section>
-
-                    <!--mock response result-->
-                    <section class="pane" id="response">
-                        <div class="pane-head"><span>Mock 结果</span>
-
-                            <div style="float:right"><a href="#void" class="btn btn-link btn-mini"
-                                                        style="display: none;"><i class="icon-lock"></i> SSL
-                                Certificates </a><a href="#void" class="btn btn-link btn-mini"
-                                                    style="display: none;"><i></i>
-                                raw communication </a></div>
-                        </div>
-                        <div class="content">
-                            <!--todo: filter history-->
-                        </div>
-                    </section>
                 </div>
             </div>
         </div>
+
+        <div class="v-divider" style="left: 288px; bottom: 212px;"><div class="line"></div></div>
+        <section class="pane" id="bottom-side" style="left: 368px; height: 199px;">
+            <div class="pane-head">
+                <div class="hide-pane">
+                    <div class="btn-group">
+                        <a href="#void" class="btn btn-link btn-mini" title="清空拦截历史" style=""><i class="icon-trash"></i></a>
+                    </div>
+                </div>
+                <ul class="nav nav-tabs bottom-pane-selector">
+                    <li class="active">
+                        <a href="#void"><i class="icon-list"></i> 拦截记录 </a>
+                    </li>
+                </ul>
+            </div>
+            <div class="content" style="">
+                <div class="h-b" id="h-history">
+                    <div style="display: block;"><p class="note">History is empty</p></div>
+                    <div class="records" style="overflow: auto; position: absolute; zoom: 1; height: 159px; display: none;">
+                        <div style="position: relative; zoom: 1;">
+                            <table class="h-history">
+                                <colgroup>
+                                    <col width="130px">
+                                    <col width="20px">
+                                    <col width="80px">
+                                    <col>
+                                    <col width="150px">
+                                    <col width="60px">
+                                    <col width="40px">
+                                    <col width="60px">
+                                </colgroup>
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+        </div>
+        </section>
     </div>
 </div>
 
@@ -370,6 +388,9 @@
 <script src="js/core/storage.service.js"></script>
 <script src="js/popup/popup.module.js"></script>
 <script src="js/popup/popup.controller.js"></script>
-
+<script type="text/javascript" src="../bower_components/codemirror/mode/javascript/javascript.js"></script>
+<script type="text/javascript" src="../bower_components/codemirror/addon/edit/closebrackets.js"></script>
+<script type="text/javascript" src="../bower_components/codemirror/addon/edit/matchbrackets.js"></script>
+<script type="text/javascript" src="../bower_components/codemirror/addon/selection/active-line.js"></script>
 </body>
 </html>

@@ -17,7 +17,8 @@
         },
         _tabs = {
             source: null,
-            tab: null
+            tab: null,
+            page: 'src/index.html'
         },
         handlers = {
             getAllRules: getAllRules,
@@ -67,14 +68,14 @@
 
         function initAppTab() {
             chromeService.queryTab({active: true, currentWindow: true}, function (tab) {
-                console.log('source tab > ', tab);
+                //console.log('source tab > ', tab);
 
                 // do nothing when clicking ZCapture button on ZCapture App tab
                 if (tab[0].id === _tabs.app) {
                     return;
                 }
                 _tabs.source = tab[0].id;
-                console.log('source_url', tab[0].url);
+                //console.log('source_url', tab[0].url);
 
                 var newTabIndex = tab[0].index + 1;
 
@@ -95,9 +96,9 @@
             function _setTab(index) {
                 chromeService.createTab({
                     index: index,
-                    url: 'src/dhc.html'
+                    url: _tabs.page
                 }, function (tab) {
-                    console.log('app tab > ', tab.id);
+                    //console.log('app tab > ', tab.id);
                     _tabs.app = tab.id;
                 });
             }
@@ -139,7 +140,7 @@
         }
 
         function _requestHandler (request, response) {
-            console.log('get Request ....', request.type, request.tabId, request.requestId, request);
+            //console.log('get Request ....', request.type, request.tabId, request.requestId, request);
 
             /**
              * TODO: 如下
@@ -148,7 +149,6 @@
              *
              * [script, image, main_frame(http://tao.1688.com/), stylesheet, ]
              * => image, stylesheet
-             * => tabId: 441, (仅 mock 此页 tab)
              *
              * => 优化输入区域, 更方便编辑规则
              * =>
@@ -162,57 +162,60 @@
             for(var urlRegExp in Mock._mocked) {
                 if(request.url.match(new RegExp(urlRegExp))) {
                     var rule = Mock._mocked[urlRegExp];
-                    return wrapper[rule.type](Mock.mock(rule.template), request.url);
-                    //return jsonWrapper(Mock.mock(rule.template));
+                    var param = {
+                        mockData: Mock.mock(rule.template),
+                        request: request,
+                        callback: sendRequestLog
+                    };
+                    return wrapper[rule.type](param);
                 }
             }
-
-            /**
-             * 异步是不可以的, 规则匹配,
-             * 当前所请求的 url 是否与已设定的 mock 规则匹配
-             */
         }
 
-        function jsonWrapper(data) {
+        /**
+         *
+         * @param dataObj
+         *  {
+         *      mockData:
+         *      request:
+         *      callback:
+         *  }
+         *
+         * @returns {{}}
+         */
+        function jsonWrapper(dataObj) {
             //return true;
             var result = {};
-            result.redirectUrl =
-                "data:text/plain;charset=utf-8;base64," + window.btoa(JSON.stringify(data));
-            return result;
-        }
+            try {
+                result.redirectUrl =
+                    "data:text/plain;charset=utf-8;base64," +
+                    window.btoa(unescape(encodeURIComponent(JSON.stringify(dataObj.mockData))));
 
-        function jsonpWrapper(data, requestUrl) {
-            //jQuery172073799591162242_1445188246695({})
-            var jsonpId = getJsonpId(requestUrl);
-            var result = {};
-            var jsonpResponse = jsonpId+'('+JSON.stringify(data)+')';
-            console.log(jsonpResponse);
-
-            result.redirectUrl =
-                "data:text/plain;charset=utf-8;base64," + window.btoa(jsonpResponse);
-            return result;
-        }
-
-        function jsonpHandler(info) {
-
-            var editPayload = null;
-            var needRequest = true;
-            if (needRequest) {
-                var xmp = new XMLHttpRequest();
-                xmp.open("GET", info.url, false);
-                try {
-                    xmp.send();
-                } catch (e) {
-                    console.log('catch:', e);
-                }
-                editPayload = xmp.responseText;
-
-                console.log('editPayload', editPayload)
+            } catch(e) {
+                console.log('btoa error');
             }
-
-            var result = {};//askUser(category, info, editPayload);
-            redirectionUrl = result.redirectUrl;
+            dataObj.callback && dataObj.callback(dataObj);
             return result;
+        }
+
+        function jsonpWrapper(dataObj) {
+            //jQuery172073799591162242_1445188246695({})
+            var jsonpId = getJsonpId(dataObj.request.url);
+            var result = {};
+            var jsonpResponse = jsonpId+'('+JSON.stringify(dataObj.mockData)+')';
+            try {
+                result.redirectUrl =
+                    "data:text/plain;charset=utf-8;base64," + window.btoa(unescape(encodeURIComponent(jsonpResponse)));
+            } catch(e) {
+
+            }
+            dataObj.callback && dataObj.callback(dataObj);
+            return result;
+        }
+
+        function sendRequestLog(data) {
+            console.log('sendRequestLog', data);
+            chromeService.sendMessage('interceptedRequest', data)
         }
 
         function getMockedRules() {

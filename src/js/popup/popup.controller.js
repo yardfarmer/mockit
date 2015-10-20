@@ -17,6 +17,8 @@
     function MainController($scope, $sce, chromeService, storageService) {
         $scope.ruleList = [];
 
+        chromeService.
+
         //$scope.addData = function () {
         //    var n = $scope.rules.data.length + 1;
         //    $scope.rules.data.push({
@@ -88,7 +90,19 @@
         //$scope.ruleList = [];
 
         $scope.editorOptions = {
-            theme:'.cm-s-monokai',
+            theme:'mdn-like',
+            lineNumbers: true,
+            styleActiveLine: true,
+            matchBrackets: true,
+            smartIndent: true,
+            mode: {name: "javascript", json: true}
+        };
+
+        $scope.previewOptions = {
+            readOnly:true,
+            theme:'mdn-like',
+            //styleActiveLine: true,
+            //matchBrackets: true,
             smartIndent: true,
             mode: {name: "javascript", json: true}
         };

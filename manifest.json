@@ -16,6 +16,5 @@
     "default_icon": "assets/debuggerContinue.png",
     "default_title": "mocker"
   },
-  "options_page": "src/dhc.html",
   "manifest_version": 2
 }

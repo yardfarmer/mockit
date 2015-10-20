@@ -39,14 +39,12 @@
         }
 
         function addMessageListener(handlers) {
-            console.log('addMessageListener', handlers);
             $window.chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
                 onMessage(handlers, request, sender, sendResponse);
             });
         }
 
         function addRequestFilter(requestFilter) {
-            console.log('addMessageListener', requestFilter);
             $window.chrome.webRequest.onBeforeRequest.addListener(
                 requestFilter,
                 {
@@ -97,12 +95,12 @@
         }
 
         function updateIcon() {
-            if (current) {
-                iconpath = 'assets/debuggerPause.png';
-            } else {
-                iconpath = 'assets/debuggerContinue.png';
-            }
-            current = !current;
+            //if (current) {
+            //    iconpath = 'assets/debuggerPause.png';
+            //} else {
+            //    iconpath = 'assets/debuggerContinue.png';
+            //}
+            //current = !current;
             //$window.chrome.browserAction.setIcon({path: iconpath});
             //$window.chrome.browserAction.onClicked.addListener(updateIcon);
         }
