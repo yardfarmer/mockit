@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="../bower_components/codemirror/lib/codemirror.css">
     <link rel="stylesheet" href="../bower_components/codemirror/theme/mdn-like.css">
     <script src="../bower_components/jquery/dist/jquery.min.js"></script>
+    <script src="../bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
     <script src="../bower_components/angularjs/angular.min.js"></script>
     <script  src="../bower_components/codemirror/lib/codemirror.js"></script>
     <script  src="../bower_components/angular-ui-codemirror/ui-codemirror.js"></script>
@@ -42,19 +43,9 @@
         <div ng-controller="NavbarController" class="ui-lay-l ui-context" style="width: 370px;">
             <section class="pane" id="left-side">
 
-                <div class="pane-head">
-                    <a href="#void" class="btn hide-pane" title="Minimize">
-                        <i class="icon-long-arrow-left"></i></a>
-                    <ul class="nav nav-pills selector">
-                        <li title="History" ng-click="currentSidePanel = 'history'"  ng-class="{active: currentSidePanel== 'history'}"><a href="#void"><i class="icon-list"></i></a></li>
-                        <li title="Repository" ng-click="currentSidePanel = 'catalog'" ng-class="{active: currentSidePanel== 'catalog'}"><a href="#void"><i class="icon-archive"></i></a></li>
-                        <li title="Contexts" ng-click="currentSidePanel = 'context'" ng-class="{active: currentSidePanel== 'context'}"><a href="#void"><i class="icon-th-large"></i></a></li>
-                    </ul>
-                </div>
-
-                <div class="content" ng-switch="currentSidePanel">
+                <div class="content">
                     <!--list-panel-->
-                    <div class="history" ng-switch-default>
+                    <div class="history">
                         <div ng-if="ruleList.length==0">
                             <p class="note" >History is empty</p>
                         </div>
@@ -64,7 +55,6 @@
                                     <tbody>
                                     <tr ng-repeat="r in ruleList">
                                         <td>
-                                            <div class="category">{{r.name}}</div>
                                             <div class="item">
                                                 <div>
                                                     <div>
@@ -72,11 +62,12 @@
                                                         <input type="checkbox">
                                                         <span></span>
                                                     </label>
-                                                    <a href="#void" class="btn path btn-link">
-                                                        <i></i> {{r.rurl}}
+                                                    <a href="#void" class="btn path">
+                                                        <span class="">{{r.name}}</span>
+                                                        <span class="response-error">{{r.rurl}}</span>
+                                                        <span class="status response-ok">{{r.type}}</span>
                                                     </a>
                                                     </div>
-                                                    <div class="status response-ok">{{r.type}}</div>
                                                 </div>
                                             </div>
                                         </td>
@@ -86,165 +77,14 @@
                             </div>
                         </div>
                         <div class="buttons">
-                            <input type="text" class="gwt-TextBox filter disabled" disabled="" placeholder="Filter">
-
-                            <div class="btn-group"><a href="#void" class="btn disabled btn-link btn-small"
-                                                      title="Deselect All"><i class="icon-check-empty"></i>
-                                Deselect </a><a href="#void" class="btn btn-danger-link disabled btn-link btn-small"
-                                                title="Remove Selected History Records"><i class="icon-minus"></i>
-                                Remove </a></div>
-                            <div class="right"><a href="#void" class="btn btn-link btn-small"
-                                                  title="Clear All History Content"><i class="icon-trash"></i></a></div>
-                        </div>
-                    </div>
-
-                    <!--catalog panel list-->
-                    <div class="catalog"  ng-switch-when="catalog">
-                        <div class="content">
-                            <div class="items">
-                                <div>
-                                    <ul class="tree">
-                                        <li class="level0 drive">
-                                            <div>
-                                                <div class="btn-group ctrls"  style="display: none;">
-                                                    <a href="#void" class="btn btn-link dropdown-toggle btn-mini"
-                                                       data-toggle="dropdown"><i
-                                                            class="icon-chevron-sign-down icon-large"></i> </a>
-                                                    <ul class="dropdown-menu pull-right">
-                                                        <li  style="display: none;"><a href="#void"><i
-                                                                class="icon-edit"></i> Edit </a>
-                                                        </li>
-                                                        <li  style="display: none;"><a href="#void"><i
-                                                                class="icon-copy"></i> Clone
-                                                        </a></li>
-                                                        <li  style="display: none;"><a href="#void"><i
-                                                                class="icon-share-alt"></i>
-                                                            Share </a></li>
-                                                        <li><a href="#void"><i class="icon-download-alt"></i>
-                                                            Export </a></li>
-                                                        <li><a href="#void"><i class="icon-briefcase"></i>
-                                                            Import </a></li>
-                                                        <li><a href="#void"><i class="icon-trash"></i> Erase
-                                                        </a></li>
-                                                        <li  style="display: none;"><a href="#void"><i
-                                                                class="icon-remove"></i> Remove
-                                                        </a></li>
-                                                    </ul>
-                                                </div>
-                                                <a href="#void" class="btn btn-link name" id="gwt-uid-269"
-                                                   data-original-title="undefined" title=""><i
-                                                        class="icon-caret-down"></i><i class="node-icon"></i><span
-                                                        class="gwt-InlineHTML node-text">My Drive</span></a>
-                                            </div>
-                                            <ul style="display: block;">
-                                                <li class="level1 empty">
-                                                    <div>
-                                                        <div class="btn-group ctrls"
-                                                             style="display: none;"><a href="#void"
-                                                                                       class="btn btn-link dropdown-toggle btn-mini"
-                                                                                       data-toggle="dropdown"><i
-                                                                class="icon-chevron-sign-down icon-large"></i>
-                                                        </a>
-                                                            <ul class="dropdown-menu pull-right">
-                                                                <li  style="display: none;"><a
-                                                                        href="#void"><i class="icon-edit"></i>
-                                                                    Edit </a></li>
-                                                                <li  style="display: none;"><a
-                                                                        href="#void"><i class="icon-copy"></i>
-                                                                    Clone </a></li>
-                                                                <li  style="display: none;"><a
-                                                                        href="#void"><i class="icon-share-alt"></i>
-                                                                    Share </a>
-                                                                </li>
-                                                                <li  style="display: none;"><a
-                                                                        href="#void"><i class="icon-download-alt"></i>
-                                                                    Export
-                                                                </a></li>
-                                                                <li  style="display: none;"><a
-                                                                        href="#void"><i class="icon-briefcase"></i>
-                                                                    Import </a>
-                                                                </li>
-                                                                <li  style="display: none;"><a
-                                                                        href="#void"><i class="icon-trash"></i>
-                                                                    Erase </a></li>
-                                                                <li  style="display: none;"><a
-                                                                        href="#void"><i class="icon-remove"></i>
-                                                                    Remove </a></li>
-                                                            </ul>
-                                                        </div>
-                                                        <a href="#void" class="btn btn-link name" id="gwt-uid-270"
-                                                           data-original-title="undefined" title=""><i></i><i
-                                                                class="node-icon"
-                                                                style="display: none;"></i><span
-                                                                class="gwt-InlineHTML node-text">No saved data</span></a>
-                                                    </div>
-                                                </li>
-                                            </ul>
-                                        </li>
-                                    </ul>
-                                </div>
-                                <div>
-                                    <ul class="tree"></ul>
-                                </div>
-                            </div>
-                            <div class="buttons">
-                                <div class="btn-group"><a href="#void" class="btn btn-link btn-small"
-                                                          title="Collapse All"><i class="icon-minus-sign-alt"></i></a><a
-                                        href="#void" class="btn btn-link btn-small" title="Open All"><i
-                                        class="icon-plus-sign-alt"></i></a><a href="#void"
-                                                                              class="btn btn-link btn-small"
-                                                                              title="Export Data"><i
-                                        class="icon-download-alt"></i> Export </a><a href="#void"
-                                                                                     class="btn btn-link btn-small"
-                                                                                     title="Import Data"><i
-                                        class="icon-upload-alt"></i> Import </a></div>
-                                <div class="right"></div>
+                            <div class="btn-group">
+                                <a href="#void" class="btn btn-link btn-small" title="Export Data"><i class="icon-download-alt"></i> 导出 </a>
+                                <a href="#void" class="btn btn-link btn-small" title="Import Data"><i class="icon-upload-alt"></i> 导入 </a>
                             </div>
                         </div>
-                    </div>
-
-                    <!--contexts panel-->
-                    <div class="context"  ng-switch-when="context">
-                        <ul class="nav nav-pills ctx-header">
-                            <li class="name" title="Global Context">
-                                <p class="navbar-text">Global:</p>
-                            </li>
-                            <li class="dropdown"><a href="#void" class="dropdown-toggle" data-toggle="dropdown"><i></i>
-                                aa <span class="caret"></span></a>
-                                <ul class="dropdown-menu">
-                                    <li><a href="#void"><i></i> aa </a></li>
-                                    <li><a href="#void"><i></i> asdfasdf </a></li>
-                                    <li class="add-new-context"><a href="#void"><i></i> Add New Context </a>
-                                    </li>
-                                </ul>
-                            </li>
-                        </ul>
-                        <div style="display: none;">
-                            <p class="note">Empty, there is no active context.</p>
-                        </div>
-                        <div class="slot-wrapper">
-                            <div class="slot">
-                                <div class="context-table"></div>
-                            </div>
-                        </div>
-                        <div class="btn-group buttons-r"><a href="#void" class="btn btn-link btn-small"
-                                                            title="Delete Context"><i class="icon-trash"></i></a></div>
-                        <div class="btn-group buttons"><a href="#void" class="btn btn-link" title="Add New Variable"><i
-                                class="icon-plus-sign"></i></a><a href="#void" class="btn btn-link btn-small disabled"
-                                                                  title="Sort Variables"><i
-                                class="icon-sort-alpha-asc"></i></a><a href="#void" class="btn btn-link btn-small"
-                                                                       title="Rename"><i class="icon-edit"></i></a><a
-                                href="#void" class="btn btn-link btn-small" title="Clone"><i
-                                class="icon-copy"></i></a><a href="#void" class="btn btn-link btn-small"
-                                                             title="Export Data"><i class="icon-download-alt"></i></a><a
-                                href="#void" class="btn btn-link btn-small" title="Import Data"><i
-                                class="icon-upload-alt"></i></a></div>
                     </div>
                 </div>
             </section>
-            <div class="h-splitter"  style="display: none;">
-                <a href="#void" class="btn open btn-mini" title="Show Pane"><i></i></a>
-            </div>
         </div>
 
         <!--divider line-->
@@ -268,21 +108,25 @@
                                     </td>
                                     <td class="ctrls">
                                         <div class="btn-group btn-group-sm">
-                                            <a href="#void" class="btn btn-info btn-sm">
+                                            <a ng-click="setMockRule()" href="#void" class="btn btn-info btn-sm">
                                                 <i class="icon-download-alt"></i> 保存 </a>
-                                            <a href="#void" class="btn btn-danger btn-small">
+                                            <a href="#void" class="btn disabled btn-danger btn-small">
                                                 <i class="icon-trash"></i> 删除 </a>
+                                            <a href="#void" class="btn disabled btn-send btn-small btn-success">
+                                                <i class="icon-trash"></i> 启动 </a>
                                         </div>
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td class="uc-nav" colspan="1">
-                                        <span>Service: <span style="color:green;">Working</span>
-                                            <a href="#void" class="btn btn-link btn-mini" id="gwt-uid-43"
-                                               data-original-title="" title=""><i></i> </a>
-                                        </span>
-                                    </td>
-                                    <td></td>
+                                    <!--<td class="uc-nav" colspan="1">-->
+                                        <!--&lt;!&ndash;<span>工作状态:&ndash;&gt;-->
+                                            <!--<span class="label label-danger">停止</span>-->
+                                            <!--<span class="label label-success">拦截中</span>-->
+                                            <!--<a href="#void" class="btn btn-link btn-mini" id="gwt-uid-43"-->
+                                               <!--data-original-title="" title=""><i></i> </a>-->
+                                        <!--&lt;!&ndash;</span>&ndash;&gt;-->
+                                    <!--</td>-->
+                                    <!--<td></td>-->
                                 </tr>
                                 </tbody>
                             </table>
@@ -300,14 +144,25 @@
                                         <input ng-model="mockRurl" type="text" class="gwt-TextBox url" placeholder="请填写url匹配规则, 支持正则 如 offer.json /\.abc.jsonp">
                                     </span>
                                     <span class="cell protocol">
-                                        <select class="input-small" ng-model="mockType">
-                                            <option value="json">JSON</option>
-                                            <option value="jsonp">JSONP</option>
-                                        </select>
+                                        <!--<select class="input-small" ng-model="mockType">-->
+                                            <!--<option value="json">JSON</option>-->
+                                            <!--<option value="jsonp">JSONP</option>-->
+                                        <!--</select>-->
+                                        <div class="dropdown">
+                                            <button class="btn btn-default btn-sm dropdown-toggle" type="button" data-toggle="dropdown">
+                                                请求类型
+                                                <span class="caret"></span>
+                                            </button>
+                                            <ul class="dropdown-menu">
+                                                <li><a href="#">JSON</a></li>
+                                                <li><a href="#">JSONP</a></li>
+                                                <li><a href="#">其他</a></li>
+                                            </ul>
+                                        </div>
                                     </span>
                                     <span class="cell">
-                                        <a ng-click="setMockRule()" href="#void" class="btn btn-send btn-success">
-                                            <i class="icon-download-alt"></i>开始拦截</a>
+                                        <!--<a ng-click="setMockRule()" href="#void" class="btn btn-send btn-sm btn-success">-->
+                                            <!--<i class="icon-download-alt"></i>开始拦截</a>-->
                                         <!--icon-send-->
                                     </span>
                                 </span>
@@ -338,8 +193,6 @@
                 </div>
             </div>
         </div>
-
-        <div class="v-divider" style="left: 288px; bottom: 212px;"><div class="line"></div></div>
         <section class="pane" id="bottom-side" style="left: 368px; height: 199px;">
             <div class="pane-head">
                 <div class="hide-pane">
@@ -379,8 +232,6 @@
     </div>
 </div>
 
-<script src="../bower_components/angular-ui-grid/ui-grid.min.js"></script>
-<script src="../bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
 <script src="js/mock.js"></script>
 <script src="js/core/core.module.js"></script>
 <script src="js/core/core.service.js"></script>

@@ -17,7 +17,7 @@
     function MainController($scope, $sce, chromeService, storageService) {
         $scope.ruleList = [];
 
-        chromeService.
+        //chromeService.
 
         //$scope.addData = function () {
         //    var n = $scope.rules.data.length + 1;

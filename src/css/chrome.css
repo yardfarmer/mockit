@@ -348,7 +348,7 @@ input,select {
 }
 
 .documentation .ctrls {
-    width: 220px;
+    width: 205px;
     padding: 0 0 0 18px
 }
 
@@ -420,6 +420,12 @@ input,select {
     position: relative;
     padding: 0 12px 0 4px
 }
+
+.uc-nav .label {
+    font-size: 10px;
+}
+
+
 
 .dpi-add-desc a,.uc-add-desc a {
     padding: 0 0 0 4px
@@ -2098,7 +2104,7 @@ a .cc-json-string {
     display: table-cell;
     width: 1px;
     white-space: nowrap;
-    padding: 0 2px 0 2px
+    padding: 0 2px 0 10px
 }
 
 #request .service .cell-url {
@@ -3185,7 +3191,7 @@ a.remote-cache,a.remote-cache:HOVER,a.remote-cache:VISITED,a.remote-cache:ACTIVE
 
 #projects .records,.h-r .records,.history .records {
     position: absolute;
-    top: 47px;
+    top: 10px;
     overflow-x: hidden;
     overflow-y: auto;
     border-bottom: 1px solid #cacaca
@@ -3224,7 +3230,7 @@ a.remote-cache,a.remote-cache:HOVER,a.remote-cache:VISITED,a.remote-cache:ACTIVE
 
 #projects .records table td .checkbox,.h-r .records table td .checkbox,.history .records table td .checkbox {
     left: 3px;
-    top: 3px;
+    top: -6px;
     position: relative
 }
 
@@ -3465,13 +3471,17 @@ a.remote-cache,a.remote-cache:HOVER,a.remote-cache:VISITED,a.remote-cache:ACTIVE
 }
 
 .chromeapp .history .records {
-    bottom: 95px;
+    bottom: 50px;
     padding-left: 30px
 }
 
 .chromeapp .history .buttons {
-    bottom: 20px;
-    padding-left: 6px
+    bottom: 0px;
+    text-align: center;
+}
+
+.chromeapp .history .buttons a {
+    text-decoration: none;
 }
 
 .webapp .history .records {
@@ -4361,4 +4371,8 @@ a.remote-cache,a.remote-cache:HOVER,a.remote-cache:VISITED,a.remote-cache:ACTIVE
     float: left;
     min-width: 300px;
     margin-right: 50px;
+}
+
+.service .dropdown-menu {
+    min-width: 68px;
 }
