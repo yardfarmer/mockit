@@ -20,7 +20,7 @@
 <div id="notification" class="notification-area" style="display: none;"></div>
 <input type="file" id="filePicker" style="display: none">
 
-<div ng-controller="MainController">
+<div ng-controller="MainController as vm">
     <!-- Fixed navbar -->
     <nav class="navbar navbar-default navbar-fixed-top">
         <div class="container">
@@ -38,22 +38,22 @@
         </div>
     </nav>
 
-    <div ng-controller="PanelController" class="ui-lay-m">
+    <div class="ui-lay-m">
         <!--left panel-->
-        <div ng-controller="NavbarController" class="ui-lay-l ui-context" style="width: 370px;">
+        <div class="ui-lay-l ui-context" style="width: 370px;">
             <section class="pane" id="left-side">
 
                 <div class="content">
                     <!--list-panel-->
                     <div class="history">
-                        <div ng-if="ruleList.length==0">
+                        <div ng-if="vm.ruleList.length==0">
                             <p class="note" >History is empty</p>
                         </div>
                         <div class="records" style="overflow: auto; position: absolute; zoom: 1;">
                             <div style="position: relative; zoom: 1;">
                                 <table class="history">
                                     <tbody>
-                                    <tr ng-repeat="r in ruleList">
+                                    <tr ng-repeat="r in vm.ruleList track by $index">
                                         <td>
                                             <div class="item">
                                                 <div>
@@ -104,11 +104,11 @@
                                 <tbody>
                                 <tr>
                                     <td class="request-name control-group">
-                                        <input ng-model="mockRuleName" type="text" class="gwt-TextBox" placeholder="规则名称">
+                                        <input ng-model="vm.mockRuleName" type="text" class="gwt-TextBox" placeholder="规则名称">
                                     </td>
                                     <td class="ctrls">
                                         <div class="btn-group btn-group-sm">
-                                            <a ng-click="setMockRule()" href="#void" class="btn btn-info btn-sm">
+                                            <a ng-click="vm.setMockRule()" href="#void" class="btn btn-info btn-sm">
                                                 <i class="icon-download-alt"></i> 保存 </a>
                                             <a href="#void" class="btn disabled btn-danger btn-small">
                                                 <i class="icon-trash"></i> 删除 </a>
@@ -141,7 +141,7 @@
                             <div class="service">
                                 <span class="row">
                                     <span class="cell-url">
-                                        <input ng-model="mockRurl" type="text" class="gwt-TextBox url" placeholder="请填写url匹配规则, 支持正则 如 offer.json /\.abc.jsonp">
+                                        <input ng-model="vm.mockRurl" type="text" class="gwt-TextBox url" placeholder="请填写url匹配规则, 支持正则 如 offer.json /\.abc.jsonp">
                                     </span>
                                     <span class="cell protocol">
                                         <!--<select class="input-small" ng-model="mockType">-->
@@ -168,32 +168,43 @@
                                 </span>
                             </div>
                             <div class="request">
-                                <div class="body">
-                                    <div class="sub-label">Mock Rule</div>
+                                <div class="editor">
+                                    <div class="sub-label">Mock 响应设置</div>
                                     <div class="rule-error">
-                                        <span ng-if="!mockRuleValidate" class="label label-danger">规则错误, 请确保为json结构</span>
+                                        <span ng-if="!vm.mockRuleValidate" class="label label-danger">规则错误, 请确保为json结构</span>
                                     </div>
                                     <div class="cleafix"></div>
 
                                     <div class="editor mock-editor">
-                                        <textarea  ui-codemirror ng-model="mockTemplate" ui-codemirror-opts="editorOptions" cols="30" rows="6"></textarea>
+                                        <textarea  ui-codemirror ng-model="vm.mockTemplate" ui-codemirror-opts="vm.editorOptions" cols="30" rows="6"></textarea>
+                                        <div class="text-body-type">
+                                            <a href="#void" class="btn btn-link btn-mini" title="格式化"><i></i> 格式化 </a>|
+                                            <a href="#void" class="btn btn-link btn-mini" title="预览"><i></i> 预览 </a>|
+                                            <a href="#void" class="btn btn-link btn-mini" title="Clear"><i class="icon-trash"></i></a>
+                                        </div>
                                     </div>
-
                                     <!--<a ng-click="setMockRule()" href="#void" class="btn btn-send btn-info">-->
                                         <!--<i class="icon-download-alt"></i>预览 Mock 数据</a>-->
-
+                                </div>
+                                <div class="preview">
+                                    <div class="sub-label">Response 预览</div>
+                                    <div class="rule-error">
+                                        <span ng-if="!vm.mockRuleValidate" class="label label-danger">规则错误, 请确保为json结构</span>
+                                    </div>
+                                    <div class="cleafix"></div>
+                                    <!--<a ng-click="setMockRule()" href="#void" class="btn btn-send btn-info">-->
+                                    <!--<i class="icon-download-alt"></i>预览 Mock 数据</a>-->
                                     <div class="editor mock-preview">
-                                        <textarea  ui-codemirror ng-model="mockPreview" ui-codemirror-opts="previewOptions" cols="30" rows="6"></textarea>
+                                        <textarea  ui-codemirror ng-model="vm.mockPreview" ui-codemirror-opts="vm.previewOptions" cols="30" rows="6"></textarea>
                                     </div>
                                 </div>
-
                             </div>
                         </div>
                     </section>
                 </div>
             </div>
         </div>
-        <section class="pane" id="bottom-side" style="left: 368px; height: 199px;">
+        <section class="pane" id="bottom-side" style="left: 368px; height: 260px;">
             <div class="pane-head">
                 <div class="hide-pane">
                     <div class="btn-group">
@@ -238,6 +249,7 @@
 <script src="js/core/chrome.service.js"></script>
 <script src="js/core/storage.service.js"></script>
 <script src="js/popup/popup.module.js"></script>
+<script src="js/popup/popup.service.js"></script>
 <script src="js/popup/popup.controller.js"></script>
 <script type="text/javascript" src="../bower_components/codemirror/mode/javascript/javascript.js"></script>
 <script type="text/javascript" src="../bower_components/codemirror/addon/edit/closebrackets.js"></script>

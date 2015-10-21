@@ -6,90 +6,25 @@
     'use strict';
     angular
         .module('app.popup')
-        .controller('MainController', MainController)
-        .controller('PanelController', PanelController)
-        .controller('NavbarController', NavbarController);
+        .controller('MainController', MainController);
 
-    MainController.$inject = ['$scope', '$sce', 'chromeService', 'storageService'];
-    NavbarController.$inject = ['$scope', '$http'];
-    PanelController.$inject = ['$scope', 'chromeService', 'storageService'];
+    MainController.$inject = ['popupService', 'chromeService',  '$rootScope'];
 
-    function MainController($scope, $sce, chromeService, storageService) {
-        $scope.ruleList = [];
+    function MainController(popupService, chromeService, $rootScope) {
+        var vm = this;
+        console.log(this);
+        vm.ruleList = [];
+        vm.mockRurl = 'offer.json';
+        vm.mockType = 'json';
+        vm.mockTemplate = '{"x":1}';
+        vm.mockPreview =  '{"x":1}';
+        vm.mockRuleName = '';
+        vm.mockRuleValidate = true;
 
-        //chromeService.
+        vm.startAll = popupService.startMocking;
+        vm.stopAll = popupService.stopMocking;
 
-        //$scope.addData = function () {
-        //    var n = $scope.rules.data.length + 1;
-        //    $scope.rules.data.push({
-        //        "rurl": ".json",
-        //        "type": "json",
-        //        "template": {
-        //            'list|1-10': [{
-        //                'id|+1': 1,
-        //                'email': '@EMAIL'
-        //            }]
-        //        },
-        //        "work": "male"
-        //    });
-        //    //chromeService.sendMessage('addRule', {rurl: }, function cb() {
-        //    //    saveRules();
-        //    //});
-        //};
-
-        //$scope.removeFirstRow = function () {
-        //    //if($scope.gridOpts.data.length > 0){
-        //    $scope.rules.data.splice(0, 1);
-        //    chromeService.sendMessage('deleteRule', {rurl: '', type: 'akd'},  function cb() {
-        //        saveRules();
-        //    });
-        //};
-
-        $scope.startAll = function() {
-            //backgroundService.startMocking();
-            chromeService.sendMessage('startMocking');
-        };
-
-        $scope.stopAll = function() {
-            chromeService.sendMessage('stopMocking');
-        };
-
-        init();
-
-        function init() {
-            //readRules();
-            chromeService.sendMessage('startMocking');
-        }
-
-        function saveRules() {
-            storageService.saveData({
-                ruleList: $scope.ruleList
-            });
-        }
-
-        function readRules() {
-            storageService.getData('rules', function(data) {
-                $scope.ruleList = data.ruleList;
-            });
-        }
-    }
-
-    function NavbarController($scope, $http) {
-        $scope.currentSidePanel = "";
-    }
-
-    function PanelController($scope, chromeService, storageService) {
-
-        $scope.mockRurl = 'offer.json';
-        $scope.mockType = 'json';
-        $scope.mockTemplate = '{"x":1}';
-        $scope.mockRuleName = '';
-        $scope.mockRuleValidate = true;
-
-        $scope.mockPreview =  '{"x":1}';
-        //$scope.ruleList = [];
-
-        $scope.editorOptions = {
+        vm.editorOptions = {
             theme:'mdn-like',
             lineNumbers: true,
             styleActiveLine: true,
@@ -98,52 +33,49 @@
             mode: {name: "javascript", json: true}
         };
 
-        $scope.previewOptions = {
+        vm.previewOptions = {
             readOnly:true,
             theme:'mdn-like',
-            //styleActiveLine: true,
-            //matchBrackets: true,
             smartIndent: true,
             mode: {name: "javascript", json: true}
         };
 
-        $scope.setMockRule = function() {
-            var rule = $scope.mockTemplate;
+        vm.setMockRule = function() {
             var ruleObj;
-            try{
-                ruleObj = angular.fromJson(rule);
-                $scope.mockRuleValidate = true;
-            }catch(e) {
+            try {
+                ruleObj = angular.fromJson(vm.mockTemplate);
+                vm.mockRuleValidate = true;
+            } catch (e) {
                 // show json error
                 console.log('json error');
-                $scope.mockRuleValidate = false;
+                vm.mockRuleValidate = false;
             }
 
-            var ruleUnit = {
-                "name": $scope.mockRuleName,
-                "rurl": $scope.mockRurl,
-                "type": $scope.mockType,
+            var newRule = {
+                "name": vm.mockRuleName,
+                "rurl": vm.mockRurl,
+                "type": vm.mockType,
                 "template": ruleObj,
                 "work": true
             };
 
-            $scope.ruleList.unshift(ruleUnit);
-            chromeService.sendMessage('addRule', ruleUnit, function cb() {
-                //console.log($scope.ruleList);
-            });
+            if(popupService.isRuleExist(newRule, vm)) {
+                popupService.syncToRuleList(newRule, vm); // sync
+            } else {
+                vm.ruleList.unshift(newRule);
+            }
+            popupService.setMockRule(vm);
         };
 
-        $scope.setState = function() {
+        init();
 
+        function init() {
+            vm.startAll();
+            popupService.loadData(function(data) {
+                $rootScope.$apply(function () {
+                    vm.ruleList = data;
+                });
+            });
         }
     }
-
-    //var editor = CodeMirror.fromTextArea(document.getElementById("rule-editor"), {
-    //    lineNumbers: true,
-    //    mode: {name: "javascript", json: true},
-    //    smartIndent: true,
-    //    tabSize:4
-    //});
-
-
 })();

@@ -1648,7 +1648,6 @@ a .cc-json-string {
 
 .pane .sub-label {
     font-size: 13px;
-    font-weight: 100;
     margin: 0 0 5px 2px;
     color: #444;
     text-transform: uppercase
@@ -4364,13 +4363,18 @@ a.remote-cache,a.remote-cache:HOVER,a.remote-cache:VISITED,a.remote-cache:ACTIVE
 
 .request .CodeMirror {
     height: 300px;
-    max-width: 350px;
+    max-width: 450px;
+    border: 1px solid #ddd;
 }
 
 .request .editor {
     float: left;
     min-width: 300px;
     margin-right: 50px;
+}
+
+.request .mock-editor {
+    width: 500px;
 }
 
 .service .dropdown-menu {
