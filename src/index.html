@@ -8,7 +8,9 @@
     <link rel="stylesheet" href="../bower_components/bootstrap/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="css/font-awesome.css">
     <link rel="stylesheet" href="../bower_components/codemirror/lib/codemirror.css">
-    <link rel="stylesheet" href="../bower_components/codemirror/theme/mdn-like.css">
+    <link rel="stylesheet" href="../bower_components/codemirror/theme/xq-light.css">
+    <link rel="stylesheet" href="../bower_components/codemirror/theme/mdn-like.css"/>
+
     <script src="../bower_components/jquery/dist/jquery.min.js"></script>
     <script src="../bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
     <script src="../bower_components/angularjs/angular.min.js"></script>
@@ -18,8 +20,6 @@
 
 <body class="main chromeapp" id="console">
 <div id="notification" class="notification-area" style="display: none;"></div>
-<input type="file" id="filePicker" style="display: none">
-
 <div ng-controller="MainController as vm">
     <!-- Fixed navbar -->
     <nav class="navbar navbar-default navbar-fixed-top">
@@ -47,7 +47,7 @@
                     <!--list-panel-->
                     <div class="history">
                         <div ng-if="vm.ruleList.length==0">
-                            <p class="note" >History is empty</p>
+                            <p class="note" >记录为空</p>
                         </div>
                         <div class="records" style="overflow: auto; position: absolute; zoom: 1;">
                             <div style="position: relative; zoom: 1;">
@@ -62,7 +62,7 @@
                                                         <input type="checkbox">
                                                         <span></span>
                                                     </label>
-                                                    <a href="#void" class="btn path">
+                                                    <a ng-click="vm.setFocus(r)" href="#void" class="btn path">
                                                         <span class="">{{r.name}}</span>
                                                         <span class="response-error">{{r.rurl}}</span>
                                                         <span class="status response-ok">{{r.type}}</span>
@@ -78,8 +78,9 @@
                         </div>
                         <div class="buttons">
                             <div class="btn-group">
-                                <a href="#void" class="btn btn-link btn-small" title="Export Data"><i class="icon-download-alt"></i> 导出 </a>
-                                <a href="#void" class="btn btn-link btn-small" title="Import Data"><i class="icon-upload-alt"></i> 导入 </a>
+                                <a ng-click="vm.export()" href="#void" class="btn btn-link btn-small" title="Export Data"><i class="icon-download-alt"></i> 导出 </a>
+                                <input type="file" id="filePicker">
+                                <a  href="#void" class="btn btn-link btn-small" title="Import Data"><i class="icon-upload-alt"></i> 导入 </a>
                             </div>
                         </div>
                     </div>
@@ -108,11 +109,11 @@
                                     </td>
                                     <td class="ctrls">
                                         <div class="btn-group btn-group-sm">
-                                            <a ng-click="vm.setMockRule()" href="#void" class="btn btn-info btn-sm">
+                                            <a ng-click="vm.setMockRule()" ng-disabled="!vm.mockRurl"  class="btn btn-info btn-sm" href="#void">
                                                 <i class="icon-download-alt"></i> 保存 </a>
-                                            <a href="#void" class="btn disabled btn-danger btn-small">
+                                            <a ng-click="vm.deleteRule()" ng-disabled="!vm.mockRurl" class="btn btn-danger btn-small" href="#void">
                                                 <i class="icon-trash"></i> 删除 </a>
-                                            <a href="#void" class="btn disabled btn-send btn-small btn-success">
+                                            <a ng-disabled="!vm.mockRurl || !vm.mockTemplate || !vm.mockRuleValidate" class="btn btn-send btn-small btn-success" href="#void">
                                                 <i class="icon-trash"></i> 启动 </a>
                                         </div>
                                     </td>
@@ -188,9 +189,6 @@
                                 </div>
                                 <div class="preview">
                                     <div class="sub-label">Response 预览</div>
-                                    <div class="rule-error">
-                                        <span ng-if="!vm.mockRuleValidate" class="label label-danger">规则错误, 请确保为json结构</span>
-                                    </div>
                                     <div class="cleafix"></div>
                                     <!--<a ng-click="setMockRule()" href="#void" class="btn btn-send btn-info">-->
                                     <!--<i class="icon-download-alt"></i>预览 Mock 数据</a>-->
@@ -219,7 +217,7 @@
             </div>
             <div class="content" style="">
                 <div class="h-b" id="h-history">
-                    <div style="display: block;"><p class="note">History is empty</p></div>
+                    <div style="display: block;"><p class="note">记录为空</p></div>
                     <div class="records" style="overflow: auto; position: absolute; zoom: 1; height: 159px; display: none;">
                         <div style="position: relative; zoom: 1;">
                             <table class="h-history">
@@ -255,5 +253,7 @@
 <script type="text/javascript" src="../bower_components/codemirror/addon/edit/closebrackets.js"></script>
 <script type="text/javascript" src="../bower_components/codemirror/addon/edit/matchbrackets.js"></script>
 <script type="text/javascript" src="../bower_components/codemirror/addon/selection/active-line.js"></script>
+<link rel="stylesheet" href="../bower_components/codemirror/addon/display/fullscreen.css"/>
+<script type="text/javascript" src="../bower_components/codemirror/addon/display/fullscreen.js"></script>
 </body>
 </html>

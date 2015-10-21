@@ -12,12 +12,12 @@
 
     function MainController(popupService, chromeService, $rootScope) {
         var vm = this;
-        console.log(this);
+
         vm.ruleList = [];
-        vm.mockRurl = 'offer.json';
+        vm.mockRurl = '';
         vm.mockType = 'json';
-        vm.mockTemplate = '{"x":1}';
-        vm.mockPreview =  '{"x":1}';
+        vm.mockTemplate = angular.toJson({'name': 'hongta', price: 7}, true);
+        vm.mockPreview =  angular.toJson({'name': 'hongta', price: 7}, true);
         vm.mockRuleName = '';
         vm.mockRuleValidate = true;
 
@@ -26,18 +26,34 @@
 
         vm.editorOptions = {
             theme:'mdn-like',
-            lineNumbers: true,
+            //lineNumbers: true,
             styleActiveLine: true,
             matchBrackets: true,
             smartIndent: true,
-            mode: {name: "javascript", json: true}
+            mode: {name: "javascript", json: true},
+            extraKeys: {
+                "F11": function(cm) {
+                    cm.setOption("fullScreen", !cm.getOption("fullScreen"));
+                },
+                "Esc": function(cm) {
+                    if (cm.getOption("fullScreen")) cm.setOption("fullScreen", false);
+                }
+            }
         };
 
         vm.previewOptions = {
             readOnly:true,
-            theme:'mdn-like',
+            theme:'xq-light',
             smartIndent: true,
-            mode: {name: "javascript", json: true}
+            mode: {name: "javascript", json: true},
+            extraKeys: {
+                "F11": function(cm) {
+                    cm.setOption("fullScreen", !cm.getOption("fullScreen"));
+                },
+                "Esc": function(cm) {
+                    if (cm.getOption("fullScreen")) cm.setOption("fullScreen", false);
+                }
+            }
         };
 
         vm.setMockRule = function() {
@@ -67,6 +83,54 @@
             popupService.setMockRule(vm);
         };
 
+        vm.deleteRule = function() {
+            var ruleList = vm.ruleList;
+            ruleList.forEach(function(existRule, index) {
+                if(existRule && existRule.rurl == vm.mockRurl) {
+                    vm.ruleList.splice(index, 1);
+                }
+            });
+            vm.mockRurl = null;
+            vm.mockTemplate = null;
+            vm.mockPreview = null;
+            vm.mockRuleName = null;
+            popupService.setMockRule(vm);
+        };
+
+        vm.setFocus = function(rule) {
+            vm.mockRuleName = rule.name;
+            vm.mockRurl = rule.rurl;
+            vm.mockTemplate = angular.toJson(rule.template);
+            vm.mockType = rule.type;
+        };
+
+        vm.import = function(e) {
+          //$('#filePicker').trigger('click');
+            var data = e.target.result;
+            var rawData = data.split(',');
+            if(rawData.length === 2) {
+                var importedJson = atob(rawData[1]);
+                $rootScope.$apply(function() {
+                    vm.ruleList = angular.fromJson(importedJson);
+                    popupService.setMockRule(vm);
+                });
+            }
+        };
+
+        vm.export = function() {
+            var dataUrl = "data:text/json;base64,";
+
+            var data = angular.toJson(vm.ruleList,true);
+            data = btoa(data);
+
+
+            var file = document.createElement("a");
+            file.download = 'mock.json';
+            file.href = dataUrl+data;
+            file.click();
+        };
+
+
         init();
 
         function init() {
@@ -75,6 +139,18 @@
                 $rootScope.$apply(function () {
                     vm.ruleList = data;
                 });
+            });
+
+            $('#filePicker').change(function(event){
+                //angular.element(this).scope().import(event);
+                var files = event.target.files; //FileList object
+                console.log(files, event);
+                for (var i = 0; i < files.length; i++) {
+                    var file = files[i];
+                    var reader = new FileReader();
+                    reader.onload = vm.import;
+                    reader.readAsDataURL(file);
+                }
             });
         }
     }
