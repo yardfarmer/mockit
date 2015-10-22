@@ -15,7 +15,7 @@
             startMocking: startMocking,
             stopMocking: stopMocking,
             loadData: loadData,
-            setMockRule: setMockRule,
+            saveRules: saveRuleList,
             isRuleExist: isRuleExist,
             syncToRuleList: syncToRuleList
         };
@@ -39,11 +39,8 @@
             });
         }
 
-        function setMockRule(vm) {
-            storageService.saveData({rules: vm.ruleList}, function cb() {
-                //console.log(vm.ruleList)
-                console.log('added rule....!');
-            });
+        function saveRuleList(vm, callback) {
+            storageService.saveData({rules: vm.ruleList}, callback);
         }
 
         function syncToRuleList(newRule, vm) {

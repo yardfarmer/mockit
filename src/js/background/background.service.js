@@ -23,7 +23,6 @@
         handlers = {
             getAllRules: getAllRules,
             addRule: addRule,
-            modifyRule: modifyRule,
             deleteRule: deleteRule,
             startMocking: startMocking,
             stopMocking: stopMocking,
@@ -31,32 +30,6 @@
         };
 
         return service;
-
-        var MockHandler = function() {
-
-            function isRuleExist(rurl) {
-                return Object.keys(Mock._mocked).some(function(urlRegExp) {
-                    return rurl.match(urlRegExp);
-                })
-            }
-
-            function getMockValue(rurl) {
-                for(var urlRegExp in Mock._mocked) {
-                    if(rurl.match(new RegExp(urlRegExp))) {
-                        return Mock.mock(Mock._mocked[urlRegExp].template);
-                    }
-                }
-                return "";
-            }
-
-            function get(template) {
-                return Mock.mock(template);
-            }
-
-            return {
-                get: getMockValue
-            }
-        }();
 
         /**
          *
@@ -108,24 +81,21 @@
             return getMockedRules[request.rule.rurl];
         }
 
-        function addRule(data) {
-            Mock.mock(data.rurl, data.template);
-            Mock._mocked[data.rurl].type = data.type;
+        function addRule(vm) {
+            if (vm.mockRurl in Mock._mocked) {
+                var mock = Mock._mocked[vm.mockRurl];
+                mock.template = vm.mockTemplate;
+            } else {
+                Mock.mock(vm.mockRurl, vm.mockTemplate);
+            }
+            Mock._mocked[vm.mockRurl].type = vm.mockType;
+
+            console.log('now _mocked is', vm);
         }
 
-        function modifyRule(data) {
-            //if (data.rurl in Mock._mocked) {
-            //    var mock = Mock._mocked[data.rurl];
-            //    mock.template = data.row.template;
-            //} else {
-            //  addRule(data);
-            //}
-            ////mockService.set(data);
-            //console.log('now _mocked is', data);
-        }
-
-        function deleteRule(data) {
+        function deleteRule(data, callback) {
             console.log("deleteRule", data);
+            callback && callback();
         }
 
         function startMocking () {
@@ -165,6 +135,7 @@
                     var param = {
                         mockData: Mock.mock(rule.template),
                         request: request,
+                        type: rule.type,
                         callback: sendRequestLog
                     };
                     return wrapper[rule.type](param);
@@ -215,6 +186,11 @@
 
         function sendRequestLog(data) {
             console.log('sendRequestLog', data);
+            var t = new Date();
+            data.time = t.getHours() + ':' +
+                        t.getMinutes() +':'+
+                        t.getSeconds() +':'+
+                        t.getMilliseconds();
             chromeService.sendMessage('interceptedRequest', data)
         }
 

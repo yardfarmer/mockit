@@ -19,7 +19,9 @@
         vm.mockTemplate = angular.toJson({'name': 'hongta', price: 7}, true);
         vm.mockPreview =  angular.toJson({'name': 'hongta', price: 7}, true);
         vm.mockRuleName = '';
+        vm.mockRunState = true;
         vm.mockRuleValidate = true;
+        vm.historyList = [];
 
         vm.startAll = popupService.startMocking;
         vm.stopAll = popupService.stopMocking;
@@ -72,7 +74,7 @@
                 "rurl": vm.mockRurl,
                 "type": vm.mockType,
                 "template": ruleObj,
-                "work": true
+                "runstate": vm.mockRunState
             };
 
             if(popupService.isRuleExist(newRule, vm)) {
@@ -80,7 +82,8 @@
             } else {
                 vm.ruleList.unshift(newRule);
             }
-            popupService.setMockRule(vm);
+            popupService.saveRules(vm);
+            //chromeService.sendMessage('addRule', vm);
         };
 
         vm.deleteRule = function() {
@@ -90,18 +93,24 @@
                     vm.ruleList.splice(index, 1);
                 }
             });
-            vm.mockRurl = null;
-            vm.mockTemplate = null;
-            vm.mockPreview = null;
-            vm.mockRuleName = null;
-            popupService.setMockRule(vm);
+            chromeService.sendMessage('deleteRule', vm, function() {
+                popupService.saveRules(vm, function() {
+                    $rootScope.$apply(function() {
+                        vm.mockRurl = null;
+                        vm.mockTemplate = null;
+                        vm.mockPreview = null;
+                        vm.mockRuleName = null;
+                    });
+                });
+            });
         };
 
         vm.setFocus = function(rule) {
             vm.mockRuleName = rule.name;
             vm.mockRurl = rule.rurl;
-            vm.mockTemplate = angular.toJson(rule.template);
+            vm.mockTemplate = angular.toJson(rule.template, true);
             vm.mockType = rule.type;
+            vm.mockRunState = rule.runstate;
         };
 
         vm.import = function(e) {
@@ -112,7 +121,7 @@
                 var importedJson = atob(rawData[1]);
                 $rootScope.$apply(function() {
                     vm.ruleList = angular.fromJson(importedJson);
-                    popupService.setMockRule(vm);
+                    popupService.saveRules(vm);
                 });
             }
         };
@@ -130,6 +139,19 @@
             file.click();
         };
 
+        vm.reformat = function() {
+            vm.mockTemplate = angular.toJson(angular.fromJson(vm.mockTemplate),true)
+        };
+
+        vm.preview = function(info) {
+            vm.mockPreview = info;
+        };
+
+        vm.fullscreen = function() {};
+
+        vm.toggleState = function() {
+            vm.mockRunState = !vm.mockRunState;
+        };
 
         init();
 
@@ -152,6 +174,16 @@
                     reader.readAsDataURL(file);
                 }
             });
+
+            var handler = {
+                interceptedRequest: function(data) {
+                    console.log('gottt!',data);
+                    $rootScope.$apply(function() {
+                        vm.historyList.unshift(data);
+                    });
+                }
+            };
+            chromeService.addMessageListener(handler);
         }
     }
 })();

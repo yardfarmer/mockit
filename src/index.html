@@ -62,7 +62,7 @@
                                                         <input type="checkbox">
                                                         <span></span>
                                                     </label>
-                                                    <a ng-click="vm.setFocus(r)" href="#void" class="btn path">
+                                                    <a ng-click="vm.setFocus(r)" href="#void" class="btn path" data-runstate="{{r.runstate}}">
                                                         <span class="">{{r.name}}</span>
                                                         <span class="response-error">{{r.rurl}}</span>
                                                         <span class="status response-ok">{{r.type}}</span>
@@ -113,8 +113,12 @@
                                                 <i class="icon-download-alt"></i> 保存 </a>
                                             <a ng-click="vm.deleteRule()" ng-disabled="!vm.mockRurl" class="btn btn-danger btn-small" href="#void">
                                                 <i class="icon-trash"></i> 删除 </a>
-                                            <a ng-disabled="!vm.mockRurl || !vm.mockTemplate || !vm.mockRuleValidate" class="btn btn-send btn-small btn-success" href="#void">
+                                            <a ng-click="vm.toggleState()"  ng-disabled="!vm.mockRurl || !vm.mockTemplate || !vm.mockRuleValidate" class="btn btn-send btn-small btn-success" href="#void"
+                                               ng-if="!vm.mockRunState">
                                                 <i class="icon-trash"></i> 启动 </a>
+                                            <a ng-click="vm.toggleState()"  ng-disabled="!vm.mockRurl || !vm.mockTemplate || !vm.mockRuleValidate" class="btn btn-send btn-small btn-danger" href="#void"
+                                               ng-if="vm.mockRunState">
+                                                <i class="icon-trash"></i> 停止 </a>
                                         </div>
                                     </td>
                                 </tr>
@@ -179,9 +183,9 @@
                                     <div class="editor mock-editor">
                                         <textarea  ui-codemirror ng-model="vm.mockTemplate" ui-codemirror-opts="vm.editorOptions" cols="30" rows="6"></textarea>
                                         <div class="text-body-type">
-                                            <a href="#void" class="btn btn-link btn-mini" title="格式化"><i></i> 格式化 </a>|
-                                            <a href="#void" class="btn btn-link btn-mini" title="预览"><i></i> 预览 </a>|
-                                            <a href="#void" class="btn btn-link btn-mini" title="Clear"><i class="icon-trash"></i></a>
+                                            <a ng-click="vm.reformat()" href="#void" class="btn btn-link btn-mini" title="格式化"><i></i> 格式化 </a>|
+                                            <a ng-click="vm.preview()" href="#void" class="btn btn-link btn-mini" title="预览"><i></i> 预览 </a>|
+                                            <a ng-click="vm.fullscreen()" href="#void" class="btn btn-link btn-mini" title="全屏"><i></i> 全屏 </a>
                                         </div>
                                     </div>
                                     <!--<a ng-click="setMockRule()" href="#void" class="btn btn-send btn-info">-->
@@ -217,8 +221,8 @@
             </div>
             <div class="content" style="">
                 <div class="h-b" id="h-history">
-                    <div style="display: block;"><p class="note">记录为空</p></div>
-                    <div class="records" style="overflow: auto; position: absolute; zoom: 1; height: 159px; display: none;">
+                    <div ng-if="vm.historyList.length === 0;"><p class="note">记录为空</p></div>
+                    <div class="records" style="overflow: auto; position: absolute; zoom: 1; height: 159px;">
                         <div style="position: relative; zoom: 1;">
                             <table class="h-history">
                                 <colgroup>
@@ -231,7 +235,16 @@
                                     <col width="40px">
                                     <col width="60px">
                                 </colgroup>
-                                <tbody></tbody>
+                                <tbody>
+                                <p class="path" ng-repeat="history in vm.historyList track by $index">
+                                    <a ng-click="vm.preview(history.mockData)" href="#void" class="btn path">
+                                        <span class="status response-body-info ng-binding">{{history.time}}</span> &nbsp;
+                                        <span class="response-error ng-binding">{{history.type}}</span>
+                                        <span class="status response-ok ng-binding">{{history.request.method}}</span>
+                                        <span class="ng-binding">{{history.request.url}}</span>
+                                    </a>
+                                </p>
+                                </tbody>
                             </table>
                         </div>
                     </div>
