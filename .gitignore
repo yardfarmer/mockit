@@ -1,11 +1,40 @@
-# Created by .ignore support plugin (hsz.mobi)
-### Example user template template
-### Example user template
+### SublimeText ###
+*.sublime-workspace
 
-# IntelliJ project files
-.idea
-*.iml
-out
-gen
+### OSX ###
+.DS_Store
+.AppleDouble
+.LSOverride
+Icon
 
-bower_components
+# Thumbnails
+._*
+
+# Files that might appear on external disk
+.Spotlight-V100
+.Trashes
+
+### Windows ###
+# Windows image file caches
+Thumbs.db
+ehthumbs.db
+
+# Folder config file
+Desktop.ini
+
+# Recycle Bin used on file shares
+$RECYCLE.BIN/
+
+# App specific
+
+node_modules/
+.tmp
+.sass-cache
+dist
+/src/styles/*.css
+/src/styles/*.map
+/src/scripts/components/Strings.js
+/src/_locales
+/package/
+npm-debug.log
+.idea/

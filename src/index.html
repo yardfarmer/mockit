@@ -4,23 +4,35 @@
     <meta charset="utf-8">
     <meta name="viewport" content="initial-scale=1, minimum-scale=1, width=device-width">
     <title>response mockit</title>
-    <link rel="stylesheet" type="text/css" href="css/chrome.css" media="screen">
-    <link rel="stylesheet" href="../bower_components/bootstrap/dist/css/bootstrap.min.css">
+    <!-- build:css css/app.min.css -->
     <link rel="stylesheet" href="css/font-awesome.css">
+    <link rel="stylesheet" type="text/css" href="css/chrome.css">
+    <link rel="stylesheet" href="../bower_components/bootstrap/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="../bower_components/codemirror/lib/codemirror.css">
     <link rel="stylesheet" href="../bower_components/codemirror/theme/xq-light.css">
     <link rel="stylesheet" href="../bower_components/codemirror/theme/mdn-like.css"/>
-
+    <link rel="stylesheet" href="../bower_components/codemirror/addon/display/fullscreen.css"/>
+    <!-- endbuild -->
+    <!-- build:js js/lib.min.js -->
+    <script src="js/mock.js"></script>
     <script src="../bower_components/jquery/dist/jquery.min.js"></script>
     <script src="../bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
     <script src="../bower_components/angularjs/angular.min.js"></script>
     <script  src="../bower_components/codemirror/lib/codemirror.js"></script>
     <script  src="../bower_components/angular-ui-codemirror/ui-codemirror.js"></script>
+    <script src="../bower_components/split-pane/split-pane.js"></script>
+    <script src="../bower_components/angular-split-pane/angular-split-pane.js"></script>
+    <script type="text/javascript" src="../bower_components/codemirror/mode/javascript/javascript.js"></script>
+    <script type="text/javascript" src="../bower_components/codemirror/addon/edit/closebrackets.js"></script>
+    <script type="text/javascript" src="../bower_components/codemirror/addon/edit/matchbrackets.js"></script>
+    <script type="text/javascript" src="../bower_components/codemirror/addon/selection/active-line.js"></script>
+    <script type="text/javascript" src="../bower_components/codemirror/addon/display/fullscreen.js"></script>
+    <!-- endbuild -->
 </head>
 
 <body class="main chromeapp" id="console">
 <div id="notification" class="notification-area" style="display: none;"></div>
-<div ng-controller="MainController as vm">
+<div class="main-panel" ng-controller="MainController as vm">
     <!-- Fixed navbar -->
     <nav class="navbar navbar-default navbar-fixed-top">
         <div class="container">
@@ -38,37 +50,28 @@
         </div>
     </nav>
 
-    <div class="ui-lay-m">
+    <div class="ui-lay-m" data-split-pane>
         <!--left panel-->
-        <div class="ui-lay-l ui-context" style="width: 370px;">
+        <div class="ui-lay-l ui-context" data-split-pane-component data-width="280px">
             <section class="pane" id="left-side">
-
                 <div class="content">
                     <!--list-panel-->
                     <div class="history">
                         <div ng-if="vm.ruleList.length==0">
                             <p class="note" >记录为空</p>
                         </div>
-                        <div class="records" style="overflow: auto; position: absolute; zoom: 1;">
-                            <div style="position: relative; zoom: 1;">
+                        <div class="records">
+                            <div>
                                 <table class="history">
                                     <tbody>
                                     <tr ng-repeat="r in vm.ruleList track by $index">
                                         <td>
                                             <div class="item">
-                                                <div>
-                                                    <div>
-                                                    <label class="checkbox">
-                                                        <input type="checkbox">
-                                                        <span></span>
-                                                    </label>
-                                                    <a ng-click="vm.setFocus(r)" href="#void" class="btn path" data-runstate="{{r.runstate}}">
-                                                        <span class="">{{r.name}}</span>
-                                                        <span class="response-error">{{r.rurl}}</span>
-                                                        <span class="status response-ok">{{r.type}}</span>
-                                                    </a>
-                                                    </div>
-                                                </div>
+                                                <a ng-click="vm.setFocus(r)" href="#void" class="btn path" data-runstate="{{r.runstate}}">
+                                                    <span class="">{{r.name}}</span>
+                                                    <span class="response-error">{{r.rurl}}</span>
+                                                    <span class="status response-ok">{{r.type}}</span>
+                                                </a>
                                             </div>
                                         </td>
                                     </tr>
@@ -89,13 +92,12 @@
         </div>
 
         <!--divider line-->
-        <div class="h-divider h-div-left" style="left: 365px;">
+        <div class="h-divider h-div-left" style="left: 365px;" data-split-pane-divider data-width="5px">
             <div class="line"></div>
         </div>
-
         <!--content-->
-        <div class="ui-lay-c" style="margin-left: 372px; bottom: 79px; margin-right: 12px;">
-            <div class="ui-lay-cc">
+        <div class="handle-panel ui-lay-c" data-split-pane-component>
+            <div>
                 <div>
                     <!--title, save, delete-->
                     <section class="pane documentation">
@@ -122,23 +124,11 @@
                                         </div>
                                     </td>
                                 </tr>
-                                <tr>
-                                    <!--<td class="uc-nav" colspan="1">-->
-                                        <!--&lt;!&ndash;<span>工作状态:&ndash;&gt;-->
-                                            <!--<span class="label label-danger">停止</span>-->
-                                            <!--<span class="label label-success">拦截中</span>-->
-                                            <!--<a href="#void" class="btn btn-link btn-mini" id="gwt-uid-43"-->
-                                               <!--data-original-title="" title=""><i></i> </a>-->
-                                        <!--&lt;!&ndash;</span>&ndash;&gt;-->
-                                    <!--</td>-->
-                                    <!--<td></td>-->
-                                </tr>
                                 </tbody>
                             </table>
                             <div></div>
                         </div>
                     </section>
-
                     <!--rule edit-->
                     <section id="request" class="pane">
                         <div class="pane-head"><span>Mock 规则</span></div>
@@ -204,57 +194,59 @@
                         </div>
                     </section>
                 </div>
-            </div>
-        </div>
-        <section class="pane" id="bottom-side" style="left: 368px; height: 260px;">
-            <div class="pane-head">
-                <div class="hide-pane">
-                    <div class="btn-group">
-                        <a href="#void" class="btn btn-link btn-mini" title="清空拦截历史" style=""><i class="icon-trash"></i></a>
+                <!--<div data-split-pane-divider data-height="5px"></div>-->
+                <div id="history-panel" ng-style="vm.historyPanelHeight">
+                    <div class="pane-head">
+                        <div class="hide-pane">
+                            <!--<div class="btn-group">-->
+                                <!--<a href="#void" class="btn btn-link btn-mini" title="清空拦截历史">-->
+                                    <!--<i class="icon-trash"></i></a>-->
+                            <!--</div>-->
+                        </div>
+                        <ul class="nav nav-tabs">
+                            <li class="active">
+                                <a href="#void" ng-click="vm.toggleHistoryPanel()"><i class="icon-list"></i> 拦截记录 </a>
+                            </li>
+                        </ul>
                     </div>
-                </div>
-                <ul class="nav nav-tabs bottom-pane-selector">
-                    <li class="active">
-                        <a href="#void"><i class="icon-list"></i> 拦截记录 </a>
-                    </li>
-                </ul>
-            </div>
-            <div class="content" style="">
-                <div class="h-b" id="h-history">
-                    <div ng-if="vm.historyList.length === 0;"><p class="note">记录为空</p></div>
-                    <div class="records" style="overflow: auto; position: absolute; zoom: 1; height: 159px;">
-                        <div style="position: relative; zoom: 1;">
-                            <table class="h-history">
-                                <colgroup>
-                                    <col width="130px">
-                                    <col width="20px">
-                                    <col width="80px">
-                                    <col>
-                                    <col width="150px">
-                                    <col width="60px">
-                                    <col width="40px">
-                                    <col width="60px">
-                                </colgroup>
-                                <tbody>
-                                <p class="path" ng-repeat="history in vm.historyList track by $index">
-                                    <a ng-click="vm.preview(history.mockData)" href="#void" class="btn path">
-                                        <span class="status response-body-info ng-binding">{{history.time}}</span> &nbsp;
-                                        <span class="response-error ng-binding">{{history.type}}</span>
-                                        <span class="status response-ok ng-binding">{{history.request.method}}</span>
-                                        <span class="ng-binding">{{history.request.url}}</span>
-                                    </a>
-                                </p>
-                                </tbody>
-                            </table>
+                    <div class="content">
+                        <div class="h-b">
+                            <div ng-if="vm.historyList.length === 0;"><p class="note">记录为空</p></div>
+                            <div class="records">
+                                <div>
+                                    <table class="h-history">
+                                        <colgroup>
+                                            <col width="130px">
+                                            <col width="20px">
+                                            <col width="80px">
+                                            <col>
+                                            <col width="150px">
+                                            <col width="60px">
+                                            <col width="40px">
+                                            <col width="60px">
+                                        </colgroup>
+                                        <tbody>
+                                        <p class="path" ng-repeat="history in vm.historyList track by $index">
+                                            <a ng-click="vm.preview(history.mockData)" href="#void" class="btn path">
+                                                <span class="status response-body-info ng-binding">{{history.time}}</span> &nbsp;
+                                                <span class="response-error ng-binding">{{history.type}}</span>
+                                                <span class="status response-ok ng-binding">{{history.request.method}}</span>
+                                                <span class="ng-binding">{{history.request.url}}</span>
+                                            </a>
+                                        </p>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
+            </div>
         </div>
-        </section>
     </div>
 </div>
 
-<script src="js/mock.js"></script>
+<!-- build:js1 js/app.min.js -->
 <script src="js/core/core.module.js"></script>
 <script src="js/core/core.service.js"></script>
 <script src="js/core/chrome.service.js"></script>
@@ -262,11 +254,6 @@
 <script src="js/popup/popup.module.js"></script>
 <script src="js/popup/popup.service.js"></script>
 <script src="js/popup/popup.controller.js"></script>
-<script type="text/javascript" src="../bower_components/codemirror/mode/javascript/javascript.js"></script>
-<script type="text/javascript" src="../bower_components/codemirror/addon/edit/closebrackets.js"></script>
-<script type="text/javascript" src="../bower_components/codemirror/addon/edit/matchbrackets.js"></script>
-<script type="text/javascript" src="../bower_components/codemirror/addon/selection/active-line.js"></script>
-<link rel="stylesheet" href="../bower_components/codemirror/addon/display/fullscreen.css"/>
-<script type="text/javascript" src="../bower_components/codemirror/addon/display/fullscreen.js"></script>
+<!-- endbuild -->
 </body>
 </html>

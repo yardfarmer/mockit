@@ -22,6 +22,7 @@
         vm.mockRunState = true;
         vm.mockRuleValidate = true;
         vm.historyList = [];
+        vm.historyToggleState = false;
 
         vm.startAll = popupService.startMocking;
         vm.stopAll = popupService.stopMocking;
@@ -151,6 +152,18 @@
 
         vm.toggleState = function() {
             vm.mockRunState = !vm.mockRunState;
+            if(vm.mockRunState) {
+
+            }
+        };
+
+        vm.toggleHistoryPanel = function() {
+            if (vm.historyToggleState) {
+                vm.historyPanelHeight={height:'43px'};
+            }else {
+                vm.historyPanelHeight={height:'300px'};
+            }
+            vm.historyToggleState = !vm.historyToggleState;
         };
 
         init();
@@ -160,6 +173,10 @@
             popupService.loadData(function(data) {
                 $rootScope.$apply(function () {
                     vm.ruleList = data;
+                });
+
+                data.forEach(function(item){
+                    chromeService.sendMessage('addRule', item);
                 });
             });
 
