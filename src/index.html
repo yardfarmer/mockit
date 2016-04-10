@@ -30,9 +30,12 @@
     <!-- endbuild -->
 </head>
 
-<body class="main chromeapp" id="console">
+<body class="main chromeapp" id="console" ng-controller="MainController as vm">
+<div id="preloader" ng-class="{hide: vm.startComplete}">
+    <div class="fake-loading"></div>
+</div>
 <div id="notification" class="notification-area" style="display: none;"></div>
-<div class="main-panel" ng-controller="MainController as vm">
+<div class="main-panel" >
     <!-- Fixed navbar -->
     <nav class="navbar navbar-default navbar-fixed-top">
         <div class="container">
@@ -41,10 +44,6 @@
             </div>
             <div id="navbar" class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                </ul>
-                <ul class="nav navbar-nav navbar-right">
-                    <li><a href="../navbar/">Default</a></li>
-                    <li><a href="../navbar-static-top/">Static top</a></li>
                 </ul>
             </div><!--/.nav-collapse -->
         </div>
@@ -111,16 +110,13 @@
                                     </td>
                                     <td class="ctrls">
                                         <div class="btn-group btn-group-sm">
-                                            <a ng-click="vm.setMockRule()" ng-disabled="!vm.mockRurl"  class="btn btn-info btn-sm" href="#void">
-                                                <i class="icon-download-alt"></i> 保存 </a>
-                                            <a ng-click="vm.deleteRule()" ng-disabled="!vm.mockRurl" class="btn btn-danger btn-small" href="#void">
+                                            <a ng-click="vm.setMockRule(vm.mockRurl)" ng-disabled="!vm.mockRurl"  class="btn btn-info btn-sm" href="#void">
+                                                <i class="icon-save"></i> 保存 </a>
+                                            <a ng-click="vm.deleteRule(vm.mockRurl)" ng-disabled="!vm.mockRurl" class="btn btn-danger btn-small" href="#void">
                                                 <i class="icon-trash"></i> 删除 </a>
-                                            <a ng-click="vm.toggleState()"  ng-disabled="!vm.mockRurl || !vm.mockTemplate || !vm.mockRuleValidate" class="btn btn-send btn-small btn-success" href="#void"
-                                               ng-if="!vm.mockRunState">
-                                                <i class="icon-trash"></i> 启动 </a>
-                                            <a ng-click="vm.toggleState()"  ng-disabled="!vm.mockRurl || !vm.mockTemplate || !vm.mockRuleValidate" class="btn btn-send btn-small btn-danger" href="#void"
-                                               ng-if="vm.mockRunState">
-                                                <i class="icon-trash"></i> 停止 </a>
+                                            <a ng-click="vm.toggleState()"  ng-if="vm.saved" class="btn btn-send btn-small" ng-class="{'btn-success': !vm.mockRunState, 'btn-danger': vm.mockRunState}" href="#void">
+                                                <i class="icon-magic"></i> <span ng-if="!vm.mockRunState">启动</span> <span ng-if="vm.mockRunState">停止</span>
+                                            </a>
                                         </div>
                                     </td>
                                 </tr>
@@ -148,6 +144,7 @@
                                                 请求类型
                                                 <span class="caret"></span>
                                             </button>
+                                            <!--TODO: active !!!!-->
                                             <ul class="dropdown-menu">
                                                 <li><a href="#">JSON</a></li>
                                                 <li><a href="#">JSONP</a></li>
