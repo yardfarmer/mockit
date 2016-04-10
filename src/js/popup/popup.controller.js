@@ -15,11 +15,11 @@
 
         vm.ruleList = [];
         vm.mockRurl = '';
-        vm.mockType = 'json';
+        vm.mockType = 'jsonp';
         vm.mockTemplate = angular.toJson({'name': 'hongta', price: 7}, true);
         vm.mockPreview =  angular.toJson({'name': 'hongta', price: 7}, true);
         vm.mockRuleName = '';
-        vm.mockRunState = true;
+        vm.mockRunState = false;
         vm.mockRuleValidate = true;
         vm.historyList = [];
         vm.historyToggleState = false;
@@ -59,7 +59,9 @@
             }
         };
 
-        vm.setMockRule = function() {
+        vm.setMockRule = function(isEnable) {
+            if(!isEnable) {return false;}
+
             var ruleObj;
             try {
                 ruleObj = angular.fromJson(vm.mockTemplate);
@@ -71,11 +73,11 @@
             }
 
             var newRule = {
-                "name": vm.mockRuleName,
-                "rurl": vm.mockRurl,
-                "type": vm.mockType,
-                "template": ruleObj,
-                "runstate": vm.mockRunState
+                name: vm.mockRuleName,
+                rurl: vm.mockRurl,
+                type: vm.mockType,
+                template: ruleObj,
+                runstate: vm.mockRunState
             };
 
             if(popupService.isRuleExist(newRule, vm)) {
@@ -85,9 +87,11 @@
             }
             popupService.saveRules(vm);
             //chromeService.sendMessage('addRule', vm);
+            vm.saved = true;
         };
 
-        vm.deleteRule = function() {
+        vm.deleteRule = function(isEnable) {
+            if(!isEnable) {return false;}
             var ruleList = vm.ruleList;
             ruleList.forEach(function(existRule, index) {
                 if(existRule && existRule.rurl == vm.mockRurl) {
@@ -102,6 +106,7 @@
                         vm.mockPreview = null;
                         vm.mockRuleName = null;
                     });
+                    vm.saved = false;
                 });
             });
         };
@@ -112,6 +117,7 @@
             vm.mockTemplate = angular.toJson(rule.template, true);
             vm.mockType = rule.type;
             vm.mockRunState = rule.runstate;
+            vm.saved = true;
         };
 
         vm.import = function(e) {
@@ -153,7 +159,9 @@
         vm.toggleState = function() {
             vm.mockRunState = !vm.mockRunState;
             if(vm.mockRunState) {
-
+                chromeService.sendMessage('addRule', vm);
+            }else {
+                chromeService.sendMessage('deleteRule', vm);
             }
         };
 
@@ -173,6 +181,9 @@
             popupService.loadData(function(data) {
                 $rootScope.$apply(function () {
                     vm.ruleList = data;
+
+                    // 隐藏启动画面
+                    vm.startComplete=true;
                 });
 
                 data.forEach(function(item){
@@ -181,7 +192,6 @@
             });
 
             $('#filePicker').change(function(event){
-                //angular.element(this).scope().import(event);
                 var files = event.target.files; //FileList object
                 console.log(files, event);
                 for (var i = 0; i < files.length; i++) {

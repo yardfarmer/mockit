@@ -159,8 +159,9 @@
             var result = {};
             try {
                 result.redirectUrl =
-                    "data:text/plain;charset=utf-8;base64," +
-                    window.btoa(unescape(encodeURIComponent(JSON.stringify(dataObj.mockData))));
+                    "data:text/json;charset=utf-8;base64," +
+                    //window.btoa(unescape(encodeURIComponent(JSON.stringify(dataObj.mockData))));
+                    window.btoa(unescape(encodeURIComponent(dataObj.mockData)));
 
             } catch(e) {
                 console.log('btoa error');
@@ -173,10 +174,11 @@
             //jQuery172073799591162242_1445188246695({})
             var jsonpId = getJsonpId(dataObj.request.url);
             var result = {};
-            var jsonpResponse = jsonpId+'('+JSON.stringify(dataObj.mockData)+')';
+            //var jsonpResponse = jsonpId+'('+JSON.stringify(dataObj.mockData)+')';
+            var jsonpResponse = jsonpId+'('+dataObj.mockData+')';
             try {
                 result.redirectUrl =
-                    "data:text/plain;charset=utf-8;base64," + window.btoa(unescape(encodeURIComponent(jsonpResponse)));
+                    "data:text/json;charset=utf-8;base64," + window.btoa(unescape(encodeURIComponent(jsonpResponse)));
             } catch(e) {
 
             }
