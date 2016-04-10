@@ -741,3 +741,50 @@ a.remote-cache, a.remote-cache:HOVER, a.remote-cache:VISITED, a.remote-cache:ACT
 #history-panel .nav a {
     cursor: pointer;
 }
+#preloader {
+    background: #fff;
+    bottom: 0;
+    height: 100%;
+    left: 0;
+    position: fixed;
+    right: 0;
+    top: 0;
+    width: 100%;
+    z-index: 999;
+}
+.fake-loading {
+    background-color: #ff4136;
+    opacity: 0.75;
+    width: 10px;
+    height: 10px;
+    position: absolute;
+    top: 50%;
+    margin: -5px auto 0 auto;
+    left: 0;
+    right: 0;
+    border-radius: 0px;
+    border: 5px solid #ff4136;
+    box-shadow: 10px 0px #39cccc, 10px 0px #01ff70;
+    animation: shadowSpin 1s ease-in-out infinite;
+}
+
+@keyframes shadowSpin {
+    0% {
+        box-shadow: 10px -10px #39cccc, -10px 10px #ffdc00;
+    }
+    25% {
+        box-shadow: 10px 10px #39cccc, -10px -10px #ffdc00;
+    }
+    50% {
+        box-shadow: -10px 10px #39cccc, 10px -10px #ffdc00;
+    }
+    75% {
+        box-shadow: -10px -10px #39cccc, 10px 10px #ffdc00;
+    }
+    100% {
+        box-shadow: 10px -10px #39cccc, -10px 10px #ffdc00;
+    }
+}
+.hide {
+    display: none;
+}
