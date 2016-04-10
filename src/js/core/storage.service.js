@@ -19,7 +19,7 @@
         var dataPrefix = "_mockit_";
 
         var service = {
-            getData: getData,
+            getData : getData,
             saveData: saveData
         };
 

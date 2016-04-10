@@ -13,20 +13,20 @@
 
     function chromeService($window) {
         var service = {
-            setStorage: setStorage,
-            getStorage: getStorage,
-            addMessageListener: addMessageListener,
-            addRequestFilter: addRequestFilter,
-            removeRequestFilter: removeRequestFilter,
+            setStorage              : setStorage,
+            getStorage              : getStorage,
+            addMessageListener      : addMessageListener,
+            addRequestFilter        : addRequestFilter,
+            removeRequestFilter     : removeRequestFilter,
             addBrowserActionListener: addBrowserActionListener,
-            onMessage: onMessage,
-            sendMessage: sendMessage,
-            sendRequest: sendRequest,
-            createTab: createTab,
-            updateTab: updateTab,
-            getTab: getTab,
-            queryTab: queryTab,
-            updateIcon: updateIcon
+            onMessage               : onMessage,
+            sendMessage             : sendMessage,
+            sendRequest             : sendRequest,
+            createTab               : createTab,
+            updateTab               : updateTab,
+            getTab                  : getTab,
+            queryTab                : queryTab,
+            updateIcon              : updateIcon
         };
         return service;
 
