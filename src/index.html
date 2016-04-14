@@ -5,13 +5,13 @@
     <meta name="viewport" content="initial-scale=1, minimum-scale=1, width=device-width">
     <title>response mockit</title>
     <!-- build:css src/css/app.min.css -->
-    <link rel="stylesheet" href="css/font-awesome.css">
-    <link rel="stylesheet" type="text/css" href="css/chrome.css">
     <link rel="stylesheet" href="../bower_components/bootstrap/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="../bower_components/codemirror/lib/codemirror.css">
     <link rel="stylesheet" href="../bower_components/codemirror/theme/xq-light.css">
     <link rel="stylesheet" href="../bower_components/codemirror/theme/mdn-like.css"/>
     <link rel="stylesheet" href="../bower_components/codemirror/addon/display/fullscreen.css"/>
+    <link rel="stylesheet" href="css/font-awesome.css">
+    <link rel="stylesheet" href="css/app.css">
     <!-- endbuild -->
     <!-- build:js src/js/lib.min.js -->
     <script src="js/mock.js"></script>
@@ -40,7 +40,7 @@
     <nav class="navbar navbar-default navbar-fixed-top">
         <div class="container">
             <div class="navbar-header">
-                <a class="navbar-brand" href="#">Response MocKit</a>
+                <a class="navbar-brand" href="#">Http Response MocKit</a>
             </div>
             <div id="navbar" class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
@@ -78,12 +78,10 @@
                                 </table>
                             </div>
                         </div>
-                        <div class="buttons">
-                            <div class="btn-group">
-                                <a ng-click="vm.export()" href="#void" class="btn btn-link btn-small" title="Export Data"><i class="icon-download-alt"></i> 导出 </a>
-                                <input type="file" id="filePicker">
-                                <a  href="#void" class="btn btn-link btn-small" title="Import Data"><i class="icon-upload-alt"></i> 导入 </a>
-                            </div>
+                        <div class="handler-button">
+                            <a ng-click="vm.export()" href="#void" class="btn btn-link btn-small" title="Export Data"><i class="icon-download-alt"></i> 导出 </a>
+
+                            <a  href="#void" class="btn btn-link btn-small" title="Import Data"><i class="icon-upload-alt"></i> <input type="file" id="filePicker"> 导入 </a>
                         </div>
                     </div>
                 </div>
@@ -129,7 +127,9 @@
                     <section id="request" class="pane">
                         <div class="pane-head"><span>Mock 规则</span></div>
                         <div class="content">
+
                             <div class="service">
+
                                 <span class="row">
                                     <span class="cell-url">
                                         <input ng-model="vm.mockRurl" type="text" class="gwt-TextBox url" placeholder="请填写url匹配规则, 支持正则 如 offer.json /\.abc.jsonp">
@@ -159,35 +159,56 @@
                                     </span>
                                 </span>
                             </div>
-                            <div class="request">
-                                <div class="editor">
-                                    <div class="sub-label">Mock 响应设置</div>
-                                    <div class="rule-error">
-                                        <span ng-if="!vm.mockRuleValidate" class="label label-danger">规则错误, 请确保为json结构</span>
-                                    </div>
-                                    <div class="cleafix"></div>
 
-                                    <div class="editor mock-editor">
-                                        <textarea  ui-codemirror ng-model="vm.mockTemplate" ui-codemirror-opts="vm.editorOptions" cols="30" rows="6"></textarea>
-                                        <div class="text-body-type">
-                                            <a ng-click="vm.reformat()" href="#void" class="btn btn-link btn-mini" title="格式化"><i></i> 格式化 </a>|
-                                            <a ng-click="vm.preview()" href="#void" class="btn btn-link btn-mini" title="预览"><i></i> 预览 </a>|
-                                            <a ng-click="vm.fullscreen()" href="#void" class="btn btn-link btn-mini" title="全屏"><i></i> 全屏 </a>
+                            <div class="request">
+
+                              <div>
+
+                                <!-- Nav tabs -->
+                                <ul class="nav nav-tabs" role="tablist">
+                                  <li role="presentation" class="active">
+                                    <a href="#mock-schema" aria-controls="mock-schema" data-toggle="tab">Mock 响应设置</a>
+                                  </li>
+                                  <li role="presentation">
+                                    <a href="#mock-response" aria-controls="mock-response" data-toggle="tab">Response 预览</a>
+                                  </li>
+                                </ul>
+
+                                <!-- Tab panes -->
+                                <div class="tab-content">
+                                  <div role="tabpanel" class="tab-pane active" id="mock-schema">
+                                    <div class="editor">
+                                        <div class="rule-error">
+                                            <span ng-if="!vm.mockRuleValidate" class="label label-danger">规则错误, 请确保为json结构</span>
+                                        </div>
+                                        <div class="cleafix"></div>
+
+                                        <div class="editor mock-editor">
+                                            <textarea  ui-codemirror ng-model="vm.mockTemplate" ui-codemirror-opts="vm.editorOptions" cols="30" rows="6"></textarea>
+                                            <div class="text-body-type">
+                                                <a ng-click="vm.reformat()" href="#void" class="btn btn-link btn-mini" title="格式化"><i></i> 格式化 </a>|
+                                                <a ng-click="vm.preview()" href="#void" class="btn btn-link btn-mini" title="预览"><i></i> 预览 </a>|
+                                                <a ng-click="vm.fullscreen()" href="#void" class="btn btn-link btn-mini" title="全屏"><i></i> 全屏 </a>
+                                            </div>
+                                        </div>
+                                        <!--<a ng-click="setMockRule()" href="#void" class="btn btn-send btn-info">-->
+                                            <!--<i class="icon-download-alt"></i>预览 Mock 数据</a>-->
+                                    </div>
+                                  </div>
+                                  <div role="tabpanel" class="tab-pane" id="mock-response">
+                                    <div class="preview">
+                                        <!--<a ng-click="setMockRule()" href="#void" class="btn btn-send btn-info">-->
+                                        <!--<i class="icon-download-alt"></i>预览 Mock 数据</a>-->
+                                        <div class="editor mock-preview">
+                                            <textarea  ui-codemirror ng-model="vm.mockPreview" ui-codemirror-opts="vm.previewOptions" cols="30" rows="6"></textarea>
                                         </div>
                                     </div>
-                                    <!--<a ng-click="setMockRule()" href="#void" class="btn btn-send btn-info">-->
-                                        <!--<i class="icon-download-alt"></i>预览 Mock 数据</a>-->
+                                  </div>
                                 </div>
-                                <div class="preview">
-                                    <div class="sub-label">Response 预览</div>
-                                    <div class="cleafix"></div>
-                                    <!--<a ng-click="setMockRule()" href="#void" class="btn btn-send btn-info">-->
-                                    <!--<i class="icon-download-alt"></i>预览 Mock 数据</a>-->
-                                    <div class="editor mock-preview">
-                                        <textarea  ui-codemirror ng-model="vm.mockPreview" ui-codemirror-opts="vm.previewOptions" cols="30" rows="6"></textarea>
-                                    </div>
-                                </div>
+
+                              </div>
                             </div>
+
                         </div>
                     </section>
                 </div>

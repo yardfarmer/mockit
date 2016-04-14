@@ -28,8 +28,8 @@
         vm.stopAll = popupService.stopMocking;
 
         vm.editorOptions = {
-            theme:'mdn-like',
-            //lineNumbers: true,
+            // theme:'mdn-like',
+            lineNumbers: true,
             styleActiveLine: true,
             matchBrackets: true,
             smartIndent: true,
@@ -46,7 +46,7 @@
 
         vm.previewOptions = {
             readOnly:true,
-            theme:'xq-light',
+            // theme:'mdn-like',
             smartIndent: true,
             mode: {name: "javascript", json: true},
             extraKeys: {
