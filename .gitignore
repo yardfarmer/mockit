@@ -38,3 +38,5 @@ dist
 /package/
 npm-debug.log
 .idea/
+bower_components
+build
